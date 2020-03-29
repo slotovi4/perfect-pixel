@@ -18,7 +18,8 @@
         "jsx-no-lambda": false,
         "ordered-imports": false,
         "no-var-requires": false,
-        "semicolon": [true, "always"]
+        "semicolon": [true, "always"],
+        "only-arrow-functions": true
     },
     "jsRules": {
         "no-console": false,
@@ -27,6 +28,7 @@
         "jsx-no-lambda": false,
         "ordered-imports": false,
         "no-var-requires": false,
-        "semicolon": [true, "always"]
+        "semicolon": [true, "always"],
+        "only-arrow-functions": true
     }
 }
