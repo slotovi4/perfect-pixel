@@ -17,7 +17,8 @@
         "prefer-for-of": false,
         "jsx-no-lambda": false,
         "ordered-imports": false,
-        "no-var-requires": false
+        "no-var-requires": false,
+        "semicolon": [true, "always"]
     },
     "jsRules": {
         "no-console": false,
@@ -25,6 +26,7 @@
         "prefer-for-of": false,
         "jsx-no-lambda": false,
         "ordered-imports": false,
-        "no-var-requires": false
+        "no-var-requires": false,
+        "semicolon": [true, "always"]
     }
 }

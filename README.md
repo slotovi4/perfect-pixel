@@ -1,7 +1,6 @@
-<h3>Сборка React App:</h3>
-TS(react-scripts-ts), redux, router, axios, bem-react/classname, sass<br>
+TS(react-scripts-ts), rematch, router, bem-react/classname, sass<br>
 <br>
-npm i<br>
-Настроить package.json(указать name, version)<br>
+yarn<br>
+package.json(set name/version)<br>
 <br>
-основа: create-react-app react-typescript-scss-new --scripts-version=react-scripts-scss-ts<br>
+build setup: create-react-app react-typescript-scss-new --scripts-version=react-scripts-scss-ts<br>
