@@ -22,6 +22,5 @@ export const store = init({
     },
 });
 
-// export type Store = typeof store;
 export type Dispatch = typeof store.dispatch;
 export type IRootState = RematchRootState<typeof models>;

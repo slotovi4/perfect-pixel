@@ -3,4 +3,4 @@ export {
     browserHistory, 
     Dispatch, 
     IRootState 
-} from './store'
+} from './store';

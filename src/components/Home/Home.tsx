@@ -16,8 +16,8 @@ const Home = ({ text, onHeaderClick }: IProps) => {
                 To get started, edit <code>src/App.tsx</code> and save to reload.
             </p>
         </section>
-    )
-}
+    );
+};
 
 export default Home;
 

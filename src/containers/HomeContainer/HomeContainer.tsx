@@ -1,6 +1,6 @@
 import React from 'react';
 import { Home } from '../../components';
-import { connect } from 'react-redux'
+import { connect } from 'react-redux';
 import { IRootState, Dispatch } from '../../redux/store';
 
 const HomeContainer = ({ textModelText, clearTestMoselState }: IProps) => <Home text={textModelText} onHeaderClick={clearTestMoselState} />;

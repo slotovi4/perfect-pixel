@@ -27,6 +27,15 @@
         "@types/react-dom": "^16.8.2",
         "@types/react-redux": "^7.0.1",
         "@types/react-router-dom": "^4.3.1",
+        "@typescript-eslint/eslint-plugin": "^2.25.0",
+        "@typescript-eslint/parser": "^2.25.0",
+        "eslint": "^6.8.0",
+        "eslint-plugin-react": "^7.19.0",
+        "eslint-config-airbnb": "^18.1.0",
+        "eslint-config-airbnb-typescript": "^3.0.0",
         "typescript": "^3.3.3333"
+    },
+    "eslintConfig": {
+        "extends": "react-app"
     }
 }
