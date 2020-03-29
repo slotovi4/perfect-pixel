@@ -22,6 +22,7 @@
     "rules": {
         "@typescript-eslint/explicit-function-return-type": "off",
         "@typescript-eslint/interface-name-prefix": 0,
+        "prefer-arrow-callback": "error",
         "semi": [2, "always"]
     }
 }
