@@ -15,7 +15,7 @@ const testModel = createModel({
         },
     },
     effects: dispatch => ({
-        clearExpertState() {
+        clearTestMoselState() {
             this.clearState();
         },
     }),

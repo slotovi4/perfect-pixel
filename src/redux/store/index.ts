@@ -1,1 +1,6 @@
-export { store, browserHistory } from './store'
+export { 
+    store, 
+    browserHistory, 
+    Dispatch, 
+    IRootState 
+} from './store'

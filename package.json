@@ -4,7 +4,6 @@
     "private": true,
     "dependencies": {
         "@rematch/core": "^1.4.0",
-        "axios": "^0.18.0",
         "connected-react-router": "^6.8.0",
         "react": "^16.8.3",
         "react-dom": "^16.8.3",
