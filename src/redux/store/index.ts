@@ -1,0 +1,1 @@
+export { store, browserHistory } from './store'

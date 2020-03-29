@@ -1,10 +1,11 @@
-import * as React from "react";
+import React from "react";
 import { cn } from "@bem-react/classname";
 import logo from "./logo.svg";
 import "./Home.scss";
 
 const Home = () => {
     const home = cn("Home");
+    
     return (
         <section className={home()}>
             <header className={home("Header")}>
