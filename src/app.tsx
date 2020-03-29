@@ -13,6 +13,6 @@ const App = () => (
             </Switch>
         </ConnectedRouter>
     </Provider>
-)
+);
 
 export default App;
