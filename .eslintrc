@@ -13,7 +13,7 @@
         }
     },
     "parserOptions": {
-        "ecmaVersion": 6,
+        "ecmaVersion": 2020,
         "sourceType": "module",
         "ecmaFeatures": {
             "jsx": true
@@ -21,8 +21,28 @@
     },
     "rules": {
         "@typescript-eslint/explicit-function-return-type": "off",
-        "@typescript-eslint/interface-name-prefix": 0,
+        "@typescript-eslint/interface-name-prefix": "off",
+        "@typescript-eslint/explicit-module-boundary-types": "off",
+        "@typescript-eslint/explicit-member-accessibility": [
+            "error"
+        ],
         "prefer-arrow-callback": "error",
-        "semi": [2, "always"]
+        "prefer-destructuring": "error",
+        "no-unused-expressions": "error",
+        "no-unused-labels": "error",
+        "no-unused-vars": "error",
+        "curly": "error",
+        "no-extra-semi": "error",
+        "no-shadow": "error",
+        "no-use-before-define": "off",
+        "@typescript-eslint/no-use-before-define": "off",
+        "quotes": ["error", "single"],
+        "spaced-comment": ["error", "always"],
+        "react/jsx-wrap-multilines": "warn",
+        "react/no-unused-prop-types" : "warn",
+        "semi": [
+            2,
+            "always"
+        ]
     }
 }

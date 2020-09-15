@@ -1,4 +1,3 @@
-
 import { createModel } from '@rematch/core';
 
 const initialState: IState = {
@@ -9,13 +8,11 @@ const testModel = createModel({
     state: initialState,
     reducers: {
         clearState() {
-            return {
-                ...initialState,
-            };
+            return initialState;
         },
     },
     effects: dispatch => ({
-        clearTestMoselState() {
+        async clearTestMoselState() {
             this.clearState();
         },
     }),
