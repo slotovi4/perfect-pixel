@@ -1,5 +1,13 @@
+* {
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+	background: transparent;
+}
+
 body {
-    margin: 0;
-    padding: 0;
-    font-family: sans-serif;
+	margin: 0;
+	padding: 0;
+	font-family: sans-serif;
+	-webkit-app-region: drag;
 }
