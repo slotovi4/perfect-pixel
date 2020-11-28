@@ -1,10 +1,25 @@
 {
-    "name": "compilation-react-ts-scss",
+    "name": "perfect-pixel",
     "version": "0.1.0",
+    "description": "",
     "private": true,
+    "main": "build/main.js",
+    "homepage": "./",
+    "scripts": {
+        "start": "react-scripts-ts start",
+        "compile:react": "GENERATE_SOURCEMAP=false react-scripts-ts build",
+        "compile:electron": "tsc ./src/electron/** --outDir ./build",
+        "start:electron": "yarn compile:react && yarn compile:electron && electron ./build/main.js",
+        "build:mac": "electron-builder --mac",
+		"build:win": "electron-builder --win --x64 --ia32",
+		"build:lin": "electron-builder --linux",
+        "test": "react-scripts-ts test --env=jsdom",
+        "eject": "react-scripts-ts eject"
+    },
     "dependencies": {
         "@rematch/core": "^1.4.0",
         "connected-react-router": "^6.8.0",
+        "electron-is-dev": "^1.2.0",
         "react": "^16.8.3",
         "react-dom": "^16.8.3",
         "react-redux": "^7.2.1",
@@ -12,12 +27,6 @@
         "react-router-dom": "^5.1.2",
         "react-scripts-scss-ts": "2.17.1",
         "redux": "^4.0.1"
-    },
-    "scripts": {
-        "start": "react-scripts-ts start",
-        "build": "GENERATE_SOURCEMAP=false react-scripts-ts build",
-        "test": "react-scripts-ts test --env=jsdom",
-        "eject": "react-scripts-ts eject"
     },
     "devDependencies": {
         "@bem-react/classname": "^1.5.8",
@@ -31,6 +40,8 @@
         "@types/react-router-dom": "^5.1.6",
         "@typescript-eslint/eslint-plugin": "^4.8.1",
         "@typescript-eslint/parser": "^4.8.1",
+        "electron": "^11.0.3",
+        "electron-builder": "^22.9.1",
         "eslint": "^7.14.0",
         "eslint-config-airbnb": "^18.1.0",
         "eslint-config-airbnb-typescript": "^12.0.0",
@@ -52,5 +63,12 @@
     },
     "eslintConfig": {
         "extends": "react-app"
+    },
+    "build": {
+        "extends": null,
+        "files": [
+            "package.json",
+            "build/**"
+        ]
     }
 }
