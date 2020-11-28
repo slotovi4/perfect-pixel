@@ -29,6 +29,6 @@
         "acceptance-tests",
         "webpack",
         "jest",
-        "src/setupTests.ts"
+        "commitlint.config.js"
     ],
 }
