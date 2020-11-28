@@ -11,8 +11,8 @@
         "compile:electron": "tsc ./src/electron/** --outDir ./build",
         "start:electron": "yarn compile:react && yarn compile:electron && electron ./build/main.js",
         "build:mac": "electron-builder --mac",
-		"build:win": "electron-builder --win --x64 --ia32",
-		"build:lin": "electron-builder --linux",
+        "build:win": "electron-builder --win --x64 --ia32",
+        "build:lin": "electron-builder --linux",
         "test": "react-scripts-ts test --env=jsdom",
         "eject": "react-scripts-ts eject"
     },

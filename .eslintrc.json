@@ -47,7 +47,7 @@
                     "boolean"
                 ],
                 "format": [
-                    "UPPER_CASE"
+                    // "UPPER_CASE"
                 ],
                 "prefix": [
                     "is",
@@ -122,7 +122,8 @@
         "semi": [
             2,
             "always"
-        ],
+		],
+		"radix": "error",
         "react/jsx-wrap-multilines": "warn",
         "react/no-unused-prop-types": "warn",
         "no-use-before-define": "off"

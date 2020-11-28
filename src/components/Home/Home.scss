@@ -1,32 +1,73 @@
-.Home {
-    text-align: center;
+.Home {	
+	& > * input {
+		-webkit-app-region: no-drag;
+		outline: none;
+	}
 
-    &-Logo {
-        animation: App-logo-spin infinite 20s linear;
-        height: 80px;
-    }
+	&-Header {
+		display: flex;
+		align-items: center;
+		background-color: #222;
+		padding: 10px 20px;
+		color: white;
+	}
 
-    &-Header {
-        background-color: #222;
-        height: 150px;
-        padding: 20px;
-        color: white;
-    }
+	&-FileInput {
+		font-size: 12px;
 
-    &-Title {
-        font-size: 1.5em;
-    }
+		&_error {
+			color: red;
+		}
+	}
 
-    &-Intro {
-        font-size: large;
-    }
+	&-FlashingSection {
+		font-size: 12px;
+		margin-left: 20px;
+		display: flex;
+		
+		input {
+			cursor: pointer;
+			margin-right: 5px;
+		}
+
+		label {
+			cursor: pointer;
+			user-select: none;
+		}
+	}
+
+	&-RangeSection {
+		font-size: 12px;
+		margin-left: 20px;
+
+		&-Container {
+			display: flex;
+			align-items: center;
+		}
+	}
+
+	&-ImageContainer {
+		overflow: hidden;
+	}
+
+	&-Image {
+		user-select: none;
+
+		&_flashing {
+			animation: flashingAnimation 0.8s infinite;
+		}
+	}
+
+	&-ErrorText {
+		color: red;
+	}
 }
 
-@keyframes App-logo-spin {
-    from {
-        transform: rotate(0deg);
-    }
-    to {
-        transform: rotate(360deg);
-    }
+@keyframes flashingAnimation {
+	0% {
+		opacity: attr(data-opacity);
+	}
+	100% {
+		opacity: 0;
+	}
 }

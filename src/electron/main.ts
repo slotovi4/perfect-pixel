@@ -1,4 +1,4 @@
-import { BrowserWindow, app, ipcMain, globalShortcut } from 'electron';
+import { BrowserWindow, app, globalShortcut } from 'electron';
 import { handleSquirrelEvent } from './helpers';
 import * as isDev from 'electron-is-dev';
 
@@ -11,23 +11,19 @@ if (!handleSquirrelEvent(app)) {
 			height: 400,
 			transparent: true,
 			frame: false,
-			webPreferences: {
-				// devTools: false
-			}
 		});
 
 		mainWindow.setMinimizable(false);
 		mainWindow.setMaximizable(false);
 		mainWindow.loadURL(`file://${__dirname}/index.html`);
-		// mainWindow.webContents.openDevTools();
-		mainWindow.webContents.openDevTools({ mode: 'undocked' });
 
-		app.commandLine.appendSwitch('enable-transparent-visuals');
+		if (isDev) {
+			mainWindow.webContents.openDevTools({ mode: 'undocked' });
+		}
+
+		// app.commandLine.appendSwitch('enable-transparent-visuals');
 
 		mainWindow.on('closed', () => { mainWindow = null; });
-
-		// Send messages
-		mainWindow.webContents.send('cl', '123466');
 
 		app.on('browser-window-focus', () => {
 			globalShortcut.register('CommandOrControl+R', () => {
@@ -42,9 +38,6 @@ if (!handleSquirrelEvent(app)) {
 			globalShortcut.unregister('CommandOrControl+R');
 			globalShortcut.unregister('F5');
 		});
-
-		// Listen messages
-		ipcMain.on('message', () => console.log(1));
 
 		mainWindow.webContents.on('did-finish-load', () => {
 			if (mainWindow) {
