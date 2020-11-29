@@ -1,4 +1,4 @@
-import { BrowserWindow, app, globalShortcut, ipcMain } from 'electron';
+import { BrowserWindow, app, globalShortcut, ipcMain, screen } from 'electron';
 import { handleSquirrelEvent } from './helpers';
 import * as isDev from 'electron-is-dev';
 
@@ -32,6 +32,17 @@ if (!handleSquirrelEvent(app)) {
 
 		ipcMain.on('close-window', () => {
 			app.quit();
+		});
+
+		ipcMain.on('windowMoving', (e, {mouseX, mouseY}) => {
+			if(mainWindow) {
+				const { x, y } = screen.getCursorScreenPoint();
+				mainWindow.setPosition(x - mouseX, y - mouseY);
+			}
+		});
+
+		ipcMain.on('windowMoved', () => {
+			// Do somehting when dragging stop
 		});
 
 		app.on('browser-window-focus', () => {

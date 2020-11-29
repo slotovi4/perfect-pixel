@@ -38,6 +38,29 @@ const Home = () => {
 		return valuesArrayAscendingList;
 	}, []);
 
+	let animationId: number;
+	let mouseX: number;
+	let mouseY: number;
+
+	document.onmousedown = (e) => {
+		mouseX = e.clientX;
+		mouseY = e.clientY;
+
+		document.addEventListener('mouseup', onMouseUp);
+		requestAnimationFrame(moveWindow);
+	};
+
+	const onMouseUp = () => {
+		ipcRenderer.send('windowMoved');
+		document.removeEventListener('mouseup', onMouseUp);
+		cancelAnimationFrame(animationId);
+	};
+
+	const moveWindow = () => {
+		ipcRenderer.send('windowMoving', { mouseX, mouseY });
+		animationId = requestAnimationFrame(moveWindow);
+	};
+
 	/**
 	 * События при загрузке файла файла
 	 * @param event - HTMLInputElement event
