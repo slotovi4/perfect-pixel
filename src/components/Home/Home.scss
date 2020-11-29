@@ -33,6 +33,10 @@
 		&_flashing {
 			animation: flashingAnimation 0.8s infinite;
 		}
+
+		&_grayscale {
+			filter: grayscale(100%);
+		}
 	}
 
 	&-ErrorText {
@@ -54,7 +58,7 @@
 		}
 	}
 
-	&-FlashingSection {
+	&-CheckBoxSection {
 		margin-left: 20px;
 		display: flex;
 		

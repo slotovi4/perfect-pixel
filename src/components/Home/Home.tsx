@@ -15,6 +15,7 @@ const Home = () => {
 	const [imageOpacity, setImageOpacity] = React.useState(100);
 	const [imageScale, setImageScale] = React.useState<number>(EScaleValues.X05);
 	const [isImageFlashing, setIsImageFlashing] = React.useState(false);
+	const [isImageGrayscale, setIsImageGrayscale] = React.useState(false);
 	const [errorText, setErrorText] = React.useState<string | null>(null);
 
 	// список значений(ключей) "scale" для изображения
@@ -111,6 +112,13 @@ const Home = () => {
 		setIsImageFlashing(event.target.checked);
 	};
 
+	// при включении/выключении чб фильтра
+	const onChangeImageGrayscale = (event: React.ChangeEvent<HTMLInputElement>) => {
+
+		// включим/выключим чб фильтр
+		setIsImageGrayscale(event.target.checked);
+	};
+
 	return (
 		<section className={home()}>
 			<header className={home('Header')}>
@@ -139,16 +147,28 @@ const Home = () => {
 					</div>
 				</div>
 
-				<div className={home('FlashingSection')}>
+				<div className={home('CheckBoxSection')}>
 					<input
-						className={home('FlashingSection-Input')}
+						className={home('CheckBoxSection-Input')}
 						type="checkbox"
 						id="imageFlashing"
 						name="imageFlashing"
 						checked={isImageFlashing}
 						onChange={onChangeImageFlashing}
 					/>
-					<label className={home('FlashingSection-Label')} htmlFor="imageFlashing">Flashing</label>
+					<label className={home('CheckBoxSection-Label')} htmlFor="imageFlashing">Flashing</label>
+				</div>
+
+				<div className={home('CheckBoxSection')}>
+					<input
+						className={home('CheckBoxSection-Input')}
+						type="checkbox"
+						id="imageGrayscale"
+						name="imageGrayscale"
+						checked={isImageGrayscale}
+						onChange={onChangeImageGrayscale}
+					/>
+					<label className={home('CheckBoxSection-Label')} htmlFor="imageGrayscale">Grayscale</label>
 				</div>
 
 				<div className={home('ScaleSection')}>
@@ -173,14 +193,14 @@ const Home = () => {
 					<span className={home('ErrorText')}>{errorText}</span>
 				) : imageParams.src ? (
 					<div
-						className={home('Image', { flashing: isImageFlashing })}
+						className={home('Image', { flashing: isImageFlashing, grayscale: isImageGrayscale })}
 						data-opacity={`${imageOpacity}%`}
 						draggable={false}
 						style={{
 							opacity: `${imageOpacity}%`,
 							backgroundImage: `url(${imageParams.src})`,
 							height: imageParams.height && imageParams.height * imageScale,
-							width: imageParams.width && imageParams.width * imageScale
+							width: imageParams.width && imageParams.width * imageScale,
 						}}
 					/>
 				) : null}
