@@ -1,10 +1,11 @@
 import React from 'react';
 import { cn } from '@bem-react/classname';
+import { getIpcRenderer } from '../../helpers';
 import './Home.scss';
 
 const Home = () => {
 	const home = cn('Home');
-
+	const ipcRenderer = getIpcRenderer();
 	const initImageParams: IImageParams = {
 		width: undefined,
 		height: undefined,
@@ -37,7 +38,10 @@ const Home = () => {
 		return valuesArrayAscendingList;
 	}, []);
 
-	// при загрузке файла файла
+	/**
+	 * События при загрузке файла файла
+	 * @param event - HTMLInputElement event
+	 */
 	const onChangeFile = (event: React.ChangeEvent<HTMLInputElement>) => {
 
 		// получим файлы
@@ -98,25 +102,46 @@ const Home = () => {
 		}
 	};
 
-	// при изменении уровня прозрачности
+	/**
+	 * События при изменении уровня прозрачности
+	 * @param event HTMLInputElement event
+	 */
 	const onChangeOpacity = (event: React.ChangeEvent<HTMLInputElement>) => {
 
 		// установим прозрачность изображения
 		setImageOpacity(parseInt(event.target.value, 10));
 	};
 
-	// при включении/выключении мигания
+	/**
+	 * События при включении/выключении мигания
+	 * @param event 
+	 */
 	const onChangeImageFlashing = (event: React.ChangeEvent<HTMLInputElement>) => {
 
 		// включим/выключим мигание изображения
 		setIsImageFlashing(event.target.checked);
 	};
 
-	// при включении/выключении чб фильтра
+	/**
+	 * События при включении/выключении чб фильтра
+	 * @param event 
+	 */
 	const onChangeImageGrayscale = (event: React.ChangeEvent<HTMLInputElement>) => {
 
 		// включим/выключим чб фильтр
 		setIsImageGrayscale(event.target.checked);
+	};
+
+	/**
+	 * События при клике на кнопку "закрыть приложение"
+	 */
+	const onCloseApp = () => {
+
+		if (ipcRenderer) {
+
+			// отправляем сообщение на закрытие приложения
+			ipcRenderer.sendSync('close-window');
+		}
 	};
 
 	return (
@@ -186,6 +211,8 @@ const Home = () => {
 						)}
 					</div>
 				</div>
+
+				{ipcRenderer ? <button className={home('CloseButton')} onClick={onCloseApp}>x</button> : null}
 			</header>
 
 			<div className={home('ImageContainer')}>

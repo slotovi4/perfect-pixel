@@ -1,4 +1,4 @@
-import { BrowserWindow, app, globalShortcut } from 'electron';
+import { BrowserWindow, app, globalShortcut, ipcMain } from 'electron';
 import { handleSquirrelEvent } from './helpers';
 import * as isDev from 'electron-is-dev';
 
@@ -7,12 +7,13 @@ if (!handleSquirrelEvent(app)) {
 
 	const createWindow = async () => {
 		mainWindow = new BrowserWindow({
-			width: 800,
+			width: 895,
 			height: 400,
 			transparent: true,
 			frame: false,
 			hasShadow: false,
 			webPreferences: {
+				nodeIntegration: true,
 				devTools: isDev
 			}
 		});
@@ -28,6 +29,10 @@ if (!handleSquirrelEvent(app)) {
 		// app.commandLine.appendSwitch('enable-transparent-visuals');
 
 		mainWindow.on('closed', () => { mainWindow = null; });
+
+		ipcMain.on('close-window', () => {
+			app.quit();
+		});
 
 		app.on('browser-window-focus', () => {
 			globalShortcut.register('CommandOrControl+R', () => {
