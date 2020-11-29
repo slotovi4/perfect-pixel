@@ -14,35 +14,10 @@
 
 	&-FileInput {
 		font-size: 12px;
+		cursor: pointer;
 
 		&_error {
 			color: red;
-		}
-	}
-
-	&-FlashingSection {
-		font-size: 12px;
-		margin-left: 20px;
-		display: flex;
-		
-		input {
-			cursor: pointer;
-			margin-right: 5px;
-		}
-
-		label {
-			cursor: pointer;
-			user-select: none;
-		}
-	}
-
-	&-RangeSection {
-		font-size: 12px;
-		margin-left: 20px;
-
-		&-Container {
-			display: flex;
-			align-items: center;
 		}
 	}
 
@@ -52,6 +27,8 @@
 
 	&-Image {
 		user-select: none;
+		background-size: contain;
+		background-repeat: no-repeat;
 
 		&_flashing {
 			animation: flashingAnimation 0.8s infinite;
@@ -60,6 +37,63 @@
 
 	&-ErrorText {
 		color: red;
+	}
+
+	&-RangeSection {
+		margin-left: 20px;
+
+		&-Label {
+			user-select: none;
+			font-size: 12px;
+		}
+
+		&-Container {
+			display: flex;
+			align-items: center;
+			font-size: 12px;
+		}
+	}
+
+	&-FlashingSection {
+		margin-left: 20px;
+		display: flex;
+		
+		&-Input {
+			cursor: pointer;
+			margin-right: 5px;
+		}
+
+		&-Label {
+			cursor: pointer;
+			user-select: none;
+			font-size: 12px;
+		}
+	}
+
+	&-ScaleSection {
+		margin-left: 20px;
+
+		&-Title {
+			user-select: none;
+			text-align: center;
+			font-size: 12px;
+			margin-bottom: 4px;
+			display: block;
+		}
+
+		&-Button {
+			margin-right: 5px;
+			padding: 2px 6px;
+			font-size: 10px;
+			cursor: pointer;
+			border: none;
+			border-radius: 3px;
+			outline: none;
+
+			&_active {
+				background-color: #0075ff;
+			}
+		}
 	}
 }
 

@@ -11,6 +11,10 @@ if (!handleSquirrelEvent(app)) {
 			height: 400,
 			transparent: true,
 			frame: false,
+			hasShadow: false,
+			webPreferences: {
+				devTools: isDev
+			}
 		});
 
 		mainWindow.setMinimizable(false);

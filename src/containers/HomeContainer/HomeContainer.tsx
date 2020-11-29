@@ -3,7 +3,7 @@ import { Home } from '../../components';
 import { connect } from 'react-redux';
 import { IRootState, Dispatch } from '../../redux/store';
 
-const HomeContainer = ({ clearTestMoselState }: TProps) => <Home onHeaderClick={clearTestMoselState} />;
+const HomeContainer = (props: TProps) => <Home />;
 
 const mapState = (state: IRootState) => ({
 	textModelText: state.testModel.text,
