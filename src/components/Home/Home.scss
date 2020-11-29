@@ -1,32 +1,124 @@
-.Home {
-    text-align: center;
+.Home {	
+	& > * input {
+		-webkit-app-region: no-drag;
+		outline: none;
+	}
 
-    &-Logo {
-        animation: App-logo-spin infinite 20s linear;
-        height: 80px;
-    }
+	&-Header {
+		display: flex;
+		align-items: center;
+		background-color: #222;
+		padding: 10px 20px;
+		color: white;
+	}
 
-    &-Header {
-        background-color: #222;
-        height: 150px;
-        padding: 20px;
-        color: white;
-    }
+	&-FileInput {
+		font-size: 12px;
+		cursor: pointer;
 
-    &-Title {
-        font-size: 1.5em;
-    }
+		&_error {
+			color: red;
+		}
+	}
 
-    &-Intro {
-        font-size: large;
-    }
+	&-ImageContainer {
+		overflow: hidden;
+		cursor: move;
+	}
+
+	&-Image {
+		user-select: none;
+		background-size: contain;
+		background-repeat: no-repeat;
+
+		&_flashing {
+			animation: flashingAnimation 0.8s infinite;
+		}
+
+		&_grayscale {
+			filter: grayscale(100%);
+		}
+	}
+
+	&-ErrorText {
+		color: red;
+	}
+
+	&-CloseButton {
+		margin-left: 20px;
+		width: 20px;
+		height: 20px;
+		line-height: 20px;
+		background-color: red;
+		border: none;
+		border-radius: 4px;
+		cursor: pointer;
+		outline: none;
+	}
+
+	&-RangeSection {
+		margin-left: 20px;
+
+		&-Label {
+			user-select: none;
+			font-size: 12px;
+		}
+
+		&-Container {
+			display: flex;
+			align-items: center;
+			font-size: 12px;
+		}
+	}
+
+	&-CheckBoxSection {
+		margin-left: 20px;
+		display: flex;
+		
+		&-Input {
+			cursor: pointer;
+			margin-right: 5px;
+		}
+
+		&-Label {
+			cursor: pointer;
+			user-select: none;
+			font-size: 12px;
+		}
+	}
+
+	&-ScaleSection {
+		margin-left: 20px;
+
+		&-Title {
+			user-select: none;
+			text-align: center;
+			font-size: 12px;
+			margin-bottom: 4px;
+			display: block;
+		}
+
+		&-Button {
+			margin-right: 5px;
+			padding: 2px 6px;
+			font-size: 10px;
+			cursor: pointer;
+			border: none;
+			border-radius: 3px;
+			outline: none;
+
+			&_active {
+				background-color: #0075ff;
+			}
+		}
+	}
 }
 
-@keyframes App-logo-spin {
-    from {
-        transform: rotate(0deg);
-    }
-    to {
-        transform: rotate(360deg);
-    }
+@keyframes flashingAnimation {
+	0% {
+		opacity: attr(data-opacity);
+	}
+	100% {
+		opacity: 0;
+	}
 }

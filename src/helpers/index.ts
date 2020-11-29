@@ -1,0 +1,1 @@
+export { getIpcRenderer } from './getIpcRenderer';
