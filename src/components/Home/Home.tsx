@@ -38,27 +38,50 @@ const Home = () => {
 		return valuesArrayAscendingList;
 	}, []);
 
-	let animationId: number;
 	let mouseX: number;
 	let mouseY: number;
 
-	document.onmousedown = (e) => {
-		mouseX = e.clientX;
-		mouseY = e.clientY;
+	React.useEffect(() => {
+		if (ipcRenderer) {
+			document.addEventListener('mousedown', onMouseDown);
+		}
 
-		document.addEventListener('mouseup', onMouseUp);
-		requestAnimationFrame(moveWindow);
-	};
+		return () => {
+			if (ipcRenderer) {
+				document.removeEventListener('mousedown', onMouseDown);
+			}
+		};
+	}, []);
 
-	const onMouseUp = () => {
-		ipcRenderer.send('windowMoved');
-		document.removeEventListener('mouseup', onMouseUp);
-		cancelAnimationFrame(animationId);
+	const onMouseDown = ({ target, clientX, clientY }: MouseEvent) => {
+		if (ipcRenderer) {
+			mouseX = clientX;
+			mouseY = clientY;
+
+			if (target instanceof HTMLElement && (
+				target.tagName === 'BUTTON' ||
+				target.tagName === 'LABEL' ||
+				target.tagName === 'INPUT'
+			)) {
+				return;
+			}
+
+			document.addEventListener('mouseup', stopMovingWindow);
+			document.addEventListener('mousemove', moveWindow);
+		}
 	};
 
 	const moveWindow = () => {
-		ipcRenderer.send('windowMoving', { mouseX, mouseY });
-		animationId = requestAnimationFrame(moveWindow);
+		if (ipcRenderer) {
+			ipcRenderer.send('windowMoving', { mouseX, mouseY });
+		}
+	};
+
+	const stopMovingWindow = () => {
+		if (ipcRenderer) {
+			document.removeEventListener('mouseup', stopMovingWindow);
+			document.removeEventListener('mousemove', moveWindow);
+		}
 	};
 
 	/**
@@ -178,7 +201,7 @@ const Home = () => {
 				/>
 
 				<div className={home('RangeSection')}>
-					<label className={home('RangeSection-Label')} htmlFor="points">Image opacity (between 0% and 100%)</label>
+					<span className={home('RangeSection-Title')}>Image opacity (between 0% and 100%)</span>
 
 					<div className={home('RangeSection-Container')}>
 						<input

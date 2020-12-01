@@ -1,131 +1,134 @@
 {
-    "parser": "@typescript-eslint/parser",
-    "extends": [
-        "plugin:react/recommended",
-        "plugin:@typescript-eslint/recommended"
-    ],
-    "plugins": [
-        "@typescript-eslint"
-    ],
-    "settings": {
-        "react": {
-            "version": "detect"
-        }
-    },
-    "parserOptions": {
-        "ecmaVersion": 2020,
-        "sourceType": "module",
-        "project": "./tsconfig.json",
-        "ecmaFeatures": {
-            "jsx": true
-        }
-    },
-    "rules": {
-        "@typescript-eslint/explicit-function-return-type": "off",
-        "@typescript-eslint/interface-name-prefix": "off",
-        "@typescript-eslint/explicit-module-boundary-types": "off",
-        "@typescript-eslint/no-non-null-assertion": "error",
-        "@typescript-eslint/no-use-before-define": "off",
-        "@typescript-eslint/explicit-member-accessibility": "error",
-        "@typescript-eslint/no-shadow": ["error"],
-        "@typescript-eslint/naming-convention": [
-            "error",
-            {
-                "selector": "default",
-                "format": [
-                    "PascalCase",
-                    "camelCase"
-                ]
-            },
-            // правило для булевых констант
-            {
-                "selector": "variable",
-                "modifiers": [
-                    "const"
-                ],
-                "types": [
-                    "boolean"
-                ],
-                "format": [
-                    // "UPPER_CASE"
-                ],
-                "prefix": [
-                    "is",
-                    "should",
-                    "has",
-                    "can",
-                    "did",
-                    "will"
-                ]
-            },
-            // правило для массивов
-            {
-                "selector": "variable",
-                "types": [
-                    "array"
-                ],
-                "format": [
-                    "camelCase"
-                ],
-                "suffix": [
-                    "List"
-                ]
-            },
-            // правило для type
-            {
-                "selector": "typeAlias",
-                "format": [
-                    "PascalCase"
-                ],
-                "prefix": [
-                    "T"
-                ]
-            },
-            // правило для interface
-            {
-                "selector": "interface",
-                "format": [
-                    "PascalCase"
-                ],
-                "prefix": [
-                    "I"
-                ]
-            },
-            // правило для enum
-            {
-                "selector": "enum",
-                "format": [
-                    "PascalCase"
-                ],
-                "prefix": [
-                    "E"
-                ]
-            }
-        ],
-        "prefer-arrow-callback": "error",
-        "prefer-destructuring": "error",
-        "no-unused-expressions": "error",
-        "no-unused-labels": "error",
-        "curly": "error",
-        "no-extra-semi": "error",
-        "react/self-closing-comp": "error",
-        "max-params": ["error", 3],
-        "no-shadow": "off",
-        "quotes": [
-            "error",
-            "single"
-        ],
-        "spaced-comment": [
-            "error",
-            "always"
-        ],
-        "semi": [
-            2,
-            "always"
+	"parser": "@typescript-eslint/parser",
+	"extends": [
+		"plugin:react/recommended",
+		"plugin:@typescript-eslint/recommended"
+	],
+	"plugins": [
+		"@typescript-eslint"
+	],
+	"settings": {
+		"react": {
+			"version": "detect"
+		}
+	},
+	"parserOptions": {
+		"ecmaVersion": 2020,
+		"sourceType": "module",
+		"project": "./tsconfig.json",
+		"ecmaFeatures": {
+			"jsx": true
+		}
+	},
+	"rules": {
+		"@typescript-eslint/explicit-function-return-type": "off",
+		"@typescript-eslint/interface-name-prefix": "off",
+		"@typescript-eslint/explicit-module-boundary-types": "off",
+		"@typescript-eslint/no-non-null-assertion": "error",
+		"@typescript-eslint/no-use-before-define": "off",
+		"@typescript-eslint/explicit-member-accessibility": "error",
+		"@typescript-eslint/no-shadow": "error",
+		"@typescript-eslint/naming-convention": [
+			"error",
+			{
+				"selector": "default",
+				"format": [
+					"PascalCase",
+					"camelCase"
+				]
+			},
+			// правило для булевых констант
+			{
+				"selector": "variable",
+				"modifiers": [
+					"const"
+				],
+				"types": [
+					"boolean"
+				],
+				"format": [
+					// "UPPER_CASE"
+				],
+				"prefix": [
+					"is",
+					"should",
+					"has",
+					"can",
+					"did",
+					"will"
+				]
+			},
+			// правило для массивов
+			{
+				"selector": "variable",
+				"types": [
+					"array"
+				],
+				"format": [
+					"camelCase"
+				],
+				"suffix": [
+					"List"
+				]
+			},
+			// правило для type
+			{
+				"selector": "typeAlias",
+				"format": [
+					"PascalCase"
+				],
+				"prefix": [
+					"T"
+				]
+			},
+			// правило для interface
+			{
+				"selector": "interface",
+				"format": [
+					"PascalCase"
+				],
+				"prefix": [
+					"I"
+				]
+			},
+			// правило для enum
+			{
+				"selector": "enum",
+				"format": [
+					"PascalCase"
+				],
+				"prefix": [
+					"E"
+				]
+			}
+		],
+		"prefer-arrow-callback": "error",
+		"prefer-destructuring": "error",
+		"no-unused-expressions": "error",
+		"no-unused-labels": "error",
+		"curly": "error",
+		"no-extra-semi": "error",
+		"react/self-closing-comp": "error",
+		"max-params": [
+			"error",
+			3
+		],
+		"no-shadow": "off",
+		"quotes": [
+			"error",
+			"single"
+		],
+		"spaced-comment": [
+			"error",
+			"always"
+		],
+		"semi": [
+			2,
+			"always"
 		],
 		"radix": "error",
-        "react/jsx-wrap-multilines": "warn",
-        "react/no-unused-prop-types": "warn",
-        "no-use-before-define": "off"
-    }
+		"react/jsx-wrap-multilines": "warn",
+		"react/no-unused-prop-types": "warn",
+		"no-use-before-define": "off"
+	}
 }

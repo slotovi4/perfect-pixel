@@ -23,7 +23,6 @@
 	}
 
 	&-Image {
-		user-select: none;
 		background-size: contain;
 		background-repeat: no-repeat;
 
@@ -49,14 +48,12 @@
 		border: none;
 		border-radius: 4px;
 		cursor: pointer;
-		outline: none;
 	}
 
 	&-RangeSection {
 		margin-left: 20px;
 
-		&-Label {
-			user-select: none;
+		&-Title {
 			font-size: 12px;
 		}
 
@@ -78,7 +75,6 @@
 
 		&-Label {
 			cursor: pointer;
-			user-select: none;
 			font-size: 12px;
 		}
 	}
@@ -87,7 +83,6 @@
 		margin-left: 20px;
 
 		&-Title {
-			user-select: none;
 			text-align: center;
 			font-size: 12px;
 			margin-bottom: 4px;
@@ -101,7 +96,6 @@
 			cursor: pointer;
 			border: none;
 			border-radius: 3px;
-			outline: none;
 
 			&_active {
 				background-color: #0075ff;
