@@ -41,10 +41,6 @@ if (!handleSquirrelEvent(app)) {
 			}
 		});
 
-		ipcMain.on('windowMoved', () => {
-			// Do somehting when dragging stop
-		});
-
 		app.on('browser-window-focus', () => {
 			globalShortcut.register('CommandOrControl+R', () => {
 				console.log('CommandOrControl+R is pressed: Shortcut Disabled');
