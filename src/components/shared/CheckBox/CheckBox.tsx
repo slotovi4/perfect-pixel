@@ -9,7 +9,7 @@ const CheckBox = ({ containerClassName, labelText, ...rest }: IProps) => {
 	const cb = cn('CheckBox');
 
 	return (
-		<div className={`${cb()} ${containerClassName || ''}`}>
+		<div className={cb(null, [containerClassName])}>
 			<input
 				className={cb('Input')}
 				type="checkbox"

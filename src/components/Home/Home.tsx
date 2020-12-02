@@ -1,6 +1,6 @@
 import React from 'react';
 import { cn } from '@bem-react/classname';
-import { CheckBox, Range } from '../';
+import { CheckBox, Range, Button } from '../';
 import { getIpcRenderer } from '../../helpers';
 import './Home.scss';
 
@@ -234,18 +234,19 @@ const Home = () => {
 
 					<div>
 						{scaleButtonsValuesList.map((scaleKey, i) => (
-							<button
-								className={home('ScaleSection-Button', { active: EScaleValues[scaleKey] === imageScale })}
+							<Button
+								className={home('ScaleSection-Button')}
+								isActive={EScaleValues[scaleKey] === imageScale}
 								onClick={() => setImageScale(EScaleValues[scaleKey])}
 								key={`scaleButton_${i}`}
 							>
 								{EScaleValues[scaleKey]}x
-							</button>)
+							</Button>)
 						)}
 					</div>
 				</div>
 
-				{ipcRenderer ? <button className={home('CloseButton')} onClick={onCloseApp}>x</button> : null}
+				{ipcRenderer ? <Button className={home('CloseButton')} onClick={onCloseApp} asClose>x</Button> : null}
 			</header>
 
 			<div className={home('ImageContainer')}>

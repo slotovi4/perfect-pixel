@@ -41,13 +41,7 @@
 
 	&-CloseButton {
 		margin-left: 20px;
-		width: 20px;
-		height: 20px;
-		line-height: 20px;
-		background-color: red;
-		border: none;
-		border-radius: 4px;
-		cursor: pointer;
+		line-height: 16px;
 	}
 
 	&-Section {
@@ -66,15 +60,6 @@
 
 		&-Button {
 			margin-right: 5px;
-			padding: 2px 6px;
-			font-size: 10px;
-			cursor: pointer;
-			border: none;
-			border-radius: 3px;
-
-			&_active {
-				background-color: #0075ff;
-			}
 		}
 	}
 }

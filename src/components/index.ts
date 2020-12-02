@@ -1,2 +1,2 @@
-export { CheckBox, Range } from './shared';
+export { CheckBox, Range, Button } from './shared';
 export { Home } from './Home';
