@@ -1,5 +1,6 @@
 import React from 'react';
 import { cn } from '@bem-react/classname';
+import { CheckBox } from '../';
 import { getIpcRenderer } from '../../helpers';
 import './Home.scss';
 
@@ -218,29 +219,21 @@ const Home = () => {
 					</div>
 				</div>
 
-				<div className={home('CheckBoxSection')}>
-					<input
-						className={home('CheckBoxSection-Input')}
-						type="checkbox"
-						id="imageFlashing"
-						name="imageFlashing"
-						checked={isImageFlashing}
-						onChange={onChangeImageFlashing}
-					/>
-					<label className={home('CheckBoxSection-Label')} htmlFor="imageFlashing">Flashing</label>
-				</div>
+				<CheckBox
+					id="imageFlashing"
+					containerClassName={home('CheckBoxSection')}
+					checked={isImageFlashing}
+					onChange={onChangeImageFlashing}
+					labelText='Flashing'
+				/>
 
-				<div className={home('CheckBoxSection')}>
-					<input
-						className={home('CheckBoxSection-Input')}
-						type="checkbox"
-						id="imageGrayscale"
-						name="imageGrayscale"
-						checked={isImageGrayscale}
-						onChange={onChangeImageGrayscale}
-					/>
-					<label className={home('CheckBoxSection-Label')} htmlFor="imageGrayscale">Grayscale</label>
-				</div>
+				<CheckBox
+					id="imageGrayscale"
+					containerClassName={home('CheckBoxSection')}
+					checked={isImageGrayscale}
+					onChange={onChangeImageGrayscale}
+					labelText='Grayscale'
+				/>
 
 				<div className={home('ScaleSection')}>
 					<span className={home('ScaleSection-Title')}>Image scale</span>
