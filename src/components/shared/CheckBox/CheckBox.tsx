@@ -9,7 +9,7 @@ const CheckBox = ({ containerClassName, labelText, ...rest }: IProps) => {
 	const cb = cn('CheckBox');
 
 	return (
-		<div className={`${cb()} ${containerClassName}`}>
+		<div className={`${cb()} ${containerClassName || ''}`}>
 			<input
 				className={cb('Input')}
 				type="checkbox"
@@ -22,7 +22,7 @@ const CheckBox = ({ containerClassName, labelText, ...rest }: IProps) => {
 
 export default CheckBox;
 
-interface IProps extends React.InputHTMLAttributes<HTMLInputElement> {
+interface IProps extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'className' | 'type'> {
 	checked: boolean;
 	labelText: string;
 	id: string;

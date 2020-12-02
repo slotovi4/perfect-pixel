@@ -1,6 +1,6 @@
 import React from 'react';
 import { cn } from '@bem-react/classname';
-import { CheckBox } from '../';
+import { CheckBox, Range } from '../';
 import { getIpcRenderer } from '../../helpers';
 import './Home.scss';
 
@@ -201,27 +201,21 @@ const Home = () => {
 					accept="image/x-png,image/gif,image/jpeg"
 				/>
 
-				<div className={home('RangeSection')}>
-					<span className={home('RangeSection-Title')}>Image opacity (between 0% and 100%)</span>
-
-					<div className={home('RangeSection-Container')}>
-						<input
-							type="range"
-							id="points"
-							name="points"
-							value={imageOpacity}
-							step='10'
-							min="0"
-							max="100"
-							onChange={onChangeOpacity}
-						/>
-						<span>{`${imageOpacity}%`}</span>
-					</div>
-				</div>
+				<Range
+					id='opacityRange'
+					titleText='Image opacity (between 0% and 100%)'
+					containerClassName={home('Section')}
+					value={imageOpacity}
+					step={10}
+					min={0}
+					max={100}
+					onChange={onChangeOpacity}
+					valueText={`${imageOpacity}%`}
+				/>
 
 				<CheckBox
 					id="imageFlashing"
-					containerClassName={home('CheckBoxSection')}
+					containerClassName={home('Section')}
 					checked={isImageFlashing}
 					onChange={onChangeImageFlashing}
 					labelText='Flashing'
@@ -229,7 +223,7 @@ const Home = () => {
 
 				<CheckBox
 					id="imageGrayscale"
-					containerClassName={home('CheckBoxSection')}
+					containerClassName={home('Section')}
 					checked={isImageGrayscale}
 					onChange={onChangeImageGrayscale}
 					labelText='Grayscale'
