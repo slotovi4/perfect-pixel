@@ -1,7 +1,7 @@
 import React from 'react';
 import { CheckBox, Range, Button } from '../';
-import { IMoveWindowData } from '../../types';
 import { getIpcRenderer } from '../../helpers';
+import { onMouseDown } from './helpers';
 import { cn } from '@bem-react/classname';
 import './Home.scss';
 
@@ -13,7 +13,6 @@ const Home = () => {
 		height: undefined,
 		src: undefined
 	};
-	let moveWindowData: IMoveWindowData = { mouseX: 0, mouseY: 0 };
 
 	const [imageParams, setImageParams] = React.useState<IImageParams>(initImageParams);
 	const [imageOpacity, setImageOpacity] = React.useState(100);
@@ -43,8 +42,11 @@ const Home = () => {
 
 	React.useEffect(() => {
 		if (ipcRenderer) {
+
+			// вешаем слушать на опускание мыши
 			document.addEventListener('mousedown', onMouseDown);
 
+			// вешаем слушатель на вставку изображения через clipboard от main
 			ipcRenderer.on('on-paste-image', (event, imageSrc: string) => {
 				setImage(imageSrc);
 			});
@@ -52,11 +54,17 @@ const Home = () => {
 
 		return () => {
 			if (ipcRenderer) {
+
+				// очищаем слушатель опускания мыши
 				document.removeEventListener('mousedown', onMouseDown);
 			}
 		};
 	}, []);
 
+	/**
+	 * Валидируем и установим изображение
+	 * @param imageSrc - src изображения
+	 */
 	const setImage = (imageSrc: string) => {
 		// изображение для валидации ошибок
 		const img = new Image();
@@ -85,36 +93,6 @@ const Home = () => {
 				width: img.naturalWidth
 			});
 		};
-	};
-
-	const onMouseDown = ({ target, clientX, clientY }: MouseEvent) => {
-		if (ipcRenderer) {
-			moveWindowData = { mouseY: clientY, mouseX: clientX };
-
-			if (target instanceof HTMLElement && (
-				target.tagName === 'BUTTON' ||
-				target.tagName === 'LABEL' ||
-				target.tagName === 'INPUT'
-			)) {
-				return;
-			}
-
-			document.addEventListener('mouseup', stopMovingWindow);
-			document.addEventListener('mousemove', moveWindow);
-		}
-	};
-
-	const moveWindow = () => {
-		if (ipcRenderer) {
-			ipcRenderer.send('windowMoving', moveWindowData);
-		}
-	};
-
-	const stopMovingWindow = () => {
-		if (ipcRenderer) {
-			document.removeEventListener('mouseup', stopMovingWindow);
-			document.removeEventListener('mousemove', moveWindow);
-		}
 	};
 
 	/**
@@ -193,7 +171,7 @@ const Home = () => {
 
 		if (ipcRenderer) {
 
-			// отправляем сообщение на закрытие приложения
+			// отправляем сообщение к main на закрытие приложения
 			ipcRenderer.sendSync('close-window');
 		}
 	};

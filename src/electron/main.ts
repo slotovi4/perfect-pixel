@@ -23,12 +23,17 @@ if (!handleSquirrelEvent(app)) {
 		mainWindow.setMaximizable(false);
 		mainWindow.loadURL(`file://${__dirname}/index.html`);
 
+		// если dev
 		if (isDev) {
+
+			// откроем dev tools
 			mainWindow.webContents.openDevTools({ mode: 'undocked' });
 		}
 
+		// при закрытии окна уничтожим window
 		mainWindow.on('closed', () => { mainWindow = null; });
 
+		// когда было отправлено событие onload 
 		mainWindow.webContents.on('did-finish-load', () => {
 			if (mainWindow) {
 				if (!isDev) {
@@ -37,6 +42,7 @@ if (!handleSquirrelEvent(app)) {
 			}
 		});
 
+		// когда получаем сообщение на закрытие окна
 		ipcMain.on('close-window', () => {
 			app.quit();
 		});
@@ -58,12 +64,12 @@ if (!handleSquirrelEvent(app)) {
 
 			// блок перезагрузки окна
 			globalShortcut.register('CommandOrControl+R', () => {
-				console.log('CommandOrControl+R is pressed: Shortcut Disabled');
+				return;
 			});
 
 			// блок перезагрузки окна
 			globalShortcut.register('F5', () => {
-				console.log('F5 is pressed: Shortcut Disabled');
+				return;
 			});
 
 			// при вставке элемента читаем изображение и отправляем сообщение
@@ -81,12 +87,13 @@ if (!handleSquirrelEvent(app)) {
 			globalShortcut.unregister('CommandOrControl+V');
 		});
 
+		// слушатель на получение ошибок
 		process.on('uncaughtException', (error) => mainWindow && mainWindow.webContents.send('cl', error));
 	};
 
 	app.on('ready', createWindow);
 
-	// Quit when all windows are closed.
+	// закроем приложение когда все окна закрыты
 	app.on('window-all-closed', () => {
 		if (process.platform !== 'darwin') {
 			app.quit();
