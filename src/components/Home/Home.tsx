@@ -1,7 +1,8 @@
 import React from 'react';
-import { cn } from '@bem-react/classname';
 import { CheckBox, Range, Button } from '../';
+import { IMoveWindowData } from '../../types';
 import { getIpcRenderer } from '../../helpers';
+import { cn } from '@bem-react/classname';
 import './Home.scss';
 
 const Home = () => {
@@ -12,6 +13,7 @@ const Home = () => {
 		height: undefined,
 		src: undefined
 	};
+	let moveWindowData: IMoveWindowData = { mouseX: 0, mouseY: 0 };
 
 	const [imageParams, setImageParams] = React.useState<IImageParams>(initImageParams);
 	const [imageOpacity, setImageOpacity] = React.useState(100);
@@ -39,12 +41,13 @@ const Home = () => {
 		return valuesArrayAscendingList;
 	}, []);
 
-	let mouseX: number;
-	let mouseY: number;
-
 	React.useEffect(() => {
 		if (ipcRenderer) {
 			document.addEventListener('mousedown', onMouseDown);
+
+			ipcRenderer.on('on-paste-image', (event, imageSrc: string) => {
+				setImage(imageSrc);
+			});
 		}
 
 		return () => {
@@ -54,10 +57,39 @@ const Home = () => {
 		};
 	}, []);
 
+	const setImage = (imageSrc: string) => {
+		// изображение для валидации ошибок
+		const img = new Image();
+
+		// установлю ссылку на тест изображение
+		img.src = imageSrc;
+
+		// при загрузке некорректного файла
+		img.onerror = () => {
+
+			// очистим параметры изображения
+			setImageParams(initImageParams);
+
+			// установим текст ошибки
+			setErrorText('Invalid file');
+			return;
+		};
+
+		// при загрузке изображения
+		img.onload = () => {
+
+			// сохраним параметры изображения
+			setImageParams({
+				src: img.src,
+				height: img.naturalHeight,
+				width: img.naturalWidth
+			});
+		};
+	};
+
 	const onMouseDown = ({ target, clientX, clientY }: MouseEvent) => {
 		if (ipcRenderer) {
-			mouseX = clientX;
-			mouseY = clientY;
+			moveWindowData = { mouseY: clientY, mouseX: clientX };
 
 			if (target instanceof HTMLElement && (
 				target.tagName === 'BUTTON' ||
@@ -74,7 +106,7 @@ const Home = () => {
 
 	const moveWindow = () => {
 		if (ipcRenderer) {
-			ipcRenderer.send('windowMoving', { mouseX, mouseY });
+			ipcRenderer.send('windowMoving', moveWindowData);
 		}
 	};
 
@@ -106,37 +138,12 @@ const Home = () => {
 			// при загрузке файла устанавливаю изображение
 			fr.onload = () => {
 
-				// изображение для валидации ошибок
-				const img = new Image();
-
 				// если результат string
 				if (typeof fr.result === 'string') {
 
 					// установлю ссылку на тест изображение
-					img.src = fr.result;
+					setImage(fr.result);
 				}
-
-				// при загрузке некорректного файла
-				img.onerror = () => {
-
-					// очистим параметры изображения
-					setImageParams(initImageParams);
-
-					// установим текст ошибки
-					setErrorText('Invalid file');
-					return;
-				};
-
-				// при загрузке изображения
-				img.onload = () => {
-
-					// сохраним параметры изображения
-					setImageParams({
-						src: img.src,
-						height: img.naturalHeight,
-						width: img.naturalWidth
-					});
-				};
 			};
 
 			// читаю файл 

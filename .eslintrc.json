@@ -103,7 +103,13 @@
 			}
 		],
 		"prefer-arrow-callback": "error",
-		"prefer-destructuring": "error",
+		"prefer-destructuring": [
+			"error",
+			{
+				"array": false,
+				"object": true
+			}
+		],
 		"no-unused-expressions": "error",
 		"no-unused-labels": "error",
 		"curly": "error",

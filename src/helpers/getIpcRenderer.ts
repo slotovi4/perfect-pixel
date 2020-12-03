@@ -1,8 +1,9 @@
+import { IpcRenderer } from 'electron';
 
 /**
  * Получим ipcRenderer
  */
-export const getIpcRenderer = () => {
+export const getIpcRenderer = (): IpcRenderer | null => {
 	const isElectronRunning = window && window.process && window.process.versions['electron'];
 
 	if (isElectronRunning) {
