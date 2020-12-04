@@ -1,40 +1,46 @@
 {
-    "extends": [
-        "tslint:recommended",
-        "tslint-react",
-        "tslint-config-prettier"
-    ],
-    "linterOptions": {
-        "exclude": [
-            "config/**/*.js",
-            "node_modules/**/*.ts",
-            "coverage/lcov-report/*.js"
-        ]
-    },
-    "rules": {
-        "no-console": false,
-        "object-literal-sort-keys": false,
-        "prefer-for-of": false,
-        "jsx-no-lambda": false,
-        "ordered-imports": false,
-        "no-var-requires": false,
-        "semicolon": [true, "always"],
-        "only-arrow-functions": true,
-        "jsx-boolean-value": false,
-        "no-string-literal": false,
-        "no-unnecessary-initializer": false
-    },
-    "jsRules": {
-        "no-console": false,
-        "object-literal-sort-keys": false,
-        "prefer-for-of": false,
-        "jsx-no-lambda": false,
-        "ordered-imports": false,
-        "no-var-requires": false,
-        "semicolon": [true, "always"],
-        "only-arrow-functions": true,
-        "jsx-boolean-value": false,
-        "no-string-literal": false,
-        "no-unnecessary-initializer": false
-    }
+	"extends": [
+		"tslint:recommended",
+		"tslint-react",
+		"tslint-config-prettier"
+	],
+	"linterOptions": {
+		"exclude": [
+			"config/**/*.js",
+			"node_modules/**/*.ts",
+			"coverage/lcov-report/*.js"
+		]
+	},
+	"rules": {
+		"no-console": false,
+		"object-literal-sort-keys": false,
+		"prefer-for-of": false,
+		"jsx-no-lambda": false,
+		"ordered-imports": false,
+		"no-var-requires": false,
+		"semicolon": [
+			true,
+			"always"
+		],
+		"only-arrow-functions": true,
+		"jsx-boolean-value": false,
+		"no-string-literal": false,
+		"no-unnecessary-initializer": false
+	},
+	"jsRules": {
+		"no-console": false,
+		"object-literal-sort-keys": false,
+		"prefer-for-of": false,
+		"jsx-no-lambda": false,
+		"ordered-imports": false,
+		"no-var-requires": false,
+		"semicolon": [
+			true,
+			"always"
+		],
+		"only-arrow-functions": true,
+		"jsx-boolean-value": false,
+		"no-string-literal": false,
+		"no-unnecessary-initializer": false
+	}
 }

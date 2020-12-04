@@ -1,4 +1,5 @@
-import { BrowserWindow, app, globalShortcut, ipcMain, screen } from 'electron';
+import { BrowserWindow, app, globalShortcut, ipcMain, screen, clipboard } from 'electron';
+import { IMoveWindowFromMouseData, IMoveWindowFromKeysData } from './types';
 import { handleSquirrelEvent } from './helpers';
 import * as isDev from 'electron-is-dev';
 
@@ -22,39 +23,17 @@ if (!handleSquirrelEvent(app)) {
 		mainWindow.setMaximizable(false);
 		mainWindow.loadURL(`file://${__dirname}/index.html`);
 
+		// если dev
 		if (isDev) {
+
+			// откроем dev tools
 			mainWindow.webContents.openDevTools({ mode: 'undocked' });
 		}
 
-		// app.commandLine.appendSwitch('enable-transparent-visuals');
-
+		// при закрытии окна уничтожим window
 		mainWindow.on('closed', () => { mainWindow = null; });
 
-		ipcMain.on('close-window', () => {
-			app.quit();
-		});
-
-		ipcMain.on('windowMoving', (e, {mouseX, mouseY}) => {
-			if(mainWindow) {
-				const { x, y } = screen.getCursorScreenPoint();
-				mainWindow.setPosition(x - mouseX, y - mouseY);
-			}
-		});
-
-		app.on('browser-window-focus', () => {
-			globalShortcut.register('CommandOrControl+R', () => {
-				console.log('CommandOrControl+R is pressed: Shortcut Disabled');
-			});
-			globalShortcut.register('F5', () => {
-				console.log('F5 is pressed: Shortcut Disabled');
-			});
-		});
-
-		app.on('browser-window-blur', () => {
-			globalShortcut.unregister('CommandOrControl+R');
-			globalShortcut.unregister('F5');
-		});
-
+		// когда было отправлено событие onload 
 		mainWindow.webContents.on('did-finish-load', () => {
 			if (mainWindow) {
 				if (!isDev) {
@@ -63,12 +42,72 @@ if (!handleSquirrelEvent(app)) {
 			}
 		});
 
+		// когда получаем сообщение на закрытие окна
+		ipcMain.on('closeApp', () => {
+			app.quit();
+		});
+
+		// когда получем сообщение на движение окна путем перетаскивания мышкой
+		ipcMain.on('moveWindowFromMouse', (e, { mouseX, mouseY }: IMoveWindowFromMouseData) => {
+			if (mainWindow) {
+
+				// получаем координаты курсора
+				const { x, y } = screen.getCursorScreenPoint();
+
+				// установим новое положение окна
+				mainWindow.setPosition(x - mouseX, y - mouseY);
+			}
+		});
+
+		// когда получем сообщение на движение окна путем стрелок или wasd
+		ipcMain.on('moveWindowFromKeys', (e, { shiftX, shiftY }: IMoveWindowFromKeysData) => {
+			if (mainWindow) {
+
+				// получаем координаты курсора
+				const windowPositionList = mainWindow.getPosition();
+				const xPosition = windowPositionList[0] + shiftX;
+				const yPosition = windowPositionList[1] + shiftY;
+
+				// установим новое положение окна
+				mainWindow.setPosition(xPosition, yPosition);
+			}
+		});
+
+		// когда окно в фокусе - вешаем слушатели
+		app.on('browser-window-focus', () => {
+
+			// блок перезагрузки окна
+			globalShortcut.register('CommandOrControl+R', () => {
+				return;
+			});
+
+			// блок перезагрузки окна
+			globalShortcut.register('F5', () => {
+				return;
+			});
+
+			// при вставке элемента читаем изображение и отправляем сообщение
+			globalShortcut.register('CommandOrControl+V', () => {
+				if (mainWindow) {
+					mainWindow.webContents.send('on-paste-image', clipboard.readImage().toDataURL());
+				}
+			});
+		});
+
+		// когда окно теряет фокус - снимаем слушатели
+		app.on('browser-window-blur', () => {
+			globalShortcut.unregister('CommandOrControl+R');
+			globalShortcut.unregister('F5');
+			globalShortcut.unregister('CommandOrControl+V');
+		});
+
+		// слушатель на получение ошибок
 		process.on('uncaughtException', (error) => mainWindow && mainWindow.webContents.send('cl', error));
 	};
 
 	app.on('ready', createWindow);
 
-	// Quit when all windows are closed.
+	// закроем приложение когда все окна закрыты
 	app.on('window-all-closed', () => {
 		if (process.platform !== 'darwin') {
 			app.quit();

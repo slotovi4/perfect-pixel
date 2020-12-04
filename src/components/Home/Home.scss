@@ -41,42 +41,11 @@
 
 	&-CloseButton {
 		margin-left: 20px;
-		width: 20px;
-		height: 20px;
-		line-height: 20px;
-		background-color: red;
-		border: none;
-		border-radius: 4px;
-		cursor: pointer;
+		line-height: 16px;
 	}
 
-	&-RangeSection {
+	&-Section {
 		margin-left: 20px;
-
-		&-Title {
-			font-size: 12px;
-		}
-
-		&-Container {
-			display: flex;
-			align-items: center;
-			font-size: 12px;
-		}
-	}
-
-	&-CheckBoxSection {
-		margin-left: 20px;
-		display: flex;
-		
-		&-Input {
-			cursor: pointer;
-			margin-right: 5px;
-		}
-
-		&-Label {
-			cursor: pointer;
-			font-size: 12px;
-		}
 	}
 
 	&-ScaleSection {
@@ -91,15 +60,6 @@
 
 		&-Button {
 			margin-right: 5px;
-			padding: 2px 6px;
-			font-size: 10px;
-			cursor: pointer;
-			border: none;
-			border-radius: 3px;
-
-			&_active {
-				background-color: #0075ff;
-			}
 		}
 	}
 }

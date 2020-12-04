@@ -1,11 +1,17 @@
 import React from 'react';
+import {
+	onMouseDown,
+	onKeyDown,
+	listenPasteImage,
+	onCloseApp,
+	isHaveIpcRenderer
+} from './helpers';
+import { CheckBox, Range, Button } from '../';
 import { cn } from '@bem-react/classname';
-import { getIpcRenderer } from '../../helpers';
 import './Home.scss';
 
 const Home = () => {
 	const home = cn('Home');
-	const ipcRenderer = getIpcRenderer();
 	const initImageParams: IImageParams = {
 		width: undefined,
 		height: undefined,
@@ -38,50 +44,59 @@ const Home = () => {
 		return valuesArrayAscendingList;
 	}, []);
 
-	let mouseX: number;
-	let mouseY: number;
-
 	React.useEffect(() => {
-		if (ipcRenderer) {
-			document.addEventListener('mousedown', onMouseDown);
-		}
+
+		// вешаем слушать на опускание мыши для перетаскивания окна
+		document.addEventListener('mousedown', onMouseDown);
+
+		// вешаем слушатель на клавиши для передвижения окна стрелками или wasd
+		document.addEventListener('keydown', onKeyDown);
+
+		// вешаем слушатель на вставку изображения через clipboard от main
+		listenPasteImage(setImage);
 
 		return () => {
-			if (ipcRenderer) {
-				document.removeEventListener('mousedown', onMouseDown);
-			}
+
+			// очищаем слушатель опускания мыши
+			document.removeEventListener('mousedown', onMouseDown);
+
+			// очищаем слушатель опускания клавиши
+			document.addEventListener('keydown', onKeyDown);
 		};
 	}, []);
 
-	const onMouseDown = ({ target, clientX, clientY }: MouseEvent) => {
-		if (ipcRenderer) {
-			mouseX = clientX;
-			mouseY = clientY;
+	/**
+	 * Валидируем и установим изображение
+	 * @param imageSrc - src изображения
+	 */
+	const setImage = (imageSrc: string) => {
+		// изображение для валидации ошибок
+		const img = new Image();
 
-			if (target instanceof HTMLElement && (
-				target.tagName === 'BUTTON' ||
-				target.tagName === 'LABEL' ||
-				target.tagName === 'INPUT'
-			)) {
-				return;
-			}
+		// установлю ссылку на тест изображение
+		img.src = imageSrc;
 
-			document.addEventListener('mouseup', stopMovingWindow);
-			document.addEventListener('mousemove', moveWindow);
-		}
-	};
+		// при загрузке некорректного файла
+		img.onerror = () => {
 
-	const moveWindow = () => {
-		if (ipcRenderer) {
-			ipcRenderer.send('windowMoving', { mouseX, mouseY });
-		}
-	};
+			// очистим параметры изображения
+			setImageParams(initImageParams);
 
-	const stopMovingWindow = () => {
-		if (ipcRenderer) {
-			document.removeEventListener('mouseup', stopMovingWindow);
-			document.removeEventListener('mousemove', moveWindow);
-		}
+			// установим текст ошибки
+			setErrorText('Invalid file');
+			return;
+		};
+
+		// при загрузке изображения
+		img.onload = () => {
+
+			// сохраним параметры изображения
+			setImageParams({
+				src: img.src,
+				height: img.naturalHeight,
+				width: img.naturalWidth
+			});
+		};
 	};
 
 	/**
@@ -105,37 +120,12 @@ const Home = () => {
 			// при загрузке файла устанавливаю изображение
 			fr.onload = () => {
 
-				// изображение для валидации ошибок
-				const img = new Image();
-
 				// если результат string
 				if (typeof fr.result === 'string') {
 
 					// установлю ссылку на тест изображение
-					img.src = fr.result;
+					setImage(fr.result);
 				}
-
-				// при загрузке некорректного файла
-				img.onerror = () => {
-
-					// очистим параметры изображения
-					setImageParams(initImageParams);
-
-					// установим текст ошибки
-					setErrorText('Invalid file');
-					return;
-				};
-
-				// при загрузке изображения
-				img.onload = () => {
-
-					// сохраним параметры изображения
-					setImageParams({
-						src: img.src,
-						height: img.naturalHeight,
-						width: img.naturalWidth
-					});
-				};
 			};
 
 			// читаю файл 
@@ -178,18 +168,6 @@ const Home = () => {
 		setIsImageGrayscale(event.target.checked);
 	};
 
-	/**
-	 * События при клике на кнопку "закрыть приложение"
-	 */
-	const onCloseApp = () => {
-
-		if (ipcRenderer) {
-
-			// отправляем сообщение на закрытие приложения
-			ipcRenderer.sendSync('close-window');
-		}
-	};
-
 	return (
 		<section className={home()}>
 			<header className={home('Header')}>
@@ -200,65 +178,52 @@ const Home = () => {
 					accept="image/x-png,image/gif,image/jpeg"
 				/>
 
-				<div className={home('RangeSection')}>
-					<span className={home('RangeSection-Title')}>Image opacity (between 0% and 100%)</span>
+				<Range
+					id='opacityRange'
+					titleText='Image opacity (between 0% and 100%)'
+					containerClassName={home('Section')}
+					value={imageOpacity}
+					step={10}
+					min={0}
+					max={100}
+					onChange={onChangeOpacity}
+					valueText={`${imageOpacity}%`}
+				/>
 
-					<div className={home('RangeSection-Container')}>
-						<input
-							type="range"
-							id="points"
-							name="points"
-							value={imageOpacity}
-							step='10'
-							min="0"
-							max="100"
-							onChange={onChangeOpacity}
-						/>
-						<span>{`${imageOpacity}%`}</span>
-					</div>
-				</div>
+				<CheckBox
+					id="imageFlashing"
+					containerClassName={home('Section')}
+					checked={isImageFlashing}
+					onChange={onChangeImageFlashing}
+					labelText='Flashing'
+				/>
 
-				<div className={home('CheckBoxSection')}>
-					<input
-						className={home('CheckBoxSection-Input')}
-						type="checkbox"
-						id="imageFlashing"
-						name="imageFlashing"
-						checked={isImageFlashing}
-						onChange={onChangeImageFlashing}
-					/>
-					<label className={home('CheckBoxSection-Label')} htmlFor="imageFlashing">Flashing</label>
-				</div>
-
-				<div className={home('CheckBoxSection')}>
-					<input
-						className={home('CheckBoxSection-Input')}
-						type="checkbox"
-						id="imageGrayscale"
-						name="imageGrayscale"
-						checked={isImageGrayscale}
-						onChange={onChangeImageGrayscale}
-					/>
-					<label className={home('CheckBoxSection-Label')} htmlFor="imageGrayscale">Grayscale</label>
-				</div>
+				<CheckBox
+					id="imageGrayscale"
+					containerClassName={home('Section')}
+					checked={isImageGrayscale}
+					onChange={onChangeImageGrayscale}
+					labelText='Grayscale'
+				/>
 
 				<div className={home('ScaleSection')}>
 					<span className={home('ScaleSection-Title')}>Image scale</span>
 
 					<div>
 						{scaleButtonsValuesList.map((scaleKey, i) => (
-							<button
-								className={home('ScaleSection-Button', { active: EScaleValues[scaleKey] === imageScale })}
+							<Button
+								className={home('ScaleSection-Button')}
+								isActive={EScaleValues[scaleKey] === imageScale}
 								onClick={() => setImageScale(EScaleValues[scaleKey])}
 								key={`scaleButton_${i}`}
 							>
 								{EScaleValues[scaleKey]}x
-							</button>)
+							</Button>)
 						)}
 					</div>
 				</div>
 
-				{ipcRenderer ? <button className={home('CloseButton')} onClick={onCloseApp}>x</button> : null}
+				{isHaveIpcRenderer() ? <Button className={home('CloseButton')} onClick={onCloseApp} asClose>x</Button> : null}
 			</header>
 
 			<div className={home('ImageContainer')}>
