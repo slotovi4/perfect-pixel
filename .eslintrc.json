@@ -4,6 +4,7 @@
 		"plugin:react/recommended",
 		"plugin:@typescript-eslint/recommended"
 	],
+	"ignorePatterns": "commitlint.config.js",
 	"plugins": [
 		"@typescript-eslint"
 	],

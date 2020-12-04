@@ -1,9 +1,9 @@
-import { getIpcRenderer } from '../../helpers';
 import {
 	IMoveWindowFromMouseData,
 	IMoveWindowFromKeysData,
 	EMoveWindowKeys
 } from '../../electron/types';
+import { getIpcRenderer } from '../../electron/helpers';
 
 const ipcRenderer = getIpcRenderer();
 let moveWindowFromMouseData: IMoveWindowFromMouseData = { mouseX: 0, mouseY: 0 };
@@ -88,7 +88,7 @@ export const onCloseApp = () => {
 	if (ipcRenderer) {
 
 		// отправляем сообщение к main на закрытие приложения
-		ipcRenderer.sendSync('close-window');
+		ipcRenderer.sendSync('closeApp');
 	}
 };
 

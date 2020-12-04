@@ -5,11 +5,11 @@ import './Range.scss';
 /**
  * Компонент диапазона
  */
-const Range = ({ 
-	valueText, 
-	titleText, 
-	containerClassName, 
-	...rest 
+const Range = ({
+	valueText,
+	titleText,
+	containerClassName,
+	...rest
 }: IProps) => {
 	const range = cn('Range');
 
@@ -18,7 +18,14 @@ const Range = ({
 			<span className={range('Title')}>{titleText}</span>
 
 			<div className={range('Container')}>
-				<input type="range" {...rest} />
+				<input
+					type="range"
+					{...rest}
+					onKeyDown={(e) => {
+						e.preventDefault();
+						e.stopPropagation();
+						return false;
+					}} />
 				{valueText ? <span>{valueText}</span> : null}
 			</div>
 		</div>

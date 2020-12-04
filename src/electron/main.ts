@@ -43,7 +43,7 @@ if (!handleSquirrelEvent(app)) {
 		});
 
 		// когда получаем сообщение на закрытие окна
-		ipcMain.on('close-window', () => {
+		ipcMain.on('closeApp', () => {
 			app.quit();
 		});
 
