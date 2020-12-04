@@ -1,13 +1,17 @@
 import React from 'react';
+import {
+	onMouseDown,
+	onKeyDown,
+	listenPasteImage,
+	onCloseApp,
+	isHaveIpcRenderer
+} from './helpers';
 import { CheckBox, Range, Button } from '../';
-import { getIpcRenderer } from '../../helpers';
-import { onMouseDown, onKeyDown } from './helpers';
 import { cn } from '@bem-react/classname';
 import './Home.scss';
 
 const Home = () => {
 	const home = cn('Home');
-	const ipcRenderer = getIpcRenderer();
 	const initImageParams: IImageParams = {
 		width: undefined,
 		height: undefined,
@@ -41,29 +45,23 @@ const Home = () => {
 	}, []);
 
 	React.useEffect(() => {
-		if (ipcRenderer) {
 
-			// вешаем слушать на опускание мыши для перетаскивания окна
-			document.addEventListener('mousedown', onMouseDown);
+		// вешаем слушать на опускание мыши для перетаскивания окна
+		document.addEventListener('mousedown', onMouseDown);
 
-			// вешаем слушатель на клавиши для передвижения окна стрелками или wasd
-			document.addEventListener('keydown', onKeyDown);
+		// вешаем слушатель на клавиши для передвижения окна стрелками или wasd
+		document.addEventListener('keydown', onKeyDown);
 
-			// вешаем слушатель на вставку изображения через clipboard от main
-			ipcRenderer.on('on-paste-image', (event, imageSrc: string) => {
-				setImage(imageSrc);
-			});
-		}
+		// вешаем слушатель на вставку изображения через clipboard от main
+		listenPasteImage(setImage);
 
 		return () => {
-			if (ipcRenderer) {
 
-				// очищаем слушатель опускания мыши
-				document.removeEventListener('mousedown', onMouseDown);
+			// очищаем слушатель опускания мыши
+			document.removeEventListener('mousedown', onMouseDown);
 
-				// очищаем слушатель опускания клавиши
-				document.addEventListener('keydown', onKeyDown);
-			}
+			// очищаем слушатель опускания клавиши
+			document.addEventListener('keydown', onKeyDown);
 		};
 	}, []);
 
@@ -170,18 +168,6 @@ const Home = () => {
 		setIsImageGrayscale(event.target.checked);
 	};
 
-	/**
-	 * События при клике на кнопку "закрыть приложение"
-	 */
-	const onCloseApp = () => {
-
-		if (ipcRenderer) {
-
-			// отправляем сообщение к main на закрытие приложения
-			ipcRenderer.sendSync('close-window');
-		}
-	};
-
 	return (
 		<section className={home()}>
 			<header className={home('Header')}>
@@ -237,7 +223,7 @@ const Home = () => {
 					</div>
 				</div>
 
-				{ipcRenderer ? <Button className={home('CloseButton')} onClick={onCloseApp} asClose>x</Button> : null}
+				{isHaveIpcRenderer() ? <Button className={home('CloseButton')} onClick={onCloseApp} asClose>x</Button> : null}
 			</header>
 
 			<div className={home('ImageContainer')}>

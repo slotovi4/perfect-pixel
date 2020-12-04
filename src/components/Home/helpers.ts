@@ -68,6 +68,38 @@ export const onKeyDown = ({ code, shiftKey }: KeyboardEvent) => {
 };
 
 /**
+ * Вешает слушатель на вставку изображения
+ * @param callback - функция принимающая src вставленной картинки
+ */
+export const listenPasteImage = (callback: (imageSrc: string) => void) => {
+	if (ipcRenderer) {
+
+		// вешаем слушатель на вставку изображения через clipboard от main
+		ipcRenderer.on('on-paste-image', (event, imageSrc: string) => {
+			callback(imageSrc);
+		});
+	}
+};
+
+/**
+ * События при клике на кнопку "закрыть приложение"
+ */
+export const onCloseApp = () => {
+	if (ipcRenderer) {
+
+		// отправляем сообщение к main на закрытие приложения
+		ipcRenderer.sendSync('close-window');
+	}
+};
+
+/**
+ * Возвращает значение - есть ли ipcRenderer
+ */
+export const isHaveIpcRenderer = () => {
+	return Boolean(ipcRenderer);
+};
+
+/**
  * Остановим передвижение окна очистив слушатели
  */
 const stopMovingWindow = () => {
