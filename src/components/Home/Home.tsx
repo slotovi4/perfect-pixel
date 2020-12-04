@@ -1,7 +1,7 @@
 import React from 'react';
 import { CheckBox, Range, Button } from '../';
 import { getIpcRenderer } from '../../helpers';
-import { onMouseDown } from './helpers';
+import { onMouseDown, onKeyDown } from './helpers';
 import { cn } from '@bem-react/classname';
 import './Home.scss';
 
@@ -43,8 +43,11 @@ const Home = () => {
 	React.useEffect(() => {
 		if (ipcRenderer) {
 
-			// вешаем слушать на опускание мыши
+			// вешаем слушать на опускание мыши для перетаскивания окна
 			document.addEventListener('mousedown', onMouseDown);
+
+			// вешаем слушатель на клавиши для передвижения окна стрелками или wasd
+			document.addEventListener('keydown', onKeyDown);
 
 			// вешаем слушатель на вставку изображения через clipboard от main
 			ipcRenderer.on('on-paste-image', (event, imageSrc: string) => {
@@ -57,6 +60,9 @@ const Home = () => {
 
 				// очищаем слушатель опускания мыши
 				document.removeEventListener('mousedown', onMouseDown);
+
+				// очищаем слушатель опускания клавиши
+				document.addEventListener('keydown', onKeyDown);
 			}
 		};
 	}, []);

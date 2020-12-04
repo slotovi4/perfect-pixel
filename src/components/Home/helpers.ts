@@ -1,18 +1,22 @@
 import { getIpcRenderer } from '../../helpers';
-import { IMoveWindowData } from '../../types';
+import {
+	IMoveWindowFromMouseData,
+	IMoveWindowFromKeysData,
+	EMoveWindowKeys
+} from '../../electron/types';
 
 const ipcRenderer = getIpcRenderer();
-let moveWindowData: IMoveWindowData = { mouseX: 0, mouseY: 0 };
+let moveWindowFromMouseData: IMoveWindowFromMouseData = { mouseX: 0, mouseY: 0 };
 
 /**
- * При опускании мыши вешаем слушатели на передвижение окна
- * @param event - MouseEvent 
+ * При опускании мыши вешаем слушатели на передвижение окна по курсору мыши
+ * @param mouseEvent - MouseEvent 
  */
 export const onMouseDown = ({ target, clientX, clientY }: MouseEvent) => {
 	if (ipcRenderer) {
 
 		// сохраним положение курсора
-		moveWindowData = { mouseY: clientY, mouseX: clientX };
+		moveWindowFromMouseData = { mouseY: clientY, mouseX: clientX };
 
 		// если клик по не перетаскиваемым элементам
 		if (target instanceof HTMLElement && (
@@ -25,7 +29,41 @@ export const onMouseDown = ({ target, clientX, clientY }: MouseEvent) => {
 
 		// вешаем слушатели
 		document.addEventListener('mouseup', stopMovingWindow);
-		document.addEventListener('mousemove', moveWindow);
+		document.addEventListener('mousemove', onMoveWindowFromMouse);
+	}
+};
+
+/**
+ * При опускании клавиши вешаем слушатель на стрелки или wasd 
+ * @param keyboardEvent - KeyboardEvent 
+ */
+export const onKeyDown = ({ code, shiftKey }: KeyboardEvent) => {
+
+	// получим список всех клавиш с помощью которых будем двигать окно
+	const windowKeysList: string[] = Object.values(EMoveWindowKeys);
+
+	// если клавиша на движение
+	if (windowKeysList.includes(code)) {
+
+		// двигаем окно вверх
+		if (code === EMoveWindowKeys.W || code === EMoveWindowKeys.Up) {
+			onMoveWindowFromKeys({ shiftX: 0, shiftY: shiftKey ? -10 : -1 });
+		}
+
+		// двигаем окно вниз
+		if (code === EMoveWindowKeys.S || code === EMoveWindowKeys.Down) {
+			onMoveWindowFromKeys({ shiftX: 0, shiftY: shiftKey ? 10 : 1 });
+		}
+
+		// двигаем окно влево
+		if (code === EMoveWindowKeys.A || code === EMoveWindowKeys.Left) {
+			onMoveWindowFromKeys({ shiftX: shiftKey ? -10 : -1, shiftY: 0 });
+		}
+
+		// двигаем окно вправо
+		if (code === EMoveWindowKeys.D || code === EMoveWindowKeys.Right) {
+			onMoveWindowFromKeys({ shiftX: shiftKey ? 10 : 1, shiftY: 0 });
+		}
 	}
 };
 
@@ -37,17 +75,29 @@ const stopMovingWindow = () => {
 
 		// очистим слушатели
 		document.removeEventListener('mouseup', stopMovingWindow);
-		document.removeEventListener('mousemove', moveWindow);
+		document.removeEventListener('mousemove', onMoveWindowFromMouse);
 	}
 };
 
 /**
- * Отправим сообщение к main на передвижение окна
+ * Отправим сообщение к main на передвижение окна с помощью мыши
  */
-const moveWindow = () => {
+const onMoveWindowFromMouse = () => {
 	if (ipcRenderer) {
 
-		// отправим сообщение к mail
-		ipcRenderer.send('windowMoving', moveWindowData);
+		// отправим сообщение к main
+		ipcRenderer.send('moveWindowFromMouse', moveWindowFromMouseData);
+	}
+};
+
+/**
+ * Отправим сообщение к main на передвижение окна с помощью стрелок или клавиш wasd
+ * @param moveWindowFromKeysData - данные по сдвигу окна по оси x/y
+ */
+const onMoveWindowFromKeys = (moveWindowFromKeysData: IMoveWindowFromKeysData) => {
+	if (ipcRenderer) {
+
+		// отправим сообщение к main
+		ipcRenderer.send('moveWindowFromKeys', moveWindowFromKeysData);
 	}
 };

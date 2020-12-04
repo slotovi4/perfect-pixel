@@ -1,5 +1,5 @@
 import { BrowserWindow, app, globalShortcut, ipcMain, screen, clipboard } from 'electron';
-import { IMoveWindowData } from '../types';
+import { IMoveWindowFromMouseData, IMoveWindowFromKeysData } from './types';
 import { handleSquirrelEvent } from './helpers';
 import * as isDev from 'electron-is-dev';
 
@@ -47,8 +47,8 @@ if (!handleSquirrelEvent(app)) {
 			app.quit();
 		});
 
-		// когда получем сообщение на движение окна
-		ipcMain.on('windowMoving', (e, { mouseX, mouseY }: IMoveWindowData) => {
+		// когда получем сообщение на движение окна путем перетаскивания мышкой
+		ipcMain.on('moveWindowFromMouse', (e, { mouseX, mouseY }: IMoveWindowFromMouseData) => {
 			if (mainWindow) {
 
 				// получаем координаты курсора
@@ -56,6 +56,20 @@ if (!handleSquirrelEvent(app)) {
 
 				// установим новое положение окна
 				mainWindow.setPosition(x - mouseX, y - mouseY);
+			}
+		});
+
+		// когда получем сообщение на движение окна путем стрелок или wasd
+		ipcMain.on('moveWindowFromKeys', (e, { shiftX, shiftY }: IMoveWindowFromKeysData) => {
+			if (mainWindow) {
+
+				// получаем координаты курсора
+				const windowPositionList = mainWindow.getPosition();
+				const xPosition = windowPositionList[0] + shiftX;
+				const yPosition = windowPositionList[1] + shiftY;
+
+				// установим новое положение окна
+				mainWindow.setPosition(xPosition, yPosition);
 			}
 		});
 
