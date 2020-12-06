@@ -70,6 +70,10 @@ const Home = () => {
 	 * @param imageSrc - src изображения
 	 */
 	const setImage = (imageSrc: string) => {
+
+		// очистим ошибки
+		setErrorText(null);
+		
 		// изображение для валидации ошибок
 		const img = new Image();
 
@@ -84,6 +88,7 @@ const Home = () => {
 
 			// установим текст ошибки
 			setErrorText('Invalid file');
+
 			return;
 		};
 
@@ -107,9 +112,6 @@ const Home = () => {
 
 		// получим файлы
 		const { files } = event.target;
-
-		// очистим ошибки
-		setErrorText(null);
 
 		// если FileReader поддерживается
 		if (FileReader && files && files.length) {

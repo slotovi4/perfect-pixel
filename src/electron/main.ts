@@ -1,4 +1,11 @@
-import { BrowserWindow, app, globalShortcut, ipcMain, screen, clipboard } from 'electron';
+import {
+	BrowserWindow,
+	app,
+	globalShortcut,
+	ipcMain,
+	screen,
+	clipboard
+} from 'electron';
 import { IMoveWindowFromMouseData, IMoveWindowFromKeysData } from './types';
 import { handleSquirrelEvent } from './helpers';
 import * as isDev from 'electron-is-dev';
@@ -88,8 +95,24 @@ if (!handleSquirrelEvent(app)) {
 
 			// при вставке элемента читаем изображение и отправляем сообщение
 			globalShortcut.register('CommandOrControl+V', () => {
-				if (mainWindow) {
-					mainWindow.webContents.send('on-paste-image', clipboard.readImage().toDataURL());
+
+				// получим список доступных форматов
+				const availableFormatsList = clipboard.availableFormats('clipboard');
+
+				// если формат файла является изобрадением
+				const isImage = availableFormatsList.includes('image/png') || availableFormatsList.includes('image/jpeg');
+
+				// получим изображение
+				const image = clipboard.readImage();
+
+				// если изображение есть
+				if (mainWindow && isImage && !image.isEmpty()) {
+
+					// отправим src картинки 
+					mainWindow.webContents.send('on-paste-image', image.toDataURL());
+
+					// очистим данные в буфере
+					clipboard.clear();
 				}
 			});
 		});
