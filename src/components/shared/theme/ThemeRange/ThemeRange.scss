@@ -1,0 +1,25 @@
+@import '../variables.scss';
+
+.ThemeRange {
+
+	&-Container {
+
+	}
+
+	&-Title {
+
+	}
+
+	&-Input {
+
+		// кнопка для перетаскивания
+		&::-webkit-slider-thumb {
+			background: $primaryColor;
+		}
+
+		// трек прогресса
+		&::-webkit-slider-runnable-track {
+			background: $secondaryColor;
+		}
+	}
+}
