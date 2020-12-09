@@ -18,14 +18,7 @@ const Range = ({
 			<span className={range('Title')}>{titleText}</span>
 
 			<div className={range('Container')}>
-				<input
-					type="range"
-					{...rest}
-					onKeyDown={(e) => {
-						e.preventDefault();
-						e.stopPropagation();
-						return false;
-					}} />
+				<input type="range" {...rest} />
 				{valueText ? <span>{valueText}</span> : null}
 			</div>
 		</div>

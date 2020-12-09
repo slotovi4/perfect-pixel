@@ -4,30 +4,38 @@ import {
 	globalShortcut,
 	ipcMain,
 	screen,
-	clipboard
+	clipboard,
 } from 'electron';
 import { IMoveWindowFromMouseData, IMoveWindowFromKeysData } from './types';
 import { handleSquirrelEvent } from './helpers';
 import * as isDev from 'electron-is-dev';
 
 if (!handleSquirrelEvent(app)) {
+
+	// главное окно
 	let mainWindow: Electron.BrowserWindow | null = null;
 
+	/**
+	 * Создадим главное окно
+	 */
 	const createWindow = async () => {
+
+		// настройки окна
 		mainWindow = new BrowserWindow({
 			width: 895,
 			height: 400,
 			transparent: true,
 			frame: false,
 			hasShadow: false,
+			minimizable: false,
+			maximizable: false,
 			webPreferences: {
 				nodeIntegration: true,
 				devTools: isDev
 			}
 		});
 
-		mainWindow.setMinimizable(false);
-		mainWindow.setMaximizable(false);
+		// загрузим index.html
 		mainWindow.loadURL(`file://${__dirname}/index.html`);
 
 		// если dev

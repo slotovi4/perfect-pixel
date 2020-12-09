@@ -4,7 +4,7 @@ import {
 	onKeyDown,
 	listenPasteImage,
 	onCloseApp,
-	isHaveIpcRenderer
+	isHaveIpcRenderer,
 } from './helpers';
 import { CheckBox, Range, Button } from '../';
 import { cn } from '@bem-react/classname';
@@ -190,6 +190,10 @@ const Home = () => {
 					max={100}
 					onChange={onChangeOpacity}
 					valueText={`${imageOpacity}%`}
+					onKeyDown={(e) => {
+						e.preventDefault();
+						return false;
+					}}
 				/>
 
 				<CheckBox
