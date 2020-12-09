@@ -1,0 +1,8 @@
+@import '../variables.scss';
+
+.ThemeCheckBox {
+
+	&-Input:checked + &-Label:before {
+		background-color: $primaryColor;
+	}
+}

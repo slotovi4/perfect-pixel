@@ -5,17 +5,23 @@ import './CheckBox.scss';
 /**
  * Компонент чек-бокса
  */
-const CheckBox = ({ containerClassName, labelText, ...rest }: IProps) => {
+const CheckBox = ({ 
+	containerClassName, 
+	inputClassName,
+	labelClassName,
+	labelText, 
+	...rest 
+}: IProps) => {
 	const cb = cn('CheckBox');
 
 	return (
 		<div className={cb(null, [containerClassName])}>
 			<input
-				className={cb('Input')}
+				className={cb('Input', [inputClassName])}
 				type="checkbox"
 				{...rest}
 			/>
-			<label className={cb('Label')} htmlFor={rest.id}>{labelText}</label>
+			<label className={cb('Label', [labelClassName])} htmlFor={rest.id}>{labelText}</label>
 		</div>
 	);
 };
@@ -26,5 +32,7 @@ export interface IProps extends Omit<React.InputHTMLAttributes<HTMLInputElement>
 	checked: boolean;
 	labelText: string;
 	id: string;
+	inputClassName?: string;
+	labelClassName?: string;
 	containerClassName?: string;
 }

@@ -1,13 +1,34 @@
 .CheckBox {
 	display: flex;
-	
+
 	&-Input {
-		cursor: pointer;
-		margin-right: 5px;
+		display: none;
+	}
+
+	&-Input + &-Label:before {
+		font-size: 12px;
+		height: 12px;
+		width: 12px;
+		border: 1px solid #333;
+		background: transparent;
+		content: "\00a0";
+		display: inline-block;
+		margin-right: 4px;
+		padding: 0;
+	}
+
+	&-Input:checked + &-Label:before {
+		background: #fff;
+		color: #333;
+		content: "\2713";
+		display: flex;
+		justify-content: center;
+		align-items: center;	
 	}
 
 	&-Label {
 		cursor: pointer;
+		display: flex;
 		font-size: 12px;
 	}
 }
