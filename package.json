@@ -1,6 +1,6 @@
 {
 	"name": "perfect-pixel",
-	"version": "0.2.1",
+	"version": "0.2.2",
 	"description": "",
 	"private": true,
 	"main": "build/main.js",

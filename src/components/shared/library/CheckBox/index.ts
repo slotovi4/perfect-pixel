@@ -1,0 +1,1 @@
+export { default as CheckBox, IProps as ICheckBoxProps } from './CheckBox';

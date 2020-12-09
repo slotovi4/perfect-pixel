@@ -27,7 +27,7 @@ const Range = ({
 
 export default Range;
 
-interface IProps extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'className' | 'type'> {
+export interface IProps extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'className' | 'type'> {
 	value: number;
 	id: string;
 	step: number;

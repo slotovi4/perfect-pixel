@@ -1,0 +1,1 @@
+export { default as Button, IProps as IButtonProps } from './Button';

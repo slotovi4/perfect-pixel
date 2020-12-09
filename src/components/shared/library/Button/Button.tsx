@@ -23,7 +23,7 @@ const Button = ({
 
 export default Button;
 
-interface IProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+export interface IProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
 	isActive?: boolean;
 	asClose?: boolean;
 	onClick: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;

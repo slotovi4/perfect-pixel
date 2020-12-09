@@ -10,6 +10,9 @@ import { CheckBox, Range, Button } from '../';
 import { cn } from '@bem-react/classname';
 import './Home.scss';
 
+/**
+ * Главный компонент приложения отвечающий за весь функционал
+ */
 const Home = () => {
 	const home = cn('Home');
 	const initImageParams: IImageParams = {
@@ -73,7 +76,7 @@ const Home = () => {
 
 		// очистим ошибки
 		setErrorText(null);
-		
+
 		// изображение для валидации ошибок
 		const img = new Image();
 

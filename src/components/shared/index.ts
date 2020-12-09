@@ -1,3 +1,1 @@
-export { CheckBox } from './CheckBox';
-export { Range } from './Range';
-export { Button } from './Button';
+export { Button, Range, CheckBox } from './theme';

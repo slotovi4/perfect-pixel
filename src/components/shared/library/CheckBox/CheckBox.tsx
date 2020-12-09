@@ -22,7 +22,7 @@ const CheckBox = ({ containerClassName, labelText, ...rest }: IProps) => {
 
 export default CheckBox;
 
-interface IProps extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'className' | 'type'> {
+export interface IProps extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'className' | 'type'> {
 	checked: boolean;
 	labelText: string;
 	id: string;
