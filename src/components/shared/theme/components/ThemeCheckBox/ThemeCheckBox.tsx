@@ -1,5 +1,5 @@
 import React from 'react';
-import { CheckBox, ICheckBoxProps } from '../../library';
+import { CheckBox, ICheckBoxProps } from '../../../library';
 import { cn } from '@bem-react/classname';
 import './ThemeCheckBox.scss';
 

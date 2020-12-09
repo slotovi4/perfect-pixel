@@ -1,5 +1,5 @@
 import React from 'react';
-import { Range, IRangeProps } from '../../library';
+import { Range, IRangeProps } from '../../../library';
 import { cn } from '@bem-react/classname';
 import './ThemeRange.scss';
 

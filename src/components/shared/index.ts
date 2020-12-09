@@ -1,1 +1,1 @@
-export { Button, Range, CheckBox } from './theme';
+export { Button, Range, CheckBox } from './theme/components';
