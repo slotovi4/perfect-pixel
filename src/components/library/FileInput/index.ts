@@ -1,0 +1,1 @@
+export { default as FileInput, IProps as IFileInputProps } from './FileInput';
