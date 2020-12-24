@@ -6,7 +6,7 @@ import {
 	onCloseApp,
 	isHaveIpcRenderer,
 } from './helpers';
-import { CheckBox, Range, Button } from '../';
+import { CheckBox, Range, Button } from 'theme';
 import { cn } from '@bem-react/classname';
 import './Home.scss';
 
