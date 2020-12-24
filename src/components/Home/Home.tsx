@@ -181,7 +181,7 @@ const Home = () => {
 	return (
 		<section className={home()}>
 			<header className={home('Header')}>
-				<FileInput onChange={onChangeFile} isInvalid={Boolean(errorText)} />
+				<FileInput id='uploadImageInput' onChange={onChangeFile} errorText={errorText} />
 
 				<Range
 					id='opacityRange'
@@ -236,9 +236,7 @@ const Home = () => {
 			</header>
 
 			<div className={home('ImageContainer')}>
-				{errorText ? (
-					<span className={home('ErrorText')}>{errorText}</span>
-				) : imageParams.src ? (
+				{!errorText && imageParams.src ? (
 					<div
 						className={home('Image', { flashing: isImageFlashing, grayscale: isImageGrayscale })}
 						data-opacity={`${imageOpacity}%`}

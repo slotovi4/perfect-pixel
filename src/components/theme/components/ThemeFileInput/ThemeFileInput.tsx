@@ -3,11 +3,21 @@ import { FileInput, IFileInputProps } from 'library';
 import { cn } from '@bem-react/classname';
 import './ThemeFileInput.scss';
 
-const ThemeFileInput = ({ className, ...rest }: IFileInputProps) => {
+const ThemeFileInput = ({
+	className,
+	errorTextClassName,
+	labelClassName,
+	...rest
+}: IFileInputProps) => {
 	const tfi = cn('ThemeFileInput');
-	
+
 	return (
-		<FileInput className={tfi('', [className])} {...rest} />
+		<FileInput
+			errorTextClassName={tfi('ErrorText', [errorTextClassName])}
+			labelClassName={tfi('Label', [labelClassName])}
+			className={tfi('', [className])}
+			{...rest}
+		/>
 	);
 };
 
