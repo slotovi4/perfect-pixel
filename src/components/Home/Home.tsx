@@ -6,7 +6,12 @@ import {
 	onCloseApp,
 	isHaveIpcRenderer,
 } from './helpers';
-import { CheckBox, Range, Button } from 'theme';
+import { 
+	CheckBox, 
+	Range, 
+	Button, 
+	FileInput 
+} from 'theme';
 import { cn } from '@bem-react/classname';
 import './Home.scss';
 
@@ -176,12 +181,7 @@ const Home = () => {
 	return (
 		<section className={home()}>
 			<header className={home('Header')}>
-				<input
-					type="file"
-					className={home('FileInput', { error: errorText ? true : false })}
-					onChange={onChangeFile}
-					accept="image/x-png,image/gif,image/jpeg"
-				/>
+				<FileInput onChange={onChangeFile} isInvalid={Boolean(errorText)} />
 
 				<Range
 					id='opacityRange'

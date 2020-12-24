@@ -1,1 +1,1 @@
-export { Button, Range, CheckBox } from './components';
+export * from './components';

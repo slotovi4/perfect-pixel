@@ -8,14 +8,6 @@
 		color: white;
 	}
 
-	&-FileInput {
-		cursor: pointer;
-
-		&_error {
-			color: red;
-		}
-	}
-
 	&-ImageContainer {
 		overflow: hidden;
 		cursor: move;
