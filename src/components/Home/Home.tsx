@@ -229,7 +229,7 @@ const Home = () => {
 					</div>
 				</div>
 
-				{isHaveIpcRenderer() ? <Button className={home('CloseButton')} onClick={onCloseApp} asClose>x</Button> : null}
+				{isHaveIpcRenderer() ? <Button onClick={onCloseApp} asClose /> : null}
 			</header>
 
 			<div className={home('ImageContainer')}>

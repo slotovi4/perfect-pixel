@@ -15,7 +15,7 @@ const ThemeButton = ({ isActive, asClose, className, ...rest }: IButtonProps) =>
 			className={tb(
 				'',
 				{ active: isActive, close: asClose },
-				[className])
+				[asClose ? 'icon-cross' : undefined, className])
 			}
 		/>
 	);
