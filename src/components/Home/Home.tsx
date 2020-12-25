@@ -215,7 +215,7 @@ const Home = () => {
 					labelText='Grayscale'
 				/>
 
-				<div className={home('ScaleSection')}>
+				<div className={home('ScaleSection', [home('Section')])}>
 					<span className={home('ScaleSection-Title')}>Image scale</span>
 
 					<div>

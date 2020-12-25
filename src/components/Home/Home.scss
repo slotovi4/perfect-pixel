@@ -40,16 +40,19 @@
 	}
 
 	&-ScaleSection {
-		margin-left: 20px;
 
 		&-Title {
 			text-align: center;
-			margin-bottom: 4px;
+			margin-bottom: 5px;
 			display: block;
 		}
 
 		&-Button {
 			margin-right: 5px;
+
+			&:last-child {
+				margin-right: 0;
+			}
 		}
 	}
 }
