@@ -5,4 +5,10 @@
 	&_active {
 		background-color: $primaryColor;
 	}
+
+	&_close {
+		width: 20px;
+		height: 20px;
+		background-color: red;
+	}
 }

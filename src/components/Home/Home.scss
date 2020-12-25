@@ -1,11 +1,31 @@
 .Home {
+	background-color: #222;
+
+	&::before {
+		position: absolute;
+		content: '';
+		width: calc(100% - 2px);
+		height: calc(100% - 2px);
+		cursor: move;
+
+		border: 1px solid #222;
+		border-radius: 10px;
+		left: 0;
+		top: 0;
+		z-index: -1;
+	}
 
 	&-Header {
 		display: flex;
 		align-items: center;
-		background-color: #222;
 		padding: 10px 20px;
 		color: white;
+		border-top-right-radius: 10px;
+		border-top-left-radius: 10px;
+		justify-content: space-between;
+		max-width: 700px;
+		min-width: 700px;
+		width: 700px;
 	}
 
 	&-ImageContainer {
@@ -31,12 +51,7 @@
 	}
 
 	&-CloseButton {
-		margin-left: 20px;
 		line-height: 16px;
-	}
-
-	&-Section {
-		margin-left: 20px;
 	}
 
 	&-ScaleSection {

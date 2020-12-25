@@ -22,8 +22,10 @@ if (!handleSquirrelEvent(app)) {
 
 		// настройки окна
 		mainWindow = new BrowserWindow({
-			width: 895,
+			width: 700,
+			minWidth: 700,
 			height: 400,
+			minHeight: 54,
 			transparent: true,
 			frame: false,
 			hasShadow: false,

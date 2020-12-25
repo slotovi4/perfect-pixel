@@ -186,7 +186,6 @@ const Home = () => {
 				<Range
 					id='opacityRange'
 					titleText='Image opacity'
-					containerClassName={home('Section')}
 					value={imageOpacity}
 					step={10}
 					min={0}
@@ -201,7 +200,6 @@ const Home = () => {
 
 				<CheckBox
 					id="imageFlashing"
-					containerClassName={home('Section')}
 					checked={isImageFlashing}
 					onChange={onChangeImageFlashing}
 					labelText='Flashing'
@@ -209,13 +207,12 @@ const Home = () => {
 
 				<CheckBox
 					id="imageGrayscale"
-					containerClassName={home('Section')}
 					checked={isImageGrayscale}
 					onChange={onChangeImageGrayscale}
 					labelText='Grayscale'
 				/>
 
-				<div className={home('ScaleSection', [home('Section')])}>
+				<div className={home('ScaleSection')}>
 					<span className={home('ScaleSection-Title')}>Image scale</span>
 
 					<div>
