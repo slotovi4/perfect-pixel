@@ -185,7 +185,7 @@ const Home = () => {
 
 				<Range
 					id='opacityRange'
-					titleText='Image opacity (between 0% and 100%)'
+					titleText='Image opacity'
 					containerClassName={home('Section')}
 					value={imageOpacity}
 					step={10}

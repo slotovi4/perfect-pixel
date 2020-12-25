@@ -11,6 +11,7 @@ const Range = ({
 	containerClassName,
 	titleClassName,
 	inputClassName,
+	valueClassName,
 	...rest
 }: IProps) => {
 	const range = cn('Range');
@@ -21,7 +22,11 @@ const Range = ({
 
 			<div className={range('Container')}>
 				<input className={range('Input', [inputClassName])} type="range" {...rest} />
-				{valueText ? <span>{valueText}</span> : null}
+				{valueText ?
+					<span className={range('Value', [valueClassName])}>
+						{valueText}
+					</span>
+				: null}
 			</div>
 		</div>
 	);
@@ -40,5 +45,6 @@ export interface IProps extends Omit<React.InputHTMLAttributes<HTMLInputElement>
 	containerClassName?: string;
 	titleClassName?: string;
 	inputClassName?: string;
+	valueClassName?: string;
 	onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }

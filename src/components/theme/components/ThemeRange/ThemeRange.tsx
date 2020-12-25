@@ -7,6 +7,7 @@ const ThemeRange = ({
 	containerClassName,
 	inputClassName,
 	titleClassName,
+	valueClassName,
 	...rest
 }: IRangeProps) => {
 	const tr = cn('ThemeRange');
@@ -17,6 +18,7 @@ const ThemeRange = ({
 			containerClassName={tr('Container', [containerClassName])}
 			inputClassName={tr('Input', [inputClassName])}
 			titleClassName={tr('Title', [titleClassName])}
+			valueClassName={tr('Value', [valueClassName])}
 		/>
 	);
 };
