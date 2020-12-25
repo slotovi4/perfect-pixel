@@ -17,7 +17,7 @@ const Range = ({
 	const range = cn('Range');
 
 	return (
-		<div className={range(null, [containerClassName])}>
+		<div className={range('', [containerClassName])}>
 			<span className={range('Title', [titleClassName])}>{titleText}</span>
 
 			<div className={range('Container')}>

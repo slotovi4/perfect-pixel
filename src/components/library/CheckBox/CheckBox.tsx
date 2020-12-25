@@ -15,7 +15,7 @@ const CheckBox = ({
 	const cb = cn('CheckBox');
 
 	return (
-		<div className={cb(null, [containerClassName])}>
+		<div className={cb('', [containerClassName])}>
 			<input
 				className={cb('Input', [inputClassName])}
 				type="checkbox"

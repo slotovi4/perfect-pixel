@@ -4,6 +4,7 @@
 
 	&-Label:before {
 		border-radius: 3px;
+		border-color: $primaryColor!important;
 	}
 
 	&-Input:checked + &-Label:before {
@@ -12,6 +13,6 @@
 		font-family: 'icomoon'!important;
 		font-size: 10px;
 		border-color: transparent;
-		color: #222;
+		color: $backgroundColor;
 	}
 }

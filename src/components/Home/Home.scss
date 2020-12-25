@@ -1,5 +1,8 @@
+@import '../theme/scss/variables.scss';
+
 .Home {
-	background-color: #222;
+	background-color: $backgroundColor;
+	height: 54px;
 
 	&::before {
 		position: absolute;
@@ -8,7 +11,7 @@
 		height: calc(100% - 2px);
 		cursor: move;
 
-		border: 1px solid #222;
+		border: 1px solid $backgroundColor;
 		border-radius: 10px;
 		left: 0;
 		top: 0;
