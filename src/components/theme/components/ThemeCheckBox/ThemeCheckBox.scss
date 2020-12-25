@@ -2,7 +2,16 @@
 
 .ThemeCheckBox {
 
+	&-Label:before {
+		border-radius: 3px;
+	}
+
 	&-Input:checked + &-Label:before {
 		background-color: $primaryColor;
+		content: "\EA10";
+		font-family: 'icomoon'!important;
+		font-size: 10px;
+		border-color: transparent;
+		color: #222;
 	}
 }
