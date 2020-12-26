@@ -5,12 +5,13 @@ import {
 	listenPasteImage,
 	onCloseApp,
 	isHaveIpcRenderer,
+	resizeWindow,
 } from './helpers';
-import { 
-	CheckBox, 
-	Range, 
-	Button, 
-	FileInput 
+import {
+	CheckBox,
+	Range,
+	Button,
+	FileInput
 } from 'theme';
 import { cn } from '@bem-react/classname';
 import './Home.scss';
@@ -20,13 +21,9 @@ import './Home.scss';
  */
 const Home = () => {
 	const home = cn('Home');
-	const initImageParams: IImageParams = {
-		width: undefined,
-		height: undefined,
-		src: undefined
-	};
+	const initImageParams: TImageParams = null;
 
-	const [imageParams, setImageParams] = React.useState<IImageParams>(initImageParams);
+	const [imageParams, setImageParams] = React.useState<TImageParams>(initImageParams);
 	const [imageOpacity, setImageOpacity] = React.useState(100);
 	const [imageScale, setImageScale] = React.useState<number>(EScaleValues.X05);
 	const [isImageFlashing, setIsImageFlashing] = React.useState(false);
@@ -72,6 +69,23 @@ const Home = () => {
 			document.addEventListener('keydown', onKeyDown);
 		};
 	}, []);
+
+	// при изменении изображения/размеров изображения - меняем размер окна
+	React.useEffect(() => {
+
+		if (imageParams) {
+
+			// изменим размеры окна
+			resizeWindow({
+				height: imageParams.height * imageScale,
+				width: imageParams.width * imageScale
+			});
+		} else {
+
+			// вернем начальные размеры окна
+			resizeWindow(null);
+		}
+	}, [imageScale, imageParams]);
 
 	/**
 	 * Валидируем и установим изображение
@@ -222,6 +236,7 @@ const Home = () => {
 								isActive={EScaleValues[scaleKey] === imageScale}
 								onClick={() => setImageScale(EScaleValues[scaleKey])}
 								key={`scaleButton_${i}`}
+								disabled={!imageParams}
 							>
 								{EScaleValues[scaleKey]}x
 							</Button>)
@@ -233,15 +248,15 @@ const Home = () => {
 			</header>
 
 			<div className={home('ImageContainer')}>
-				{!errorText && imageParams.src ? (
+				{!errorText && imageParams ? (
 					<div
 						className={home('Image', { flashing: isImageFlashing, grayscale: isImageGrayscale })}
 						draggable={false}
 						style={{
 							opacity: `${imageOpacity}%`,
 							backgroundImage: `url(${imageParams.src})`,
-							height: imageParams.height && imageParams.height * imageScale,
-							width: imageParams.width && imageParams.width * imageScale,
+							height: imageParams.height * imageScale,
+							width: imageParams.width * imageScale,
 						}}
 					/>
 				) : null}
@@ -252,11 +267,11 @@ const Home = () => {
 
 export default Home;
 
-interface IImageParams {
-	width: number | undefined;
-	height: number | undefined;
-	src: string | undefined;
-}
+type TImageParams = {
+	width: number;
+	height: number;
+	src: string;
+} | null;
 
 enum EScaleValues {
 	X05 = 0.5,

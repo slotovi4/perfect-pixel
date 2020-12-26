@@ -4,20 +4,6 @@
 	background-color: $backgroundColor;
 	height: 54px;
 
-	&::before {
-		position: absolute;
-		content: '';
-		width: calc(100% - 2px);
-		height: calc(100% - 2px);
-		cursor: move;
-
-		border: 1px solid $backgroundColor;
-		border-radius: 10px;
-		left: 0;
-		top: 0;
-		z-index: -1;
-	}
-
 	&-Header {
 		display: flex;
 		align-items: center;

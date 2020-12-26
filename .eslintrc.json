@@ -47,7 +47,7 @@
 					"boolean"
 				],
 				"format": [
-					// "UPPER_CASE"
+					"PascalCase"
 				],
 				"prefix": [
 					"is",
@@ -114,6 +114,7 @@
 		"no-unused-labels": "error",
 		"curly": "error",
 		"no-extra-semi": "error",
+		"object-shorthand": "error",
 		"react/self-closing-comp": "error",
 		"max-params": [
 			"error",

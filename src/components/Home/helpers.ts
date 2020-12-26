@@ -1,6 +1,7 @@
 import {
 	IMoveWindowFromMouseData,
 	IMoveWindowFromKeysData,
+	TResizeWindow,
 	EMoveWindowKeys
 } from '../../electron/types';
 import { getIpcRenderer } from '../../electron/helpers';
@@ -78,6 +79,17 @@ export const listenPasteImage = (callback: (imageSrc: string) => void) => {
 		ipcRenderer.on('on-paste-image', (event, imageSrc: string) => {
 			callback(imageSrc);
 		});
+	}
+};
+
+/**
+ * Меняет размеры основного окна приложения
+ * @param sizeData TResizeWindow
+ */
+export const resizeWindow = (sizeData: TResizeWindow) => {
+	if (ipcRenderer) {
+
+		ipcRenderer.send('resizeWindow', sizeData);
 	}
 };
 

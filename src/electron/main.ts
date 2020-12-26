@@ -6,7 +6,11 @@ import {
 	screen,
 	clipboard,
 } from 'electron';
-import { IMoveWindowFromMouseData, IMoveWindowFromKeysData } from './types';
+import { 
+	IMoveWindowFromMouseData, 
+	IMoveWindowFromKeysData, 
+	TResizeWindow 
+} from './types';
 import { handleSquirrelEvent } from './helpers';
 import * as isDev from 'electron-is-dev';
 
@@ -15,6 +19,9 @@ if (!handleSquirrelEvent(app)) {
 	// главное окно
 	let mainWindow: Electron.BrowserWindow | null = null;
 
+	const minHeight = 54;
+	const minWidth = 700;
+
 	/**
 	 * Создадим главное окно
 	 */
@@ -22,10 +29,10 @@ if (!handleSquirrelEvent(app)) {
 
 		// настройки окна
 		mainWindow = new BrowserWindow({
-			width: 700,
-			minWidth: 700,
-			height: 400,
-			minHeight: 54,
+			width: minWidth,
+			height: minHeight,
+			minWidth,
+			minHeight,
 			transparent: true,
 			frame: false,
 			hasShadow: false,
@@ -87,6 +94,23 @@ if (!handleSquirrelEvent(app)) {
 
 				// установим новое положение окна
 				mainWindow.setPosition(xPosition, yPosition);
+			}
+		});
+
+		// когда получем сообщение на изменение размеры основного окна приложения
+		ipcMain.on('resizeWindow', (event, sizeData: TResizeWindow) => {
+			if (mainWindow) {
+
+				// если данные есть
+				if(sizeData) {
+
+					// установим размеры согласно размерам изображения
+					mainWindow.setSize(sizeData.width, sizeData.height + minHeight);
+				} else {
+
+					// установим начальные размеры окна
+					mainWindow.setSize(minWidth, minHeight);
+				}
 			}
 		});
 

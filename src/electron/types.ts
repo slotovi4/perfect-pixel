@@ -8,6 +8,11 @@ export interface IMoveWindowFromKeysData {
 	shiftY: number;
 }
 
+export type TResizeWindow = {
+	width: number;
+	height: number;
+} | null;
+
 export enum EMoveWindowKeys {
 	W = 'KeyW',
 	S = 'KeyS',
