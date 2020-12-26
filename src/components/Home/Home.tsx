@@ -236,7 +236,6 @@ const Home = () => {
 				{!errorText && imageParams.src ? (
 					<div
 						className={home('Image', { flashing: isImageFlashing, grayscale: isImageGrayscale })}
-						data-opacity={`${imageOpacity}%`}
 						draggable={false}
 						style={{
 							opacity: `${imageOpacity}%`,

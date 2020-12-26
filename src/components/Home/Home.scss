@@ -41,7 +41,7 @@
 		background-repeat: no-repeat;
 
 		&_flashing {
-			animation: flashingAnimation 0.8s infinite;
+			animation: flashingAnimation 1s linear infinite alternate;  
 		}
 
 		&_grayscale {
@@ -72,10 +72,7 @@
 }
 
 @keyframes flashingAnimation {
-	0% {
-		opacity: attr(data-opacity);
-	}
-	100% {
-		opacity: 0;
+	to { 
+		opacity: 0; 
 	}
 }
