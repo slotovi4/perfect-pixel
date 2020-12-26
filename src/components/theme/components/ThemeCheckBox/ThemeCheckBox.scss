@@ -1,0 +1,18 @@
+@import '../../scss/variables.scss';
+
+.ThemeCheckBox {
+
+	&-Label:before {
+		border-radius: 3px;
+		border-color: $primaryColor!important;
+	}
+
+	&-Input:checked + &-Label:before {
+		background-color: $primaryColor;
+		content: "\EA10";
+		font-family: 'icomoon'!important;
+		font-size: 10px;
+		border-color: transparent;
+		color: $backgroundColor;
+	}
+}

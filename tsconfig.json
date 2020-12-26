@@ -21,6 +21,10 @@
 		"suppressImplicitAnyIndexErrors": true,
 		"noUnusedLocals": true,
 		"allowSyntheticDefaultImports": true,
+		"paths": {
+			"library": ["src/components/library/"],
+			"theme": ["src/components/theme/"]
+		}
 	},
 	"exclude": [
 		"node_modules",

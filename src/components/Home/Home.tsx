@@ -4,21 +4,26 @@ import {
 	onKeyDown,
 	listenPasteImage,
 	onCloseApp,
-	isHaveIpcRenderer
+	isHaveIpcRenderer,
+	resizeWindow,
 } from './helpers';
-import { CheckBox, Range, Button } from '../';
+import {
+	CheckBox,
+	Range,
+	Button,
+	FileInput
+} from 'theme';
 import { cn } from '@bem-react/classname';
 import './Home.scss';
 
+/**
+ * Главный компонент приложения отвечающий за весь функционал
+ */
 const Home = () => {
 	const home = cn('Home');
-	const initImageParams: IImageParams = {
-		width: undefined,
-		height: undefined,
-		src: undefined
-	};
+	const initImageParams: TImageParams = null;
 
-	const [imageParams, setImageParams] = React.useState<IImageParams>(initImageParams);
+	const [imageParams, setImageParams] = React.useState<TImageParams>(initImageParams);
 	const [imageOpacity, setImageOpacity] = React.useState(100);
 	const [imageScale, setImageScale] = React.useState<number>(EScaleValues.X05);
 	const [isImageFlashing, setIsImageFlashing] = React.useState(false);
@@ -65,11 +70,32 @@ const Home = () => {
 		};
 	}, []);
 
+	// при изменении изображения/размеров изображения - меняем размер окна
+	React.useEffect(() => {
+
+		if (imageParams) {
+
+			// изменим размеры окна
+			resizeWindow({
+				height: imageParams.height * imageScale,
+				width: imageParams.width * imageScale
+			});
+		} else {
+
+			// вернем начальные размеры окна
+			resizeWindow(null);
+		}
+	}, [imageScale, imageParams]);
+
 	/**
 	 * Валидируем и установим изображение
 	 * @param imageSrc - src изображения
 	 */
 	const setImage = (imageSrc: string) => {
+
+		// очистим ошибки
+		setErrorText(null);
+
 		// изображение для валидации ошибок
 		const img = new Image();
 
@@ -84,6 +110,7 @@ const Home = () => {
 
 			// установим текст ошибки
 			setErrorText('Invalid file');
+
 			return;
 		};
 
@@ -107,9 +134,6 @@ const Home = () => {
 
 		// получим файлы
 		const { files } = event.target;
-
-		// очистим ошибки
-		setErrorText(null);
 
 		// если FileReader поддерживается
 		if (FileReader && files && files.length) {
@@ -171,28 +195,25 @@ const Home = () => {
 	return (
 		<section className={home()}>
 			<header className={home('Header')}>
-				<input
-					type="file"
-					className={home('FileInput', { error: errorText ? true : false })}
-					onChange={onChangeFile}
-					accept="image/x-png,image/gif,image/jpeg"
-				/>
+				<FileInput id='uploadImageInput' onChange={onChangeFile} errorText={errorText} />
 
 				<Range
 					id='opacityRange'
-					titleText='Image opacity (between 0% and 100%)'
-					containerClassName={home('Section')}
+					titleText='Image opacity'
 					value={imageOpacity}
 					step={10}
 					min={0}
 					max={100}
 					onChange={onChangeOpacity}
 					valueText={`${imageOpacity}%`}
+					onKeyDown={(e) => {
+						e.preventDefault();
+						return false;
+					}}
 				/>
 
 				<CheckBox
 					id="imageFlashing"
-					containerClassName={home('Section')}
 					checked={isImageFlashing}
 					onChange={onChangeImageFlashing}
 					labelText='Flashing'
@@ -200,7 +221,6 @@ const Home = () => {
 
 				<CheckBox
 					id="imageGrayscale"
-					containerClassName={home('Section')}
 					checked={isImageGrayscale}
 					onChange={onChangeImageGrayscale}
 					labelText='Grayscale'
@@ -216,6 +236,7 @@ const Home = () => {
 								isActive={EScaleValues[scaleKey] === imageScale}
 								onClick={() => setImageScale(EScaleValues[scaleKey])}
 								key={`scaleButton_${i}`}
+								disabled={!imageParams}
 							>
 								{EScaleValues[scaleKey]}x
 							</Button>)
@@ -223,22 +244,19 @@ const Home = () => {
 					</div>
 				</div>
 
-				{isHaveIpcRenderer() ? <Button className={home('CloseButton')} onClick={onCloseApp} asClose>x</Button> : null}
+				{isHaveIpcRenderer() ? <Button onClick={onCloseApp} asClose /> : null}
 			</header>
 
 			<div className={home('ImageContainer')}>
-				{errorText ? (
-					<span className={home('ErrorText')}>{errorText}</span>
-				) : imageParams.src ? (
+				{!errorText && imageParams ? (
 					<div
 						className={home('Image', { flashing: isImageFlashing, grayscale: isImageGrayscale })}
-						data-opacity={`${imageOpacity}%`}
 						draggable={false}
 						style={{
 							opacity: `${imageOpacity}%`,
 							backgroundImage: `url(${imageParams.src})`,
-							height: imageParams.height && imageParams.height * imageScale,
-							width: imageParams.width && imageParams.width * imageScale,
+							height: imageParams.height * imageScale,
+							width: imageParams.width * imageScale,
 						}}
 					/>
 				) : null}
@@ -249,11 +267,11 @@ const Home = () => {
 
 export default Home;
 
-interface IImageParams {
-	width: number | undefined;
-	height: number | undefined;
-	src: string | undefined;
-}
+type TImageParams = {
+	width: number;
+	height: number;
+	src: string;
+} | null;
 
 enum EScaleValues {
 	X05 = 0.5,

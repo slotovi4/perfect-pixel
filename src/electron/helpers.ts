@@ -1,4 +1,9 @@
-import { App, AutoUpdater, MessageBoxOptions, IpcRenderer } from 'electron';
+import { 
+	App, 
+	AutoUpdater, 
+	MessageBoxOptions, 
+	IpcRenderer 
+} from 'electron';
 import * as ChildProcess from 'child_process';
 import * as path from 'path';
 

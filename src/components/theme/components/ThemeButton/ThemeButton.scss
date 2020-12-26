@@ -1,0 +1,17 @@
+@import '../../scss/variables.scss';
+
+.ThemeButton {
+
+	&_active {
+		background-color: $primaryColor;
+	}
+
+	&_close {
+		width: 20px;
+		height: 20px;
+		background-color: red;
+		padding: 0;
+		color: $backgroundColor;
+		font-size: 9px;
+	}
+}

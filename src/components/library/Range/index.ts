@@ -1,0 +1,1 @@
+export { default as Range, IProps as IRangeProps } from './Range';

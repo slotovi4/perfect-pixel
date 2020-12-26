@@ -5,17 +5,21 @@ import './Button.scss';
 /**
  * Компонент кнопки
  */
-const Button = ({ 
-	isActive, 
-	asClose, 
-	className, 
-	...rest 
+const Button = ({
+	isActive,
+	asClose,
+	className,
+	...rest
 }: IProps) => {
 	const btn = cn('Button');
 
 	return (
 		<button
-			className={btn('', { active: isActive, close: asClose }, [className])}
+			className={btn(
+				'',
+				{ active: isActive, close: asClose },
+				[className])
+			}
 			{...rest}
 		/>
 	);
@@ -23,7 +27,7 @@ const Button = ({
 
 export default Button;
 
-interface IProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+export interface IProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
 	isActive?: boolean;
 	asClose?: boolean;
 	onClick: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;

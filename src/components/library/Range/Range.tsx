@@ -9,24 +9,24 @@ const Range = ({
 	valueText,
 	titleText,
 	containerClassName,
+	titleClassName,
+	inputClassName,
+	valueClassName,
 	...rest
 }: IProps) => {
 	const range = cn('Range');
 
 	return (
-		<div className={range(null, [containerClassName])}>
-			<span className={range('Title')}>{titleText}</span>
+		<div className={range('', [containerClassName])}>
+			<span className={range('Title', [titleClassName])}>{titleText}</span>
 
 			<div className={range('Container')}>
-				<input
-					type="range"
-					{...rest}
-					onKeyDown={(e) => {
-						e.preventDefault();
-						e.stopPropagation();
-						return false;
-					}} />
-				{valueText ? <span>{valueText}</span> : null}
+				<input className={range('Input', [inputClassName])} type="range" {...rest} />
+				{valueText ?
+					<span className={range('Value', [valueClassName])}>
+						{valueText}
+					</span>
+				: null}
 			</div>
 		</div>
 	);
@@ -34,7 +34,7 @@ const Range = ({
 
 export default Range;
 
-interface IProps extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'className' | 'type'> {
+export interface IProps extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'className' | 'type'> {
 	value: number;
 	id: string;
 	step: number;
@@ -43,5 +43,8 @@ interface IProps extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'clas
 	titleText: string;
 	valueText?: string;
 	containerClassName?: string;
+	titleClassName?: string;
+	inputClassName?: string;
+	valueClassName?: string;
 	onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }

@@ -1,0 +1,21 @@
+.FileInput {
+	display: flex;
+	flex-direction: column;
+	position: relative;
+
+	&-Label {
+		border: 1px solid white;
+		border-style: dashed;
+		padding: 5px;
+		border-radius: 4px;
+		cursor: pointer;
+	}
+
+	&-ErrorText {
+		position: absolute;
+		font-size: 10px;
+		line-height: 12px;
+		bottom: -12px;
+		color: red;
+	}
+}

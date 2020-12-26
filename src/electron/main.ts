@@ -1,26 +1,50 @@
-import { BrowserWindow, app, globalShortcut, ipcMain, screen, clipboard } from 'electron';
-import { IMoveWindowFromMouseData, IMoveWindowFromKeysData } from './types';
+import {
+	BrowserWindow,
+	app,
+	globalShortcut,
+	ipcMain,
+	screen,
+	clipboard,
+} from 'electron';
+import { 
+	IMoveWindowFromMouseData, 
+	IMoveWindowFromKeysData, 
+	TResizeWindow 
+} from './types';
 import { handleSquirrelEvent } from './helpers';
 import * as isDev from 'electron-is-dev';
 
 if (!handleSquirrelEvent(app)) {
+
+	// главное окно
 	let mainWindow: Electron.BrowserWindow | null = null;
 
+	const minHeight = 54;
+	const minWidth = 700;
+
+	/**
+	 * Создадим главное окно
+	 */
 	const createWindow = async () => {
+
+		// настройки окна
 		mainWindow = new BrowserWindow({
-			width: 895,
-			height: 400,
+			width: minWidth,
+			height: minHeight,
+			minWidth,
+			minHeight,
 			transparent: true,
 			frame: false,
 			hasShadow: false,
+			minimizable: false,
+			maximizable: false,
 			webPreferences: {
 				nodeIntegration: true,
 				devTools: isDev
 			}
 		});
 
-		mainWindow.setMinimizable(false);
-		mainWindow.setMaximizable(false);
+		// загрузим index.html
 		mainWindow.loadURL(`file://${__dirname}/index.html`);
 
 		// если dev
@@ -73,6 +97,23 @@ if (!handleSquirrelEvent(app)) {
 			}
 		});
 
+		// когда получем сообщение на изменение размеры основного окна приложения
+		ipcMain.on('resizeWindow', (event, sizeData: TResizeWindow) => {
+			if (mainWindow) {
+
+				// если данные есть
+				if(sizeData) {
+
+					// установим размеры согласно размерам изображения
+					mainWindow.setSize(sizeData.width, sizeData.height + minHeight);
+				} else {
+
+					// установим начальные размеры окна
+					mainWindow.setSize(minWidth, minHeight);
+				}
+			}
+		});
+
 		// когда окно в фокусе - вешаем слушатели
 		app.on('browser-window-focus', () => {
 
@@ -88,8 +129,24 @@ if (!handleSquirrelEvent(app)) {
 
 			// при вставке элемента читаем изображение и отправляем сообщение
 			globalShortcut.register('CommandOrControl+V', () => {
-				if (mainWindow) {
-					mainWindow.webContents.send('on-paste-image', clipboard.readImage().toDataURL());
+
+				// получим список доступных форматов
+				const availableFormatsList = clipboard.availableFormats('clipboard');
+
+				// если формат файла является изобрадением
+				const isImage = availableFormatsList.includes('image/png') || availableFormatsList.includes('image/jpeg');
+
+				// получим изображение
+				const image = clipboard.readImage();
+
+				// если изображение есть
+				if (mainWindow && isImage && !image.isEmpty()) {
+
+					// отправим src картинки 
+					mainWindow.webContents.send('on-paste-image', image.toDataURL());
+
+					// очистим данные в буфере
+					clipboard.clear();
 				}
 			});
 		});

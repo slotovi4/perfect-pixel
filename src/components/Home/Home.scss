@@ -1,20 +1,20 @@
+@import '../theme/scss/variables.scss';
+
 .Home {
+	background-color: $backgroundColor;
+	height: 54px;
 
 	&-Header {
 		display: flex;
 		align-items: center;
-		background-color: #222;
 		padding: 10px 20px;
 		color: white;
-	}
-
-	&-FileInput {
-		font-size: 12px;
-		cursor: pointer;
-
-		&_error {
-			color: red;
-		}
+		border-top-right-radius: 10px;
+		border-top-left-radius: 10px;
+		justify-content: space-between;
+		max-width: 700px;
+		min-width: 700px;
+		width: 700px;
 	}
 
 	&-ImageContainer {
@@ -27,7 +27,7 @@
 		background-repeat: no-repeat;
 
 		&_flashing {
-			animation: flashingAnimation 0.8s infinite;
+			animation: flashingAnimation 1s linear infinite alternate;  
 		}
 
 		&_grayscale {
@@ -39,36 +39,26 @@
 		color: red;
 	}
 
-	&-CloseButton {
-		margin-left: 20px;
-		line-height: 16px;
-	}
-
-	&-Section {
-		margin-left: 20px;
-	}
-
 	&-ScaleSection {
-		margin-left: 20px;
 
 		&-Title {
 			text-align: center;
-			font-size: 12px;
-			margin-bottom: 4px;
+			margin-bottom: 5px;
 			display: block;
 		}
 
 		&-Button {
 			margin-right: 5px;
+
+			&:last-child {
+				margin-right: 0;
+			}
 		}
 	}
 }
 
 @keyframes flashingAnimation {
-	0% {
-		opacity: attr(data-opacity);
-	}
-	100% {
-		opacity: 0;
+	to { 
+		opacity: 0; 
 	}
 }
