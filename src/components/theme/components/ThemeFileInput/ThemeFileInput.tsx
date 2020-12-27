@@ -13,10 +13,10 @@ const ThemeFileInput = ({
 
 	return (
 		<FileInput
+			{...rest}
 			errorTextClassName={tfi('ErrorText', [errorTextClassName])}
 			labelClassName={tfi('Label', [labelClassName])}
 			className={tfi('', [className])}
-			{...rest}
 		/>
 	);
 };

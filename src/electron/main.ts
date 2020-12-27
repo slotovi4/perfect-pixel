@@ -5,11 +5,12 @@ import {
 	ipcMain,
 	screen,
 	clipboard,
+	// remote,
 } from 'electron';
-import { 
-	IMoveWindowFromMouseData, 
-	IMoveWindowFromKeysData, 
-	TResizeWindow 
+import {
+	IMoveWindowFromMouseData,
+	IMoveWindowFromKeysData,
+	TResizeWindow
 } from './types';
 import { handleSquirrelEvent } from './helpers';
 import * as isDev from 'electron-is-dev';
@@ -36,7 +37,6 @@ if (!handleSquirrelEvent(app)) {
 			transparent: true,
 			frame: false,
 			hasShadow: false,
-			minimizable: false,
 			maximizable: false,
 			webPreferences: {
 				nodeIntegration: true,
@@ -71,6 +71,13 @@ if (!handleSquirrelEvent(app)) {
 			app.quit();
 		});
 
+		// когда получаем сообщение на сворачивание окна
+		ipcMain.on('minimizeApp', () => {
+			if (mainWindow && !mainWindow.isMinimized()) {
+				mainWindow?.minimize();
+			}
+		});
+
 		// когда получем сообщение на движение окна путем перетаскивания мышкой
 		ipcMain.on('moveWindowFromMouse', (e, { mouseX, mouseY }: IMoveWindowFromMouseData) => {
 			if (mainWindow) {
@@ -102,7 +109,7 @@ if (!handleSquirrelEvent(app)) {
 			if (mainWindow) {
 
 				// если данные есть
-				if(sizeData) {
+				if (sizeData) {
 
 					// установим размеры согласно размерам изображения
 					mainWindow.setSize(sizeData.width, sizeData.height + minHeight);

@@ -105,6 +105,18 @@ export const onCloseApp = () => {
 };
 
 /**
+ * События при клике на кнопку "свернуть приложение"
+ */
+export const onMinimizeApp = () => {
+	if (ipcRenderer) {
+
+		// отправляем сообщение к main на сворачивание приложения
+		ipcRenderer.send('minimizeApp');
+	}
+};
+
+
+/**
  * Возвращает значение - есть ли ipcRenderer
  */
 export const isHaveIpcRenderer = () => {

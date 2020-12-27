@@ -1,17 +1,23 @@
 @import '../../scss/variables.scss';
 
 .ThemeButton {
+	transition: background-color 0.3s ease;
+	background-color: $secondaryColor;
 
 	&_active {
 		background-color: $primaryColor;
 	}
 
-	&_close {
-		width: 20px;
-		height: 20px;
-		background-color: red;
-		padding: 0;
+	&_close, &_minimize {
 		color: $backgroundColor;
 		font-size: 9px;
+	}
+
+	&_close:hover {
+		background-color: $red;
+	}
+
+	&_minimize:hover {
+		background-color: $orange;
 	}
 }

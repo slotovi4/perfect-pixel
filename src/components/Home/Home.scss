@@ -8,7 +8,7 @@
 		display: flex;
 		align-items: center;
 		padding: 10px 20px;
-		color: white;
+		color: $secondaryColor;
 		border-top-right-radius: 10px;
 		border-top-left-radius: 10px;
 		justify-content: space-between;
@@ -37,6 +37,18 @@
 
 	&-ErrorText {
 		color: red;
+	}
+
+	&-ControlSection {
+		display: flex;
+
+		& > button {
+			margin-right: 5px;
+
+			&:last-child {
+				margin-right: 0;
+			}
+		}
 	}
 
 	&-ScaleSection {
