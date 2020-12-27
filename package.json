@@ -1,16 +1,16 @@
 {
 	"name": "perfect-pixel",
-	"version": "0.5.4",
+	"version": "0.5.5",
 	"description": "",
 	"private": true,
 	"main": "build/main.js",
 	"homepage": "./",
 	"scripts": {
 		"start": "react-scripts-ts start",
+		"start:electron": "yarn compile && electron ./build/main.js",
 		"compile": "yarn compile:react && yarn compile:electron",
 		"compile:react": "GENERATE_SOURCEMAP=false react-scripts-ts build",
 		"compile:electron": "tsc ./src/electron/** --outDir ./build",
-		"start:electron": "yarn compile && electron ./build/main.js",
 		"build:mac": "yarn compile && electron-builder --mac",
 		"build:win": "yarn compile && electron-builder --win --x64 --ia32",
 		"build:lin": "yarn compile && electron-builder --linux",
