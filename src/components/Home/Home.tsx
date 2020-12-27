@@ -4,6 +4,7 @@ import {
 	onKeyDown,
 	listenPasteImage,
 	onCloseApp,
+	onMinimizeApp,
 	isHaveIpcRenderer,
 	resizeWindow,
 } from './helpers';
@@ -244,7 +245,12 @@ const Home = () => {
 					</div>
 				</div>
 
-				{isHaveIpcRenderer() ? <Button onClick={onCloseApp} asClose /> : null}
+				{isHaveIpcRenderer() ?
+					<div className={home('ControlSection')}>
+						<Button onClick={onMinimizeApp} asMinimize />
+						<Button onClick={onCloseApp} asClose />
+					</div> 
+				: null}
 			</header>
 
 			<div className={home('ImageContainer')}>

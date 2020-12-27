@@ -6,7 +6,7 @@ import './ThemeButton.scss';
 /**
  * Компонент кнопки стилизированный темой приложения
  */
-const ThemeButton = ({ isActive, asClose, className, ...rest }: IButtonProps) => {
+const ThemeButton = ({ className, ...rest }: IButtonProps) => {
 	const tb = cn('ThemeButton');
 
 	return (
@@ -14,8 +14,16 @@ const ThemeButton = ({ isActive, asClose, className, ...rest }: IButtonProps) =>
 			{...rest}
 			className={tb(
 				'',
-				{ active: isActive, close: asClose },
-				[asClose ? 'icon-cross' : undefined, className])
+				{
+					active: rest.isActive,
+					close: rest.asClose,
+					minimize: rest.asMinimize
+				},
+				[
+					rest.asClose ? 'icon-cross' : undefined,
+					rest.asMinimize ? 'icon-minus' : undefined,
+					className
+				])
 			}
 		/>
 	);
