@@ -5,7 +5,6 @@ import {
 	ipcMain,
 	screen,
 	clipboard,
-	// remote,
 } from 'electron';
 import {
 	IMoveWindowFromMouseData,
@@ -74,7 +73,7 @@ if (!handleSquirrelEvent(app)) {
 		// когда получаем сообщение на сворачивание окна
 		ipcMain.on('minimizeApp', () => {
 			if (mainWindow && !mainWindow.isMinimized()) {
-				mainWindow?.minimize();
+				mainWindow.minimize();
 			}
 		});
 
