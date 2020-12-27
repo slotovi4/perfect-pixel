@@ -76,11 +76,13 @@ const Home = () => {
 
 		if (imageParams) {
 
+			// размеры изображения относительно увеличения изображения
+			const height = imageParams.height * imageScale;
+			const width = imageParams.width * imageScale;
+
 			// изменим размеры окна
-			resizeWindow({
-				height: imageParams.height * imageScale,
-				width: imageParams.width * imageScale
-			});
+			resizeWindow({ width, height });
+
 		} else {
 
 			// вернем начальные размеры окна
@@ -249,8 +251,8 @@ const Home = () => {
 					<div className={home('ControlSection')}>
 						<Button onClick={onMinimizeApp} asMinimize />
 						<Button onClick={onCloseApp} asClose />
-					</div> 
-				: null}
+					</div>
+					: null}
 			</header>
 
 			<div className={home('ImageContainer')}>

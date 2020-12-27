@@ -107,16 +107,12 @@ if (!handleSquirrelEvent(app)) {
 		ipcMain.on('resizeWindow', (event, sizeData: TResizeWindow) => {
 			if (mainWindow) {
 
-				// если данные есть
-				if (sizeData) {
+				// рассчитаем новые размеры окна относительно размеров изображения (Math.ceil для windows)
+				const width = Math.ceil(sizeData ? sizeData.width : minWidth);
+				const height = Math.ceil(sizeData ? sizeData.height + minHeight : minHeight);
 
-					// установим размеры согласно размерам изображения
-					mainWindow.setSize(sizeData.width, sizeData.height + minHeight);
-				} else {
-
-					// установим начальные размеры окна
-					mainWindow.setSize(minWidth, minHeight);
-				}
+				// установим размеры согласно размерам изображения
+				mainWindow.setSize(width, height);
 			}
 		});
 
