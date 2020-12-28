@@ -6,22 +6,31 @@ import './ThemeButton.scss';
 /**
  * Компонент кнопки стилизированный темой приложения
  */
-const ThemeButton = ({ className, ...rest }: IButtonProps) => {
+const ThemeButton = ({ 
+	className, 
+	asMinimize, 
+	asChangePosition, 
+	asClose, 
+	asControl,
+	...rest 
+}: IProps) => {
 	const tb = cn('ThemeButton');
 
 	return (
 		<Button
 			{...rest}
+			asControl={asControl || asClose || asMinimize || asChangePosition}
 			className={tb(
 				'',
 				{
 					active: rest.isActive,
-					close: rest.asClose,
-					minimize: rest.asMinimize
+					close: asClose,
+					minimize: asMinimize,
 				},
 				[
-					rest.asClose ? 'icon-cross' : undefined,
-					rest.asMinimize ? 'icon-minus' : undefined,
+					asClose ? 'icon-cross' : undefined,
+					asMinimize ? 'icon-minus' : undefined,
+					asChangePosition ? 'icon-tab' : undefined,
 					className
 				])
 			}
@@ -30,3 +39,9 @@ const ThemeButton = ({ className, ...rest }: IButtonProps) => {
 };
 
 export default ThemeButton;
+
+interface IProps extends IButtonProps {
+	asChangePosition?: boolean;
+	asClose?: boolean;
+	asMinimize?: boolean;
+}
