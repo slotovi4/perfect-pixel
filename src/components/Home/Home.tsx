@@ -27,6 +27,7 @@ const Home = () => {
 	const [imageParams, setImageParams] = React.useState<TImageParams>(initImageParams);
 	const [imageOpacity, setImageOpacity] = React.useState(100);
 	const [imageScale, setImageScale] = React.useState<number>(EScaleValues.X05);
+	const [imagePosition, setImagePosition] = React.useState<EImagePosition>(EImagePosition.Left);
 	const [isImageFlashing, setIsImageFlashing] = React.useState(false);
 	const [isImageGrayscale, setIsImageGrayscale] = React.useState(false);
 	const [errorText, setErrorText] = React.useState<string | null>(null);
@@ -195,6 +196,23 @@ const Home = () => {
 		setIsImageGrayscale(event.target.checked);
 	};
 
+	/**
+	 * События при клике на кнопку смены позиции изображения
+	 */
+	const onChangeImagePosition = () => {
+
+		// установим новую позицию изображения относительно текущего положения
+		if (imagePosition === EImagePosition.Left) {
+			setImagePosition(EImagePosition.Center);
+		}
+		else if (imagePosition === EImagePosition.Center) {
+			setImagePosition(EImagePosition.Right);
+		}
+		else if (imagePosition === EImagePosition.Right) {
+			setImagePosition(EImagePosition.Left);
+		}
+	};
+
 	return (
 		<section className={home()}>
 			<header className={home('Header')}>
@@ -247,12 +265,14 @@ const Home = () => {
 					</div>
 				</div>
 
-				{isHaveIpcRenderer() ?
+				<Button onClick={onChangeImagePosition} disabled={!imageParams} asChangePosition />
+
+				{isHaveIpcRenderer() ? (
 					<div className={home('ControlSection')}>
 						<Button onClick={onMinimizeApp} asMinimize />
 						<Button onClick={onCloseApp} asClose />
 					</div>
-					: null}
+				) : null}
 			</header>
 
 			<div className={home('ImageContainer')}>
@@ -264,7 +284,7 @@ const Home = () => {
 							opacity: `${imageOpacity}%`,
 							backgroundImage: `url(${imageParams.src})`,
 							height: imageParams.height * imageScale,
-							width: imageParams.width * imageScale,
+							backgroundPosition: imagePosition
 						}}
 					/>
 				) : null}
@@ -287,4 +307,10 @@ enum EScaleValues {
 	X15 = 1.5,
 	X2 = 2,
 	X3 = 3,
+}
+
+enum EImagePosition {
+	Left = 'left',
+	Center = 'center',
+	Right = 'right'
 }

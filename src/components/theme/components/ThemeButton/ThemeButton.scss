@@ -6,13 +6,14 @@
 
 	&:disabled {
 		color: rgba($backgroundColor, 0.5);
+		cursor: default;
 	}
 
 	&_active {
 		background-color: $primaryColor;
 	}
 
-	&_close, &_minimize {
+	&_close, &_minimize, &_changePosition {
 		color: $backgroundColor;
 		font-size: 9px;
 	}

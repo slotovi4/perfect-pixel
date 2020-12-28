@@ -25,6 +25,7 @@
 	&-Image {
 		background-size: contain;
 		background-repeat: no-repeat;
+		width: 100%;
 
 		&_flashing {
 			animation: flashingAnimation 1s linear infinite alternate;  

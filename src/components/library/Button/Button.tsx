@@ -7,8 +7,7 @@ import './Button.scss';
  */
 const Button = ({
 	isActive,
-	asClose,
-	asMinimize,
+	asControl,
 	className,
 	...rest
 }: IProps) => {
@@ -20,7 +19,7 @@ const Button = ({
 				'',
 				{ 
 					active: isActive, 
-					control: asClose || asMinimize, 
+					control: asControl, 
 				},
 				[className])
 			}
@@ -33,7 +32,6 @@ export default Button;
 
 export interface IProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
 	isActive?: boolean;
-	asMinimize?: boolean;
-	asClose?: boolean;
+	asControl?: boolean;
 	onClick: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
 }
