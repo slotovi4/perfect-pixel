@@ -116,6 +116,9 @@
 		"no-extra-semi": "error",
 		"object-shorthand": "error",
 		"react/self-closing-comp": "error",
+		"max-lines": ["error", {
+			"max": 500
+		}],
 		"max-params": [
 			"error",
 			3
