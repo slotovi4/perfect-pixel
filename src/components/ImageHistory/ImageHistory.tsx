@@ -1,9 +1,11 @@
 import React from 'react';
+import { Button } from 'theme';
+import { hideImageHistory } from './helpers';
 
 const ImageHistory = () => {
 	return (
 		<div>
-			<span>123</span>
+			<Button onClick={hideImageHistory} asClose />
 		</div>
 	);
 };
