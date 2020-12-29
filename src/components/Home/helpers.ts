@@ -115,6 +115,16 @@ export const onMinimizeApp = () => {
 	}
 };
 
+/**
+ * Открывает окно с историей загруженных изображений
+ */
+export const showImageHistory = () => {
+	if (ipcRenderer) {
+
+		// отправляем сообщение к main на открытие окна с историей загруженных изображений
+		ipcRenderer.send('showImageHistory');
+	}
+};
 
 /**
  * Возвращает значение - есть ли ipcRenderer

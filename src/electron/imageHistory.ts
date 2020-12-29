@@ -23,6 +23,7 @@ export const createImageHistoryWindow = async () => {
 		frame: false,
 		hasShadow: false,
 		maximizable: false,
+		show: false,
 		webPreferences: {
 			nodeIntegration: true,
 			devTools: isDev
@@ -43,8 +44,17 @@ export const createImageHistoryWindow = async () => {
 	imageHistoryWindow.on('closed', () => { imageHistoryWindow = null; });
 
 	// когда получаем сообщение на закрытие окна
-	ipcMain.on('closeApp', () => {
-		app.quit();
+	ipcMain.on('hideImageHistory', () => {
+		if (imageHistoryWindow) {
+			imageHistoryWindow.hide();
+		}
+	});
+
+	// когда получаем сообщение на открытие окна
+	ipcMain.on('showImageHistory', () => {
+		if (imageHistoryWindow) {
+			imageHistoryWindow.show();
+		}
 	});
 
 	// когда получаем сообщение на сворачивание окна

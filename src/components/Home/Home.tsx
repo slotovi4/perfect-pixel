@@ -7,6 +7,7 @@ import {
 	onMinimizeApp,
 	isHaveIpcRenderer,
 	resizeWindow,
+	showImageHistory,
 } from './helpers';
 import {
 	CheckBox,
@@ -213,10 +214,6 @@ const Home = () => {
 		}
 	};
 
-	const onOpenImageHistory = () => {
-		console.log('1');
-	};
-
 	return (
 		<section className={home()}>
 			<header className={home('Header')}>
@@ -270,7 +267,7 @@ const Home = () => {
 				</div>
 
 				<Button onClick={onChangeImagePosition} disabled={!imageParams} asChangePosition />
-				<Button onClick={onOpenImageHistory} asImageHistory />
+				<Button onClick={showImageHistory} asImageHistory />
 
 				{isHaveIpcRenderer() ? (
 					<div className={home('ControlSection')}>
