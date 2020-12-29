@@ -37,7 +37,7 @@ export const createImageHistoryWindow = async () => {
 	if (isDev) {
 
 		// откроем dev tools
-		imageHistoryWindow.webContents.openDevTools({ mode: 'undocked' });
+		// imageHistoryWindow.webContents.openDevTools({ mode: 'undocked' });
 	}
 
 	// при закрытии окна уничтожим window

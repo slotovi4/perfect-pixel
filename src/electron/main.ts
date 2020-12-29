@@ -51,7 +51,7 @@ if (!handleSquirrelEvent(app)) {
 		if (isDev) {
 
 			// откроем dev tools
-			// mainWindow.webContents.openDevTools({ mode: 'undocked' });
+			mainWindow.webContents.openDevTools({ mode: 'undocked' });
 		}
 
 		// при закрытии окна уничтожим window

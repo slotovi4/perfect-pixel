@@ -21,7 +21,7 @@ import './Home.scss';
 /**
  * Главный компонент приложения отвечающий за весь функционал
  */
-const Home = () => {
+const Home = ({ saveImageToStore }: IProps) => {
 	const home = cn('Home');
 	const initImageParams: TImageParams = null;
 
@@ -85,6 +85,9 @@ const Home = () => {
 			// изменим размеры окна
 			resizeWindow({ width, height });
 
+			// сохраним изображение в store
+			saveImageToStore(imageParams);
+
 		} else {
 
 			// вернем начальные размеры окна
@@ -96,7 +99,7 @@ const Home = () => {
 	 * Валидируем и установим изображение
 	 * @param imageSrc - src изображения
 	 */
-	const setImage = (imageSrc: string) => {
+	const setImage = ({ imageSrc, imageName }: ISetImage) => {
 
 		// очистим ошибки
 		setErrorText(null);
@@ -126,7 +129,8 @@ const Home = () => {
 			setImageParams({
 				src: img.src,
 				height: img.naturalHeight,
-				width: img.naturalWidth
+				width: img.naturalWidth,
+				name: imageName,
 			});
 		};
 	};
@@ -149,12 +153,11 @@ const Home = () => {
 			// при загрузке файла устанавливаю изображение
 			fr.onload = () => {
 
-				// если результат string
-				if (typeof fr.result === 'string') {
-
-					// установлю ссылку на тест изображение
-					setImage(fr.result);
-				}
+				// установим изображение
+				setImage({
+					imageName: files[0].name,
+					imageSrc: files[0].path,
+				});
 			};
 
 			// читаю файл 
@@ -297,11 +300,23 @@ const Home = () => {
 
 export default Home;
 
-type TImageParams = {
+interface IProps {
+	saveImageToStore: (image: IImage) => void;
+}
+
+interface IImage {
 	width: number;
 	height: number;
 	src: string;
-} | null;
+	name: string;
+}
+
+interface ISetImage {
+	imageSrc: string;
+	imageName: string;
+}
+
+type TImageParams = IImage | null;
 
 enum EScaleValues {
 	X05 = 0.5,

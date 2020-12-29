@@ -72,12 +72,12 @@ export const onKeyDown = ({ code, shiftKey }: KeyboardEvent) => {
  * Вешает слушатель на вставку изображения
  * @param callback - функция принимающая src вставленной картинки
  */
-export const listenPasteImage = (callback: (imageSrc: string) => void) => {
+export const listenPasteImage = (callback: TPasteImageCallback) => {
 	if (ipcRenderer) {
 
 		// вешаем слушатель на вставку изображения через clipboard от main
 		ipcRenderer.on('on-paste-image', (event, imageSrc: string) => {
-			callback(imageSrc);
+			callback({ imageSrc, imageName: 'Изображение из буфера' });
 		});
 	}
 };
@@ -167,3 +167,10 @@ const onMoveWindowFromKeys = (moveWindowFromKeysData: IMoveWindowFromKeysData) =
 		ipcRenderer.send('moveWindowFromKeys', moveWindowFromKeysData);
 	}
 };
+
+interface IPasteImageCallbackData {
+	imageSrc: string;
+	imageName: string;
+}
+
+type TPasteImageCallback = (data: IPasteImageCallbackData) => void;
