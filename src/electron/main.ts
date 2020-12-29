@@ -11,6 +11,7 @@ import {
 	IMoveWindowFromKeysData,
 	TResizeWindow
 } from './types';
+import { createImageHistoryWindow } from './imageHistory';
 import { handleSquirrelEvent } from './helpers';
 import * as isDev from 'electron-is-dev';
 
@@ -44,13 +45,13 @@ if (!handleSquirrelEvent(app)) {
 		});
 
 		// загрузим index.html
-		mainWindow.loadURL(`file://${__dirname}/index.html`);
+		mainWindow.loadURL(`file://${__dirname}/index.html?main`);
 
 		// если dev
 		if (isDev) {
 
 			// откроем dev tools
-			mainWindow.webContents.openDevTools({ mode: 'undocked' });
+			// mainWindow.webContents.openDevTools({ mode: 'undocked' });
 		}
 
 		// при закрытии окна уничтожим window
@@ -164,7 +165,10 @@ if (!handleSquirrelEvent(app)) {
 		process.on('uncaughtException', (error) => mainWindow && mainWindow.webContents.send('cl', error));
 	};
 
-	app.on('ready', createWindow);
+	app.on('ready', () => {
+		createWindow();
+		createImageHistoryWindow();
+	});
 
 	// закроем приложение когда все окна закрыты
 	app.on('window-all-closed', () => {
@@ -176,6 +180,7 @@ if (!handleSquirrelEvent(app)) {
 	app.on('activate', () => {
 		if (mainWindow === null) {
 			createWindow();
+			createImageHistoryWindow();
 		}
 	});
 }
