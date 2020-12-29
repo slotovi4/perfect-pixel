@@ -22,8 +22,18 @@
 		"noUnusedLocals": true,
 		"allowSyntheticDefaultImports": true,
 		"paths": {
-			"library": ["src/components/library/"],
-			"theme": ["src/components/theme/"]
+			"library": [
+				"src/components/library/"
+			],
+			"components": [
+				"src/components/"
+			],
+			"theme": [
+				"src/components/theme/"
+			],
+			"store": [
+				"src/store/"
+			]
 		}
 	},
 	"exclude": [

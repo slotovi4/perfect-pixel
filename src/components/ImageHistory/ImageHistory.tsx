@@ -28,11 +28,10 @@ const ImageHistory = ({ getImagesList, clearImagesList }: IProps) => {
 
 export default ImageHistory;
 
-interface IProps {
+export interface IProps {
 	getImagesList: () => IImage[];
 	clearImagesList: () => void;
 }
-
 interface IImage {
 	width: number;
 	height: number;

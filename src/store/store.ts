@@ -1,37 +1,31 @@
-import { IImage } from './types';
+import { RematchRootState, init } from '@rematch/core';
+import { connectRouter, routerMiddleware } from 'connected-react-router';
+import { History, createBrowserHistory } from 'history';
+import { imageHistory } from './models';
 
-// ключ localStorage для истории изображений
-const imageHistoryKey = 'imageHistory';
-
-/**
- * Сохранить изображение в store загруженных изображений
- * @param image - Параметры изображения
- */
-export const saveImageToStore = (image: IImage) => {
-
-	// получим текущий store загруженных изображений
-	const savedImagesList = getImagesListFromStore();
-	const newStoreList = [image, ...savedImagesList];
-
-	// обновим store изображений
-	localStorage.setItem(imageHistoryKey, JSON.stringify(newStoreList));
+const models = {
+	imageHistory
 };
 
-/**
- * Получим store изображений
- */
-export const getImagesListFromStore = () => {
+export const browserHistory: History = createBrowserHistory();
 
-	// получим текущий store загруженных изображений
-	const store = localStorage.getItem(imageHistoryKey);
-	const savedImagesList: IImage[] = store ? JSON.parse(store) : [];
+export const store = init({
+	models,
+	redux: {
+		initialState: {},
+		reducers: {
+			router: connectRouter(browserHistory)
+		},
+		middlewares: [routerMiddleware(browserHistory)]
+	}
+});
 
-	return savedImagesList;
-};
+export type TDispatch = typeof store.dispatch;
+export type TState = RematchRootState<typeof models> & ILoadingPlugin;
 
-/**
- * Очистим store загруженных изображений
- */
-export const clearImagesListFromStore = () => {
-	localStorage.removeItem(imageHistoryKey);
-};
+interface ILoadingPlugin {
+	loading: {
+		models: RematchRootState<typeof models>;
+		effects: TDispatch;
+	};
+}

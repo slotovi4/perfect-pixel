@@ -1,2 +1,2 @@
 export { Home } from './Home';
-export { ImageHistory } from './ImageHistory';
+export { ImageHistory, IImageHistoryProps } from './ImageHistory';

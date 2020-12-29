@@ -1,1 +1,1 @@
-export { default as ImageHistory } from './ImageHistory';
+export { default as ImageHistory, IProps as IImageHistoryProps } from './ImageHistory';
