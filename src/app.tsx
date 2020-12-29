@@ -1,13 +1,17 @@
 import React from 'react';
 import { Home, ImageHistory } from './components';
-import { saveImageToStore, getImagesListFromStore } from './store';
+import {
+	saveImageToStore,
+	getImagesListFromStore,
+	clearImagesListFromStore,
+} from './store';
 import './components/theme/scss/index.scss';
 
 const App = () => {
 	const params = window.location.search.substr(1);
 
 	return params === 'imageHistory'
-		? <ImageHistory getImagesListFromStore={getImagesListFromStore} />
+		? <ImageHistory getImagesList={getImagesListFromStore} clearImagesList={clearImagesListFromStore} />
 		: <Home saveImageToStore={saveImageToStore} />;
 };
 

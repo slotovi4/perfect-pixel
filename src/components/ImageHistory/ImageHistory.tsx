@@ -2,11 +2,17 @@ import React from 'react';
 import { Button } from 'theme';
 import { hideImageHistory } from './helpers';
 
-const ImageHistory = ({ getImagesListFromStore }: IProps) => {
-	const imagesList = getImagesListFromStore();
+const ImageHistory = ({ getImagesList, clearImagesList }: IProps) => {
+	const [imagesList, setImagesList] = React.useState(getImagesList());
+
+	const onClearImagesList = () => {
+		clearImagesList();
+		setImagesList(getImagesList());
+	};
 
 	return (
 		<div>
+			<Button onClick={onClearImagesList}>Clear image history</Button>
 			<Button onClick={hideImageHistory} asClose />
 			<div>
 				{imagesList.map((image, i) => (
@@ -23,7 +29,8 @@ const ImageHistory = ({ getImagesListFromStore }: IProps) => {
 export default ImageHistory;
 
 interface IProps {
-	getImagesListFromStore: () => IImage[];
+	getImagesList: () => IImage[];
+	clearImagesList: () => void;
 }
 
 interface IImage {
