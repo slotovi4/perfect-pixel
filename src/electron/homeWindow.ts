@@ -65,6 +65,31 @@ if (!handleSquirrelEvent(app)) {
 			}
 		};
 
+		/**
+		 * Прочитаем изображение из clipboard и отправим его
+		 */
+		const readAndSendImageFromClipboard = () => {
+
+			// получим список доступных форматов
+			const availableFormatsList = clipboard.availableFormats('clipboard');
+
+			// если формат файла является изображением
+			const isImage = availableFormatsList.includes('image/png') || availableFormatsList.includes('image/jpeg');
+
+			// получим изображение
+			const image = clipboard.readImage();
+
+			// если изображение есть
+			if (mainWindow && isImage && !image.isEmpty()) {
+
+				// отправим src картинки 
+				mainWindow.webContents.send('on-paste-image', image.toDataURL());
+
+				// очистим данные в буфере
+				clipboard.clear();
+			}
+		};
+
 		// загрузим index.html
 		mainWindow.loadURL(`file://${__dirname}/index.html?main`);
 
@@ -154,25 +179,7 @@ if (!handleSquirrelEvent(app)) {
 
 			// при вставке элемента читаем изображение и отправляем сообщение
 			globalShortcut.register('CommandOrControl+V', () => {
-
-				// получим список доступных форматов
-				const availableFormatsList = clipboard.availableFormats('clipboard');
-
-				// если формат файла является изобрадением
-				const isImage = availableFormatsList.includes('image/png') || availableFormatsList.includes('image/jpeg');
-
-				// получим изображение
-				const image = clipboard.readImage();
-
-				// если изображение есть
-				if (mainWindow && isImage && !image.isEmpty()) {
-
-					// отправим src картинки 
-					mainWindow.webContents.send('on-paste-image', image.toDataURL());
-
-					// очистим данные в буфере
-					clipboard.clear();
-				}
+				readAndSendImageFromClipboard();
 			});
 		});
 
