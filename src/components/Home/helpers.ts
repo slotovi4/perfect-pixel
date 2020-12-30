@@ -122,6 +122,9 @@ export const onMinimizeApp = () => {
 export const showImageHistory = () => {
 	if (ipcRenderer) {
 
+		// отправим сообщение на позиционирование окна истории
+		ipcRenderer.send('setImageHistoryWindowPosition');
+
 		// отправляем сообщение к main на открытие окна с историей загруженных изображений
 		ipcRenderer.send('showImageHistory');
 	}

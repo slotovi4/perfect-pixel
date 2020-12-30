@@ -4,14 +4,14 @@ import {
 	globalShortcut,
 	ipcMain,
 	screen,
-	clipboard,
+	clipboard
 } from 'electron';
 import {
 	IMoveWindowFromMouseData,
 	IMoveWindowFromKeysData,
 	TResizeWindow
 } from './types';
-import { createImageHistoryWindow } from './imageHistoryWindow';
+import { createImageHistoryWindow, getImageHistoryWindow } from './imageHistoryWindow';
 import { handleSquirrelEvent } from './helpers';
 import * as isDev from 'electron-is-dev';
 
@@ -45,18 +45,28 @@ if (!handleSquirrelEvent(app)) {
 			}
 		});
 
+		/**
+		 * Меняем положение окна истории изображений относительно главного окна
+		 */
+		const moveImageHistoryWindow = () => {
+
+			// получим окно истории изображений
+			const imageHistoryWindow = getImageHistoryWindow();
+
+			if (mainWindow && imageHistoryWindow) {
+
+				// получим координаты
+				const [x, y] = mainWindow.getPosition();
+				const [width] = mainWindow.getSize();
+				const marginLeft = 10;
+
+				// установим новое положение окна
+				imageHistoryWindow.setPosition(x + width + marginLeft, y);
+			}
+		};
+
 		// загрузим index.html
 		mainWindow.loadURL(`file://${__dirname}/index.html?main`);
-
-		// если dev
-		if (isDev) {
-
-			// откроем dev tools
-			mainWindow.webContents.openDevTools({ mode: 'undocked' });
-		}
-
-		// при закрытии окна уничтожим window
-		mainWindow.on('closed', () => { mainWindow = null; });
 
 		// когда было отправлено событие onload 
 		mainWindow.webContents.on('did-finish-load', () => {
@@ -79,6 +89,11 @@ if (!handleSquirrelEvent(app)) {
 			}
 		});
 
+		// когда получаем сообщение на установку положения окна истории  изображений относительно главного окна
+		ipcMain.on('setImageHistoryWindowPosition', () => {
+			moveImageHistoryWindow();
+		});
+
 		// когда получем сообщение на движение окна путем перетаскивания мышкой
 		ipcMain.on('moveWindowFromMouse', (e, { mouseX, mouseY }: IMoveWindowFromMouseData) => {
 			if (mainWindow) {
@@ -88,6 +103,9 @@ if (!handleSquirrelEvent(app)) {
 
 				// установим новое положение окна
 				mainWindow.setPosition(x - mouseX, y - mouseY);
+
+				// поменяем положение окна истории изображений
+				moveImageHistoryWindow();
 			}
 		});
 
@@ -102,6 +120,9 @@ if (!handleSquirrelEvent(app)) {
 
 				// установим новое положение окна
 				mainWindow.setPosition(xPosition, yPosition);
+
+				// поменяем положение окна истории изображений
+				moveImageHistoryWindow();
 			}
 		});
 
