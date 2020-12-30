@@ -4,6 +4,7 @@ import {
 	TResizeWindow,
 	EMoveWindowKeys
 } from '../../electron/types';
+import { IImage } from 'store';
 import { getIpcRenderer } from '../../electron/helpers';
 
 const ipcRenderer = getIpcRenderer();
@@ -131,6 +132,18 @@ export const showImageHistory = () => {
  */
 export const isHaveIpcRenderer = () => {
 	return Boolean(ipcRenderer);
+};
+
+/**
+ * Отправляет сообщение в окно imageHistory
+ * @param image - параметры изображения
+ */
+export const sendImageToImageHistoryWindow = (image: IImage) => {
+	if (ipcRenderer) {
+
+		// отправим сообщение к main
+		ipcRenderer.send('addImageToImageHistoryWindow', image);
+	}
 };
 
 /**

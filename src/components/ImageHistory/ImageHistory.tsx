@@ -1,13 +1,33 @@
 import React from 'react';
+import { IImage } from 'store';
 import { Button } from 'theme';
-import { hideImageHistory } from './helpers';
+import { hideImageHistory, addImageListener } from './helpers';
 
 const ImageHistory = ({ getImagesList, clearImagesList }: IProps) => {
 	const [imagesList, setImagesList] = React.useState(getImagesList());
+	const [addedImage, setAddedImage] = React.useState<IImage | null>(null);
 
+	React.useEffect(() => {
+
+		// вешаем слушатель на добавление изображения с главного окна
+		addImageListener(setAddedImage);
+	}, []);
+
+	// когда добавили новое изображение
+	React.useEffect(() => {
+		if (addedImage) {
+
+			// обновим список изображений
+			setImagesList([addedImage, ...imagesList]);
+		}
+	}, [addedImage]);
+
+	/**
+	 * Очистим список изображений
+	 */
 	const onClearImagesList = () => {
 		clearImagesList();
-		setImagesList(getImagesList());
+		setImagesList([]);
 	};
 
 	return (
@@ -28,13 +48,7 @@ const ImageHistory = ({ getImagesList, clearImagesList }: IProps) => {
 
 export default ImageHistory;
 
-export interface IProps {
+interface IProps {
 	getImagesList: () => IImage[];
 	clearImagesList: () => void;
-}
-interface IImage {
-	width: number;
-	height: number;
-	src: string;
-	name: string;
 }

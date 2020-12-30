@@ -11,7 +11,7 @@ import {
 	IMoveWindowFromKeysData,
 	TResizeWindow
 } from './types';
-import { createImageHistoryWindow } from './imageHistory';
+import { createImageHistoryWindow } from './imageHistoryWindow';
 import { handleSquirrelEvent } from './helpers';
 import * as isDev from 'electron-is-dev';
 
@@ -20,6 +20,7 @@ if (!handleSquirrelEvent(app)) {
 	// главное окно
 	let mainWindow: Electron.BrowserWindow | null = null;
 
+	// минимальные размеры окна
 	const minHeight = 54;
 	const minWidth = 700;
 

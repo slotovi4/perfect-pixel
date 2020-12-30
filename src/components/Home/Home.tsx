@@ -8,6 +8,7 @@ import {
 	isHaveIpcRenderer,
 	resizeWindow,
 	showImageHistory,
+	sendImageToImageHistoryWindow,
 } from './helpers';
 import {
 	CheckBox,
@@ -15,13 +16,14 @@ import {
 	Button,
 	FileInput
 } from 'theme';
+import { IImage } from 'store';
 import { cn } from '@bem-react/classname';
 import './Home.scss';
 
 /**
  * Главный компонент приложения отвечающий за весь функционал
  */
-const Home = ({ saveImageToStore }: IProps) => {
+const Home = ({ saveImage }: IProps) => {
 	const home = cn('Home');
 	const initImageParams: TImageParams = null;
 
@@ -84,16 +86,24 @@ const Home = ({ saveImageToStore }: IProps) => {
 
 			// изменим размеры окна
 			resizeWindow({ width, height });
-
-			// сохраним изображение в store
-			saveImageToStore(imageParams);
-
 		} else {
 
 			// вернем начальные размеры окна
 			resizeWindow(null);
 		}
 	}, [imageScale, imageParams]);
+
+	// при изменении изображения
+	React.useEffect(() => {
+		if (imageParams) {
+
+			// сохраним изображение в store
+			saveImage(imageParams);
+
+			// отправим изображение в окно истории изображений
+			sendImageToImageHistoryWindow(imageParams);
+		}
+	}, [imageParams]);
 
 	/**
 	 * Валидируем и установим изображение
@@ -153,11 +163,15 @@ const Home = ({ saveImageToStore }: IProps) => {
 			// при загрузке файла устанавливаю изображение
 			fr.onload = () => {
 
-				// установим изображение
-				setImage({
-					imageName: files[0].name,
-					imageSrc: files[0].path,
-				});
+				// проверим что url string
+				if (typeof fr.result === 'string') {
+
+					// установим изображение
+					setImage({
+						imageName: files[0].name,
+						imageSrc: fr.result,
+					});
+				}
 			};
 
 			// читаю файл 
@@ -301,14 +315,7 @@ const Home = ({ saveImageToStore }: IProps) => {
 export default Home;
 
 interface IProps {
-	saveImageToStore: (image: IImage) => void;
-}
-
-interface IImage {
-	width: number;
-	height: number;
-	src: string;
-	name: string;
+	saveImage: (image: IImage) => void;
 }
 
 interface ISetImage {

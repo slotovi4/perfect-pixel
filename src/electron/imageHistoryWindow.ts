@@ -37,7 +37,7 @@ export const createImageHistoryWindow = async () => {
 	if (isDev) {
 
 		// откроем dev tools
-		// imageHistoryWindow.webContents.openDevTools({ mode: 'undocked' });
+		imageHistoryWindow.webContents.openDevTools({ mode: 'undocked' });
 	}
 
 	// при закрытии окна уничтожим window
@@ -54,6 +54,15 @@ export const createImageHistoryWindow = async () => {
 	ipcMain.on('showImageHistory', () => {
 		if (imageHistoryWindow) {
 			imageHistoryWindow.show();
+		}
+	});
+
+	// когда получаем сообщение с новым изображением
+	ipcMain.on('addImageToImageHistoryWindow', (e, image: IImage) => {
+		if (imageHistoryWindow) {
+
+			// отправим новое изображение на клиент imageHistory
+			imageHistoryWindow.webContents.send('addImage', image);
 		}
 	});
 
@@ -100,3 +109,10 @@ export const createImageHistoryWindow = async () => {
 	// слушатель на получение ошибок
 	process.on('uncaughtException', (error) => imageHistoryWindow && imageHistoryWindow.webContents.send('cl', error));
 };
+
+interface IImage {
+	width: number;
+	height: number;
+	src: string;
+	name: string;
+}
