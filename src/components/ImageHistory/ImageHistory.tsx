@@ -60,15 +60,13 @@ const ImageHistory = ({ getImagesList, clearImagesList }: IProps) => {
 					</Button>
 
 					{imagesList.map((image, i) => (
-						<div className={ih('ImageBlock')} key={`image_${i}`}>
+						<div
+							className={ih('ImageBlock')}
+							onClick={() => setHistoryImage(image)}
+							key={`image_${i}`}
+						>
 							<span>{image.name}</span>
-							<img
-								{...image}
-								className={ih('Image')}
-								onClick={() => {
-									setHistoryImage(image);
-								}}
-							/>
+							<img {...image} className={ih('Image')} />
 						</div>
 					))}
 				</>

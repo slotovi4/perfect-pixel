@@ -22,7 +22,7 @@ if (!handleSquirrelEvent(app)) {
 
 	// минимальные размеры окна
 	const minHeight = 54;
-	const minWidth = 700;
+	const minWidth = 720;
 
 	/**
 	 * Создадим главное окно

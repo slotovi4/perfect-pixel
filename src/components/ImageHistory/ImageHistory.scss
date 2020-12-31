@@ -2,7 +2,6 @@
 
 .ImageHistory {
 	background-color: $backgroundColor;
-	padding-top: 10px;
 	min-height: 200px;
 	border-radius: 10px;
 	overflow-x: hidden;
@@ -11,24 +10,28 @@
 		margin: 0 auto;
 		display: block;
 		font-size: 12px;
+		margin-top: 10px;
 	}
 
 	&-ImageBlock {
 		color: $secondaryColor;
 		margin-top: 10px;
+		cursor: pointer;
+		border: 1px solid transparent;
+		transition: border-color 0.3s ease;
+		border-radius: 10px;
+		padding: 5px;
+
+		&:hover {
+			border-color: $primaryColor;
+		}
 	}
 
 	&-Image {
-		transition: opacity 0.3s ease;
 		width: auto;
 		height: 200px;
-		cursor: pointer;
-		opacity: 0.8;
-		background-position: center;
-
-		&:hover {
-			opacity: 1;
-		}
+		display: block;
+		max-width: calc(300px - 12px);
 	}
 
 	&-EmptyHistoryBlock {

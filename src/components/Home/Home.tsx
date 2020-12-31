@@ -136,7 +136,7 @@ const Home = ({ saveImage, getImagesList }: IProps) => {
 
 		// удалим текущее изображение из инпута
 		event.currentTarget.value = '';
-		
+
 		// очистим параметры изображения
 		setImageParams(initImageParams);
 	};
@@ -324,15 +324,17 @@ const Home = ({ saveImage, getImagesList }: IProps) => {
 					</div>
 				</div>
 
-				<Button onClick={onChangeImagePosition} disabled={!imageParams} asChangePosition />
-				<Button onClick={showImageHistory} asImageHistory />
-
-				{isHaveIpcRenderer() ? (
-					<div className={home('ControlSection')}>
-						<Button onClick={onMinimizeApp} asMinimize />
-						<Button onClick={onCloseApp} asClose />
-					</div>
-				) : null}
+				<div className={home('ControlSection')}>
+					<Button onClick={onChangeImagePosition} disabled={!imageParams} asChangePosition />
+					<Button onClick={showImageHistory} asImageHistory />
+					
+					{isHaveIpcRenderer() ? (
+						<>
+							<Button onClick={onMinimizeApp} asMinimize />
+							<Button onClick={onCloseApp} asClose />
+						</>
+					) : null}
+				</div>
 			</header>
 
 			<div className={home('ImageContainer')}>
