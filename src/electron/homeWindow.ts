@@ -203,7 +203,11 @@ if (!handleSquirrelEvent(app)) {
 		});
 
 		// слушатель на получение ошибок
-		process.on('uncaughtException', (error) => mainWindow && mainWindow.webContents.send('cl', error));
+		process.on('uncaughtException', (error) => {
+			if(mainWindow) {
+				mainWindow.webContents.send('error', error);
+			}
+		});
 	};
 
 	app.on('ready', () => {

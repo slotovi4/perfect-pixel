@@ -11,6 +11,7 @@ import {
 	showImageHistory,
 	sendImageToImageHistoryWindow,
 	getBase64Image,
+	errorListener,
 } from './helpers';
 import {
 	CheckBox,
@@ -69,6 +70,9 @@ const Home = ({ saveImage, getImagesList }: IProps) => {
 
 		// вешаем слушатель на установку изображения из истории изображений
 		listenSetImageFromHistory(setImage);
+
+		// вешаем слушатель на ошибки в окнах
+		errorListener();
 
 		return () => {
 

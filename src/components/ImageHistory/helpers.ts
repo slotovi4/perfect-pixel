@@ -36,4 +36,17 @@ export const setHistoryImage = (historyImage: IImage) => {
 	}
 };
 
+/**
+ * Слушатель ошибок
+ */
+export const errorListener = () => {
+	if (ipcRenderer) {
+		ipcRenderer.on('error', (event, error: Error) => {
+			console.log(error.name);
+			console.log(error.message);
+			throw new Error(error.name);
+		});
+	}
+};
+
 type TAddImageCallback = (image: IImage) => void;

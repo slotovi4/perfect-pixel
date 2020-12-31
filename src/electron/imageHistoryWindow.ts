@@ -58,7 +58,11 @@ export const createImageHistoryWindow = async () => {
 	});
 
 	// слушатель на получение ошибок
-	process.on('uncaughtException', (error) => imageHistoryWindow && imageHistoryWindow.webContents.send('cl', error));
+	process.on('uncaughtException', (error) => {
+		if(imageHistoryWindow) {
+			imageHistoryWindow.webContents.send('error', error);
+		}
+	});
 };
 
 /**

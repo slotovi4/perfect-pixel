@@ -191,6 +191,19 @@ export const getBase64Image = (image: IImage) => {
 };
 
 /**
+ * Слушатель ошибок
+ */
+export const errorListener = () => {
+	if (ipcRenderer) {
+		ipcRenderer.on('error', (event, error: Error) => {
+			console.log(error.name);
+			console.log(error.message);
+			throw new Error(error.name);
+		});
+	}
+};
+
+/**
  * Остановим передвижение окна очистив слушатели
  */
 const stopMovingWindow = () => {

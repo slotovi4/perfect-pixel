@@ -2,7 +2,8 @@ import React from 'react';
 import {
 	addImageListener,
 	setHistoryImage,
-	hideImageHistory
+	hideImageHistory,
+	errorListener,
 } from './helpers';
 import { IImage } from 'store';
 import { Button } from 'theme';
@@ -18,6 +19,9 @@ const ImageHistory = ({ getImagesList, clearImagesList }: IProps) => {
 
 		// вешаем слушатель на добавление изображения с главного окна
 		addImageListener(setAddedImage);
+
+		// вешаем слушатель на ошибки в окнах
+		errorListener();
 	}, []);
 
 	// когда добавили новое изображение
