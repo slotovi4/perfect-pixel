@@ -2,9 +2,10 @@ import React from 'react';
 import {
 	onMouseDown,
 	onKeyDown,
-	listenPasteImage,
 	onCloseApp,
 	onMinimizeApp,
+	listenPasteImage,
+	listenSetImageFromHistory,
 	isHaveIpcRenderer,
 	resizeWindow,
 	showImageHistory,
@@ -64,6 +65,9 @@ const Home = ({ saveImage }: IProps) => {
 
 		// вешаем слушатель на вставку изображения через clipboard от main
 		listenPasteImage(setImage);
+
+		// вешаем слушатель на установку изображения из истории изображений
+		listenSetImageFromHistory(setImage);
 
 		return () => {
 

@@ -15,7 +15,7 @@ export const hideImageHistory = () => {
 };
 
 /**
- * Вызывает callback при добавлении нового изображения
+ * Вызывает callback при добавлении нового изображения с главного окна
  * @param callBack - функция принимающая новое изображение
  */
 export const addImageListener = (callBack: TAddImageCallback) => {
@@ -23,6 +23,16 @@ export const addImageListener = (callBack: TAddImageCallback) => {
 		ipcRenderer.on('addImage', (event, image: IImage) => {
 			callBack(image);
 		});
+	}
+};
+
+/**
+ * Отправим сообщение в homeWindow на установку изображения из истории изображений
+ * @param historyImage - изображение из истории
+ */
+export const setHistoryImage = (historyImage: IImage) => {
+	if (ipcRenderer) {
+		ipcRenderer.send('setHistoryImage', historyImage);
 	}
 };
 

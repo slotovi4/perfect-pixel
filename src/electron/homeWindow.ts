@@ -82,7 +82,7 @@ if (!handleSquirrelEvent(app)) {
 			// если изображение есть
 			if (mainWindow && isImage && !image.isEmpty()) {
 
-				// отправим src картинки 
+				// отправим src картинки на клиент
 				mainWindow.webContents.send('on-paste-image', image.toDataURL());
 
 				// очистим данные в буфере
@@ -114,9 +114,18 @@ if (!handleSquirrelEvent(app)) {
 			}
 		});
 
-		// когда получаем сообщение на установку положения окна истории  изображений относительно главного окна
+		// когда получаем сообщение на установку положения окна истории изображений относительно главного окна
 		ipcMain.on('setImageHistoryWindowPosition', () => {
 			moveImageHistoryWindow();
+		});
+
+		//  когда получаем сообщение на установку изображения из истории изображений
+		ipcMain.on('setHistoryImage', (e, image: IImage) => {
+			if (mainWindow) {
+	
+				// отправим новое изображение на клиент imageHistory
+				mainWindow.webContents.send('setHistoryImage', image);
+			}
 		});
 
 		// когда получем сообщение на движение окна путем перетаскивания мышкой
@@ -212,4 +221,11 @@ if (!handleSquirrelEvent(app)) {
 			createImageHistoryWindow();
 		}
 	});
+}
+
+interface IImage {
+	width: number;
+	height: number;
+	src: string;
+	name: string;
 }

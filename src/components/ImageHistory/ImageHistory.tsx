@@ -1,7 +1,11 @@
 import React from 'react';
 import { IImage } from 'store';
 import { Button } from 'theme';
-import { hideImageHistory, addImageListener } from './helpers';
+import {
+	hideImageHistory,
+	addImageListener,
+	setHistoryImage
+} from './helpers';
 
 const ImageHistory = ({ getImagesList, clearImagesList }: IProps) => {
 	const [imagesList, setImagesList] = React.useState(getImagesList());
@@ -38,7 +42,12 @@ const ImageHistory = ({ getImagesList, clearImagesList }: IProps) => {
 				{imagesList.map((image, i) => (
 					<div key={`image_${i}`}>
 						<span>{image.name}</span>
-						<img {...image} />
+						<img
+							{...image}
+							onClick={() => {
+								setHistoryImage(image);
+							}}
+						/>
 					</div>
 				))}
 			</div>
