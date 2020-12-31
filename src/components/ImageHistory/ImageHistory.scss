@@ -5,6 +5,7 @@
 	padding-top: 10px;
 	min-height: 200px;
 	border-radius: 10px;
+	overflow-x: hidden;
 
 	&-ClearButton {
 		margin: 0 auto;
@@ -19,10 +20,11 @@
 
 	&-Image {
 		transition: opacity 0.3s ease;
-		width: 100%;
+		width: auto;
 		height: 200px;
 		cursor: pointer;
 		opacity: 0.8;
+		background-position: center;
 
 		&:hover {
 			opacity: 1;

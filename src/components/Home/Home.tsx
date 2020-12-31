@@ -340,7 +340,7 @@ const Home = ({ saveImage, getImagesList }: IProps) => {
 							opacity: `${imageOpacity}%`,
 							backgroundImage: `url(${imageParams.src})`,
 							height: imageParams.height * imageScale,
-							backgroundPosition: imagePosition
+							backgroundPosition: `${imagePosition} top`,
 						}}
 					/>
 				) : null}

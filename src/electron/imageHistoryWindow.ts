@@ -1,11 +1,11 @@
 import { BrowserWindow, ipcMain } from 'electron';
 import * as isDev from 'electron-is-dev';
 
-// главное окно
+// окно истории изображений
 let imageHistoryWindow: Electron.BrowserWindow | null = null;
 
 /**
- * Создадим главное окно
+ * Создадим окно истории изображений
  */
 export const createImageHistoryWindow = async () => {
 
@@ -16,6 +16,7 @@ export const createImageHistoryWindow = async () => {
 		frame: false,
 		hasShadow: false,
 		maximizable: false,
+		transparent: true,
 		show: false,
 		webPreferences: {
 			nodeIntegration: true,
@@ -60,6 +61,9 @@ export const createImageHistoryWindow = async () => {
 	process.on('uncaughtException', (error) => imageHistoryWindow && imageHistoryWindow.webContents.send('cl', error));
 };
 
+/**
+ * Возвращает окно истории изображений
+ */
 export const getImageHistoryWindow = () => {
 	return imageHistoryWindow;
 };
