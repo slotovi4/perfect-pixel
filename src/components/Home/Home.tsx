@@ -123,6 +123,20 @@ const Home = ({ saveImage, getImagesList }: IProps) => {
 		}
 	}, [imageParams]);
 
+
+	/**
+	 * Очистим текущее изображение
+	 * @param event - HTMLInputElement event
+	 */
+	const clearCurrentImage = (event: React.MouseEvent<HTMLInputElement, MouseEvent>) => {
+
+		// удалим текущее изображение из инпута
+		event.currentTarget.value = '';
+		
+		// очистим параметры изображения
+		setImageParams(initImageParams);
+	};
+
 	/**
 	 * Валидируем и установим изображение
 	 * @param imageSrc - src изображения
@@ -252,7 +266,12 @@ const Home = ({ saveImage, getImagesList }: IProps) => {
 	return (
 		<section className={home()}>
 			<header className={home('Header')}>
-				<FileInput id='uploadImageInput' onChange={onChangeFile} errorText={errorText} />
+				<FileInput
+					id='uploadImageInput'
+					onClick={clearCurrentImage}
+					onChange={onChangeFile}
+					errorText={errorText}
+				/>
 
 				<Range
 					id='opacityRange'
