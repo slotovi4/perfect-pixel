@@ -1,15 +1,18 @@
 import React from 'react';
-import { IImage } from 'store';
-import { Button } from 'theme';
 import {
-	hideImageHistory,
 	addImageListener,
 	setHistoryImage,
+	hideImageHistory
 } from './helpers';
+import { IImage } from 'store';
+import { Button } from 'theme';
+import { cn } from '@bem-react/classname';
+import './ImageHistory.scss';
 
 const ImageHistory = ({ getImagesList, clearImagesList }: IProps) => {
 	const [imagesList, setImagesList] = React.useState(getImagesList());
 	const [addedImage, setAddedImage] = React.useState<IImage | null>(null);
+	const ih = cn('ImageHistory');
 
 	React.useEffect(() => {
 
@@ -27,30 +30,50 @@ const ImageHistory = ({ getImagesList, clearImagesList }: IProps) => {
 	}, [addedImage]);
 
 	/**
-	 * Очистим список изображений
+	 * Когда очищаем список изображений
 	 */
 	const onClearImagesList = () => {
+
+		// скроем окно
+		hideImageHistory();
+
+		// очистим историю изображений в store
 		clearImagesList();
+
+		// очистим историю изображений на клиенте
 		setImagesList([]);
 	};
 
 	return (
-		<div>
-			<Button onClick={onClearImagesList}>Clear image history</Button>
-			<Button onClick={hideImageHistory} asClose />
-			<div>
-				{imagesList.map((image, i) => (
-					<div key={`image_${i}`}>
-						<span>{image.name}</span>
-						<img
-							{...image}
-							onClick={() => {
-								setHistoryImage(image);
-							}}
-						/>
+		<div className={ih()}>
+			{imagesList.length ? (
+				<>
+					<Button
+						className={ih('ClearButton')}
+						onClick={onClearImagesList}
+					>
+						Clear image history
+					</Button>
+
+					{imagesList.map((image, i) => (
+						<div className={ih('ImageBlock')} key={`image_${i}`}>
+							<span>{image.name}</span>
+							<img
+								{...image}
+								className={ih('Image')}
+								onClick={() => {
+									setHistoryImage(image);
+								}}
+							/>
+						</div>
+					))}
+				</>
+			) : (
+					<div className={ih('EmptyHistoryBlock')}>
+						<div className={ih('EmptyHistoryIcon', ['icon-info'])} />
+						<span className={ih('EmptyHistoryText')}>Image history is empty</span>
 					</div>
-				))}
-			</div>
+				)}
 		</div>
 	);
 };
