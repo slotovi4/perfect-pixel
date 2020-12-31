@@ -167,6 +167,30 @@ export const sendImageToImageHistoryWindow = (image: IImage) => {
 };
 
 /**
+ * Получим base64 код изображения
+ * @param image - изображение
+ */
+export const getBase64Image = (image: IImage) => {
+	const canvas = document.createElement('canvas');
+	canvas.width = image.width;
+	canvas.height = image.height;
+
+	const img = new Image();
+	img.src = image.src;
+
+	const ctx = canvas.getContext('2d');
+
+	if (ctx) {
+		ctx.drawImage(img, 0, 0);
+
+		const dataURL = canvas.toDataURL('image/png');
+		return dataURL.replace(/^data:image\/(png|jpg);base64,/, '');
+	}
+
+	return null;
+};
+
+/**
  * Остановим передвижение окна очистив слушатели
  */
 const stopMovingWindow = () => {

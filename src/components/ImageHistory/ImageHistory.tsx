@@ -4,7 +4,7 @@ import { Button } from 'theme';
 import {
 	hideImageHistory,
 	addImageListener,
-	setHistoryImage
+	setHistoryImage,
 } from './helpers';
 
 const ImageHistory = ({ getImagesList, clearImagesList }: IProps) => {

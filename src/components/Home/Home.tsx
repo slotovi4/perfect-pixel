@@ -10,6 +10,7 @@ import {
 	resizeWindow,
 	showImageHistory,
 	sendImageToImageHistoryWindow,
+	getBase64Image,
 } from './helpers';
 import {
 	CheckBox,
@@ -24,7 +25,7 @@ import './Home.scss';
 /**
  * Главный компонент приложения отвечающий за весь функционал
  */
-const Home = ({ saveImage }: IProps) => {
+const Home = ({ saveImage, getImagesList }: IProps) => {
 	const home = cn('Home');
 	const initImageParams: TImageParams = null;
 
@@ -97,15 +98,28 @@ const Home = ({ saveImage }: IProps) => {
 		}
 	}, [imageScale, imageParams]);
 
-	// при изменении изображения
+	// при изменении изображения - проверим на уникальность
 	React.useEffect(() => {
 		if (imageParams) {
 
-			// сохраним изображение в store
-			saveImage(imageParams);
+			// получим base64 код изображения
+			const baseImage = getBase64Image(imageParams);
 
-			// отправим изображение в окно истории изображений
-			sendImageToImageHistoryWindow(imageParams);
+			// получим сохраненные изображения
+			const historyImagesList = getImagesList();
+
+			// если изображение уже есть в истории изображений
+			const isNotUniqueImage = historyImagesList.find(image => getBase64Image(image) === baseImage);
+
+			// если уникальное изображение
+			if (!isNotUniqueImage) {
+
+				// сохраним изображение в store
+				saveImage(imageParams);
+
+				// отправим изображение в окно истории изображений
+				sendImageToImageHistoryWindow(imageParams);
+			}
 		}
 	}, [imageParams]);
 
@@ -319,6 +333,7 @@ const Home = ({ saveImage }: IProps) => {
 export default Home;
 
 interface IProps {
+	getImagesList: () => IImage[];
 	saveImage: (image: IImage) => void;
 }
 

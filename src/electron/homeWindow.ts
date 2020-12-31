@@ -170,6 +170,9 @@ if (!handleSquirrelEvent(app)) {
 
 				// установим размеры согласно размерам изображения
 				mainWindow.setSize(width, height);
+
+				// поменяем положение окна истории изображений
+				moveImageHistoryWindow();
 			}
 		});
 

@@ -8,7 +8,7 @@ const App = () => {
 
 	return params === 'imageHistory'
 		? <ImageHistory getImagesList={getImagesListFromStore} clearImagesList={clearImagesListFromStore} />
-		: <Home saveImage={saveImageToStore} />;
+		: <Home getImagesList={getImagesListFromStore} saveImage={saveImageToStore} />;
 };
 
 export default App;
