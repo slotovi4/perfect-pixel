@@ -66,6 +66,12 @@
 		"files": [
 			"package.json",
 			"build/**"
-		]
+		],
+		"mac": {
+			"icon": "build/icons/icon_512x512.icns"
+		},
+		"win": {
+			"icon": "build/icons/icon_256x256.ico"
+		}
 	}
 }

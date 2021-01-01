@@ -42,7 +42,6 @@
 		"scripts",
 		"acceptance-tests",
 		"webpack",
-		"jest",
-		"commitlint.config.js"
+		"jest"
 	],
 }
