@@ -1,6 +1,6 @@
 {
 	"name": "perfect-pixel",
-	"version": "0.6.5",
+	"version": "0.7.5",
 	"description": "",
 	"private": true,
 	"main": "build/homeWindow.js",

@@ -48,7 +48,7 @@ export const createImageHistoryWindow = async () => {
 		}
 	});
 
-	// когда получаем сообщение с новым изображением
+	// когда получаем сообщение на добавления изображения в историю
 	ipcMain.on('addImageToImageHistoryWindow', (e, image: IImage) => {
 		if (imageHistoryWindow) {
 

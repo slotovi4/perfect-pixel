@@ -78,7 +78,7 @@ export const listenPasteImage = (callback: TImageCallback) => {
 
 		// вешаем слушатель на вставку изображения через clipboard от main
 		ipcRenderer.on('on-paste-image', (event, imageSrc: string) => {
-			callback({ imageSrc, imageName: 'Изображение из буфера' });
+			callback({ imageSrc, imageName: 'Image from clipboard' });
 		});
 	}
 };

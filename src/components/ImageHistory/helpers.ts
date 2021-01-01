@@ -4,7 +4,7 @@ import { IImage } from 'store';
 const ipcRenderer = getIpcRenderer();
 
 /**
- * События при клике на кнопку "закрыть окно истории изображений"
+ * Отправим сообщение на закрытие окна истории изображений
  */
 export const hideImageHistory = () => {
 	if (ipcRenderer) {
