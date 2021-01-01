@@ -65,8 +65,8 @@ const ImageHistory = ({ getImagesList, clearImagesList }: IProps) => {
 							onClick={() => setHistoryImage(image)}
 							key={`image_${i}`}
 						>
-							<span>{image.name}</span>
-							<img {...image} className={ih('Image')} />
+							<span className={ih('ImageName')}>{image.name}</span>
+							<img className={ih('Image')} {...image} />
 						</div>
 					))}
 				</>

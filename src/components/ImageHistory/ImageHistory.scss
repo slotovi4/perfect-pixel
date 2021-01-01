@@ -14,7 +14,6 @@
 	}
 
 	&-ImageBlock {
-		color: $secondaryColor;
 		margin-top: 10px;
 		cursor: pointer;
 		border: 1px solid transparent;
@@ -25,6 +24,14 @@
 		&:hover {
 			border-color: $primaryColor;
 		}
+	}
+
+	&-ImageName {
+		color: $secondaryColor;
+		text-overflow: ellipsis;
+		overflow: hidden; 
+		white-space: nowrap;
+		display: block;
 	}
 
 	&-Image {
