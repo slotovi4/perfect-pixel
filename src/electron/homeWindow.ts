@@ -4,13 +4,14 @@ import {
 	globalShortcut,
 	ipcMain,
 	screen,
-	clipboard,
+	clipboard
 } from 'electron';
 import {
 	IMoveWindowFromMouseData,
 	IMoveWindowFromKeysData,
 	TResizeWindow
 } from './types';
+import { createImageHistoryWindow, getImageHistoryWindow } from './imageHistoryWindow';
 import { handleSquirrelEvent } from './helpers';
 import * as isDev from 'electron-is-dev';
 
@@ -19,8 +20,9 @@ if (!handleSquirrelEvent(app)) {
 	// главное окно
 	let mainWindow: Electron.BrowserWindow | null = null;
 
+	// минимальные размеры окна
 	const minHeight = 54;
-	const minWidth = 700;
+	const minWidth = 720;
 
 	/**
 	 * Создадим главное окно
@@ -43,18 +45,53 @@ if (!handleSquirrelEvent(app)) {
 			}
 		});
 
+		/**
+		 * Меняем положение окна истории изображений относительно главного окна
+		 */
+		const moveImageHistoryWindow = () => {
+
+			// получим окно истории изображений
+			const imageHistoryWindow = getImageHistoryWindow();
+
+			if (mainWindow && imageHistoryWindow) {
+
+				// получим координаты
+				const [x, y] = mainWindow.getPosition();
+				const [width] = mainWindow.getSize();
+				const marginLeft = 10;
+
+				// установим новое положение окна
+				imageHistoryWindow.setPosition(x + width + marginLeft, y);
+			}
+		};
+
+		/**
+		 * Прочитаем изображение из clipboard и отправим его
+		 */
+		const readAndSendImageFromClipboard = () => {
+
+			// получим список доступных форматов
+			const availableFormatsList = clipboard.availableFormats('clipboard');
+
+			// если формат файла является изображением
+			const isImage = availableFormatsList.includes('image/png') || availableFormatsList.includes('image/jpeg');
+
+			// получим изображение
+			const image = clipboard.readImage();
+
+			// если изображение есть
+			if (mainWindow && isImage && !image.isEmpty()) {
+
+				// отправим src картинки на клиент
+				mainWindow.webContents.send('on-paste-image', image.toDataURL());
+
+				// очистим данные в буфере
+				clipboard.clear();
+			}
+		};
+
 		// загрузим index.html
-		mainWindow.loadURL(`file://${__dirname}/index.html`);
-
-		// если dev
-		if (isDev) {
-
-			// откроем dev tools
-			mainWindow.webContents.openDevTools({ mode: 'undocked' });
-		}
-
-		// при закрытии окна уничтожим window
-		mainWindow.on('closed', () => { mainWindow = null; });
+		mainWindow.loadURL(`file://${__dirname}/index.html?main`);
 
 		// когда было отправлено событие onload 
 		mainWindow.webContents.on('did-finish-load', () => {
@@ -77,6 +114,20 @@ if (!handleSquirrelEvent(app)) {
 			}
 		});
 
+		// когда получаем сообщение на установку положения окна истории изображений относительно главного окна
+		ipcMain.on('setImageHistoryWindowPosition', () => {
+			moveImageHistoryWindow();
+		});
+
+		//  когда получаем сообщение на установку изображения из истории изображений
+		ipcMain.on('setHistoryImage', (e, image: IImage) => {
+			if (mainWindow) {
+	
+				// отправим новое изображение на клиент imageHistory
+				mainWindow.webContents.send('setHistoryImage', image);
+			}
+		});
+
 		// когда получем сообщение на движение окна путем перетаскивания мышкой
 		ipcMain.on('moveWindowFromMouse', (e, { mouseX, mouseY }: IMoveWindowFromMouseData) => {
 			if (mainWindow) {
@@ -86,6 +137,9 @@ if (!handleSquirrelEvent(app)) {
 
 				// установим новое положение окна
 				mainWindow.setPosition(x - mouseX, y - mouseY);
+
+				// поменяем положение окна истории изображений
+				moveImageHistoryWindow();
 			}
 		});
 
@@ -100,6 +154,9 @@ if (!handleSquirrelEvent(app)) {
 
 				// установим новое положение окна
 				mainWindow.setPosition(xPosition, yPosition);
+
+				// поменяем положение окна истории изображений
+				moveImageHistoryWindow();
 			}
 		});
 
@@ -113,6 +170,9 @@ if (!handleSquirrelEvent(app)) {
 
 				// установим размеры согласно размерам изображения
 				mainWindow.setSize(width, height);
+
+				// поменяем положение окна истории изображений
+				moveImageHistoryWindow();
 			}
 		});
 
@@ -131,25 +191,7 @@ if (!handleSquirrelEvent(app)) {
 
 			// при вставке элемента читаем изображение и отправляем сообщение
 			globalShortcut.register('CommandOrControl+V', () => {
-
-				// получим список доступных форматов
-				const availableFormatsList = clipboard.availableFormats('clipboard');
-
-				// если формат файла является изобрадением
-				const isImage = availableFormatsList.includes('image/png') || availableFormatsList.includes('image/jpeg');
-
-				// получим изображение
-				const image = clipboard.readImage();
-
-				// если изображение есть
-				if (mainWindow && isImage && !image.isEmpty()) {
-
-					// отправим src картинки 
-					mainWindow.webContents.send('on-paste-image', image.toDataURL());
-
-					// очистим данные в буфере
-					clipboard.clear();
-				}
+				readAndSendImageFromClipboard();
 			});
 		});
 
@@ -161,10 +203,17 @@ if (!handleSquirrelEvent(app)) {
 		});
 
 		// слушатель на получение ошибок
-		process.on('uncaughtException', (error) => mainWindow && mainWindow.webContents.send('cl', error));
+		process.on('uncaughtException', (error) => {
+			if(mainWindow) {
+				mainWindow.webContents.send('error', error);
+			}
+		});
 	};
 
-	app.on('ready', createWindow);
+	app.on('ready', () => {
+		createWindow();
+		createImageHistoryWindow();
+	});
 
 	// закроем приложение когда все окна закрыты
 	app.on('window-all-closed', () => {
@@ -176,6 +225,14 @@ if (!handleSquirrelEvent(app)) {
 	app.on('activate', () => {
 		if (mainWindow === null) {
 			createWindow();
+			createImageHistoryWindow();
 		}
 	});
+}
+
+interface IImage {
+	width: number;
+	height: number;
+	src: string;
+	name: string;
 }

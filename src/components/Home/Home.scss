@@ -3,6 +3,8 @@
 .Home {
 	background-color: $backgroundColor;
 	height: 54px;
+	border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
 
 	&-Header {
 		display: flex;
@@ -12,9 +14,9 @@
 		border-top-right-radius: 10px;
 		border-top-left-radius: 10px;
 		justify-content: space-between;
-		max-width: 700px;
-		min-width: 700px;
-		width: 700px;
+		max-width: 720px;
+		min-width: 720px;
+		width: 720px;
 	}
 
 	&-ImageContainer {

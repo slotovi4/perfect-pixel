@@ -1,0 +1,65 @@
+@import '../theme/scss/variables.scss';
+
+.ImageHistory {
+	background-color: $backgroundColor;
+	min-height: 200px;
+	border-radius: 10px;
+	overflow-x: hidden;
+
+	&-ClearButton {
+		margin: 0 auto;
+		display: block;
+		font-size: 12px;
+		margin-top: 10px;
+	}
+
+	&-ImageBlock {
+		margin-top: 10px;
+		cursor: pointer;
+		border: 1px solid transparent;
+		transition: border-color 0.3s ease;
+		border-radius: 10px;
+		padding: 5px;
+
+		&:hover {
+			border-color: $primaryColor;
+		}
+	}
+
+	&-ImageName {
+		color: $secondaryColor;
+		text-overflow: ellipsis;
+		overflow: hidden; 
+		white-space: nowrap;
+		display: block;
+	}
+
+	&-Image {
+		width: auto;
+		height: 200px;
+		display: block;
+		max-width: calc(300px - 12px);
+	}
+
+	&-EmptyHistoryBlock {
+		position: absolute;
+		left: 0;
+		top: 0;
+		bottom: 0;
+		right: 0;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		flex-direction: column;
+	}
+
+	&-EmptyHistoryText {
+		color: $secondaryColor;
+	}
+
+	&-EmptyHistoryIcon {
+		color: $secondaryColor;
+		font-size: 15px;
+		margin-bottom: 5px;
+	}
+}

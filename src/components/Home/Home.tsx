@@ -2,11 +2,16 @@ import React from 'react';
 import {
 	onMouseDown,
 	onKeyDown,
-	listenPasteImage,
 	onCloseApp,
 	onMinimizeApp,
+	listenPasteImage,
+	listenSetImageFromHistory,
 	isHaveIpcRenderer,
 	resizeWindow,
+	showImageHistory,
+	sendImageToImageHistoryWindow,
+	getBase64Image,
+	errorListener,
 } from './helpers';
 import {
 	CheckBox,
@@ -14,13 +19,14 @@ import {
 	Button,
 	FileInput
 } from 'theme';
+import { IImage } from 'store';
 import { cn } from '@bem-react/classname';
 import './Home.scss';
 
 /**
  * Главный компонент приложения отвечающий за весь функционал
  */
-const Home = () => {
+const Home = ({ saveImage, getImagesList }: IProps) => {
 	const home = cn('Home');
 	const initImageParams: TImageParams = null;
 
@@ -62,6 +68,12 @@ const Home = () => {
 		// вешаем слушатель на вставку изображения через clipboard от main
 		listenPasteImage(setImage);
 
+		// вешаем слушатель на установку изображения из истории изображений
+		listenSetImageFromHistory(setImage);
+
+		// вешаем слушатель на ошибки в окнах
+		errorListener();
+
 		return () => {
 
 			// очищаем слушатель опускания мыши
@@ -83,7 +95,6 @@ const Home = () => {
 
 			// изменим размеры окна
 			resizeWindow({ width, height });
-
 		} else {
 
 			// вернем начальные размеры окна
@@ -91,11 +102,50 @@ const Home = () => {
 		}
 	}, [imageScale, imageParams]);
 
+	// при изменении изображения - проверим на уникальность
+	React.useEffect(() => {
+		if (imageParams) {
+
+			// получим base64 код изображения
+			const baseImage = getBase64Image(imageParams);
+
+			// получим сохраненные изображения
+			const historyImagesList = getImagesList();
+
+			// если изображение уже есть в истории изображений
+			const isNotUniqueImage = historyImagesList.find(image => getBase64Image(image) === baseImage);
+
+			// если уникальное изображение
+			if (!isNotUniqueImage) {
+
+				// сохраним изображение в store
+				saveImage(imageParams);
+
+				// отправим изображение в окно истории изображений
+				sendImageToImageHistoryWindow(imageParams);
+			}
+		}
+	}, [imageParams]);
+
+
+	/**
+	 * Очистим текущее изображение
+	 * @param event - HTMLInputElement event
+	 */
+	const clearCurrentImage = (event: React.MouseEvent<HTMLInputElement, MouseEvent>) => {
+
+		// удалим текущее изображение из инпута
+		event.currentTarget.value = '';
+
+		// очистим параметры изображения
+		setImageParams(initImageParams);
+	};
+
 	/**
 	 * Валидируем и установим изображение
 	 * @param imageSrc - src изображения
 	 */
-	const setImage = (imageSrc: string) => {
+	const setImage = ({ imageSrc, imageName }: ISetImage) => {
 
 		// очистим ошибки
 		setErrorText(null);
@@ -125,7 +175,8 @@ const Home = () => {
 			setImageParams({
 				src: img.src,
 				height: img.naturalHeight,
-				width: img.naturalWidth
+				width: img.naturalWidth,
+				name: imageName,
 			});
 		};
 	};
@@ -148,11 +199,14 @@ const Home = () => {
 			// при загрузке файла устанавливаю изображение
 			fr.onload = () => {
 
-				// если результат string
+				// проверим что url string
 				if (typeof fr.result === 'string') {
 
-					// установлю ссылку на тест изображение
-					setImage(fr.result);
+					// установим изображение
+					setImage({
+						imageName: files[0].name,
+						imageSrc: fr.result,
+					});
 				}
 			};
 
@@ -216,7 +270,12 @@ const Home = () => {
 	return (
 		<section className={home()}>
 			<header className={home('Header')}>
-				<FileInput id='uploadImageInput' onChange={onChangeFile} errorText={errorText} />
+				<FileInput
+					id='uploadImageInput'
+					onClick={clearCurrentImage}
+					onChange={onChangeFile}
+					errorText={errorText}
+				/>
 
 				<Range
 					id='opacityRange'
@@ -265,14 +324,17 @@ const Home = () => {
 					</div>
 				</div>
 
-				<Button onClick={onChangeImagePosition} disabled={!imageParams} asChangePosition />
-
-				{isHaveIpcRenderer() ? (
-					<div className={home('ControlSection')}>
-						<Button onClick={onMinimizeApp} asMinimize />
-						<Button onClick={onCloseApp} asClose />
-					</div>
-				) : null}
+				<div className={home('ControlSection')}>
+					<Button onClick={onChangeImagePosition} disabled={!imageParams} asChangePosition />
+					<Button onClick={showImageHistory} asImageHistory />
+					
+					{isHaveIpcRenderer() ? (
+						<>
+							<Button onClick={onMinimizeApp} asMinimize />
+							<Button onClick={onCloseApp} asClose />
+						</>
+					) : null}
+				</div>
 			</header>
 
 			<div className={home('ImageContainer')}>
@@ -284,7 +346,7 @@ const Home = () => {
 							opacity: `${imageOpacity}%`,
 							backgroundImage: `url(${imageParams.src})`,
 							height: imageParams.height * imageScale,
-							backgroundPosition: imagePosition
+							backgroundPosition: `${imagePosition} top`,
 						}}
 					/>
 				) : null}
@@ -295,11 +357,17 @@ const Home = () => {
 
 export default Home;
 
-type TImageParams = {
-	width: number;
-	height: number;
-	src: string;
-} | null;
+interface IProps {
+	getImagesList: () => IImage[];
+	saveImage: (image: IImage) => void;
+}
+
+interface ISetImage {
+	imageSrc: string;
+	imageName: string;
+}
+
+type TImageParams = IImage | null;
 
 enum EScaleValues {
 	X05 = 0.5,

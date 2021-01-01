@@ -4,6 +4,7 @@ import {
 	TResizeWindow,
 	EMoveWindowKeys
 } from '../../electron/types';
+import { IImage } from 'store';
 import { getIpcRenderer } from '../../electron/helpers';
 
 const ipcRenderer = getIpcRenderer();
@@ -72,12 +73,29 @@ export const onKeyDown = ({ code, shiftKey }: KeyboardEvent) => {
  * Вешает слушатель на вставку изображения
  * @param callback - функция принимающая src вставленной картинки
  */
-export const listenPasteImage = (callback: (imageSrc: string) => void) => {
+export const listenPasteImage = (callback: TImageCallback) => {
 	if (ipcRenderer) {
 
 		// вешаем слушатель на вставку изображения через clipboard от main
 		ipcRenderer.on('on-paste-image', (event, imageSrc: string) => {
-			callback(imageSrc);
+			callback({ imageSrc, imageName: 'Image from clipboard' });
+		});
+	}
+};
+
+/**
+ * Вешает слушатель на установку изображения из истории изображений
+ * @param callback 
+ */
+export const listenSetImageFromHistory = (callback: TImageCallback) => {
+	if (ipcRenderer) {
+
+		// вешаем слушатель на установку изображения из истории изображений от main
+		ipcRenderer.on('setHistoryImage', (event, historyImage: IImage) => {
+			callback({
+				imageName: historyImage.name,
+				imageSrc: historyImage.src
+			});
 		});
 	}
 };
@@ -115,12 +133,74 @@ export const onMinimizeApp = () => {
 	}
 };
 
+/**
+ * Открывает окно с историей загруженных изображений
+ */
+export const showImageHistory = () => {
+	if (ipcRenderer) {
+
+		// отправим сообщение на позиционирование окна истории
+		ipcRenderer.send('setImageHistoryWindowPosition');
+
+		// отправляем сообщение к main на открытие окна с историей загруженных изображений
+		ipcRenderer.send('showImageHistory');
+	}
+};
 
 /**
  * Возвращает значение - есть ли ipcRenderer
  */
 export const isHaveIpcRenderer = () => {
 	return Boolean(ipcRenderer);
+};
+
+/**
+ * Отправляет сообщение в окно imageHistory
+ * @param image - параметры изображения
+ */
+export const sendImageToImageHistoryWindow = (image: IImage) => {
+	if (ipcRenderer) {
+
+		// отправим сообщение к main
+		ipcRenderer.send('addImageToImageHistoryWindow', image);
+	}
+};
+
+/**
+ * Получим base64 код изображения
+ * @param image - изображение
+ */
+export const getBase64Image = (image: IImage) => {
+	const canvas = document.createElement('canvas');
+	canvas.width = image.width;
+	canvas.height = image.height;
+
+	const img = new Image();
+	img.src = image.src;
+
+	const ctx = canvas.getContext('2d');
+
+	if (ctx) {
+		ctx.drawImage(img, 0, 0);
+
+		const dataURL = canvas.toDataURL('image/png');
+		return dataURL.replace(/^data:image\/(png|jpg);base64,/, '');
+	}
+
+	return null;
+};
+
+/**
+ * Слушатель ошибок
+ */
+export const errorListener = () => {
+	if (ipcRenderer) {
+		ipcRenderer.on('error', (event, error: Error) => {
+			console.log(error.name);
+			console.log(error.message);
+			throw new Error(error.name);
+		});
+	}
 };
 
 /**
@@ -157,3 +237,10 @@ const onMoveWindowFromKeys = (moveWindowFromKeysData: IMoveWindowFromKeysData) =
 		ipcRenderer.send('moveWindowFromKeys', moveWindowFromKeysData);
 	}
 };
+
+interface IImageCallbackData {
+	imageSrc: string;
+	imageName: string;
+}
+
+type TImageCallback = (data: IImageCallbackData) => void;
