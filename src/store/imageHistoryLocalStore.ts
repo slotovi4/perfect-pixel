@@ -11,6 +11,8 @@ export const saveImageToStore = (image: IImage) => {
 
 	// получим текущий store загруженных изображений
 	const savedImagesList = getImagesListFromStore();
+
+	// создадим новый массив изображений с загруженным изображением
 	const newStoreList = [image, ...savedImagesList];
 
 	// обновим store изображений
@@ -18,7 +20,7 @@ export const saveImageToStore = (image: IImage) => {
 };
 
 /**
- * Получим store изображений
+ * Получим store загруженных изображений
  */
 export const getImagesListFromStore = () => {
 

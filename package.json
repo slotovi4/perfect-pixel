@@ -1,7 +1,16 @@
 {
 	"name": "perfect-pixel",
-	"version": "0.7.5",
-	"description": "",
+	"version": "0.7.6",
+	"description": "Perfect pixel application",
+	"license": "SEE LICENSE IN LICENCE.md",
+	"keywords": [
+		"perfect pixel"
+	],
+	"author": {
+		"name": "Roman Bruns",
+		"email": "roman.bruns@mail.ru",
+		"url": "https://github.com/slotovi4"
+	},
 	"private": true,
 	"main": "build/homeWindow.js",
 	"homepage": "./",
@@ -13,9 +22,7 @@
 		"compile:electron": "tsc ./src/electron/** --outDir ./build",
 		"build:mac": "yarn compile && electron-builder --mac",
 		"build:win": "yarn compile && electron-builder --win --x64 --ia32",
-		"build:lin": "yarn compile && electron-builder --linux",
-		"test": "react-scripts-ts test --env=jsdom",
-		"eject": "react-scripts-ts eject"
+		"test": "react-scripts-ts test --coverage --env=jsdom"
 	},
 	"dependencies": {
 		"electron-is-dev": "^1.2.0",
@@ -60,12 +67,31 @@
 	"eslintConfig": {
 		"extends": "react-app"
 	},
+	"jest": {
+		"moduleNameMapper": {
+			"theme": "<rootDir>/src/components/theme/",
+			"library": "<rootDir>/src/components/library/"
+		},
+		"coverageReporters": [
+			"text",
+			"html"
+		]
+	},
+	"resolutions": {
+		"handlebars": "4.5.0"
+	},
 	"build": {
 		"extends": null,
 		"npmRebuild": false,
 		"files": [
 			"package.json",
 			"build/**"
-		]
+		],
+		"mac": {
+			"icon": "build/icons/icon_512x512.icns"
+		},
+		"win": {
+			"icon": "build/icons/icon_256x256.ico"
+		}
 	}
 }

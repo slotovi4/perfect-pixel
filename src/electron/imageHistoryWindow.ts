@@ -4,6 +4,9 @@ import * as isDev from 'electron-is-dev';
 // окно истории изображений
 let imageHistoryWindow: Electron.BrowserWindow | null = null;
 
+// путь к html
+const mainHtmlUrl = `file://${__dirname}/index.html?imageHistory`;
+
 /**
  * Создадим окно истории изображений
  */
@@ -25,7 +28,7 @@ export const createImageHistoryWindow = async () => {
 	});
 
 	// загрузим index.html
-	imageHistoryWindow.loadURL(`file://${__dirname}/index.html?imageHistory`);
+	imageHistoryWindow.loadURL(mainHtmlUrl);
 
 	// когда теряем фокус с окна - скроем окно
 	imageHistoryWindow.on('blur', () => {

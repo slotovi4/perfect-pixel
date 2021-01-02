@@ -1,6 +1,7 @@
 {
 	"compilerOptions": {
 		"baseUrl": ".",
+		"rootDir": "src",
 		"outDir": "build",
 		"module": "esnext",
 		"target": "ES6",
@@ -12,7 +13,6 @@
 		"allowJs": true,
 		"jsx": "react",
 		"moduleResolution": "node",
-		"rootDir": "src",
 		"forceConsistentCasingInFileNames": true,
 		"noImplicitReturns": true,
 		"noImplicitThis": true,
@@ -21,6 +21,7 @@
 		"suppressImplicitAnyIndexErrors": true,
 		"noUnusedLocals": true,
 		"allowSyntheticDefaultImports": true,
+		"esModuleInterop": true,
 		"paths": {
 			"library": [
 				"src/components/library/"
@@ -43,6 +44,6 @@
 		"acceptance-tests",
 		"webpack",
 		"jest",
-		"commitlint.config.js"
+		"coverage"
 	],
 }

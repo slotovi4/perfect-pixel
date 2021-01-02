@@ -23,6 +23,9 @@ if (!handleSquirrelEvent(app)) {
 	// минимальные размеры окна
 	const minHeight = 54;
 	const minWidth = 720;
+	
+	// путь к html
+	const mainHtmlUrl = `file://${__dirname}/index.html?main`;
 
 	/**
 	 * Создадим главное окно
@@ -91,7 +94,7 @@ if (!handleSquirrelEvent(app)) {
 		};
 
 		// загрузим index.html
-		mainWindow.loadURL(`file://${__dirname}/index.html?main`);
+		mainWindow.loadURL(mainHtmlUrl);
 
 		// когда было отправлено событие onload 
 		mainWindow.webContents.on('did-finish-load', () => {
