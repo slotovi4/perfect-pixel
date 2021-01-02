@@ -1,7 +1,16 @@
 {
 	"name": "perfect-pixel",
 	"version": "0.7.5",
-	"description": "",
+	"description": "Perfect pixel application",
+	"license": "SEE LICENSE IN LICENCE.md",
+	"keywords": [
+		"perfect pixel"
+	],
+	"author": {
+		"name": "Roman Bruns",
+		"email": "roman.bruns@mail.ru",
+		"url": "https://github.com/slotovi4"
+	},
 	"private": true,
 	"main": "build/homeWindow.js",
 	"homepage": "./",
@@ -13,7 +22,6 @@
 		"compile:electron": "tsc ./src/electron/** --outDir ./build",
 		"build:mac": "yarn compile && electron-builder --mac",
 		"build:win": "yarn compile && electron-builder --win --x64 --ia32",
-		"build:lin": "yarn compile && electron-builder --linux",
 		"test": "react-scripts-ts test --coverage --env=jsdom"
 	},
 	"dependencies": {
