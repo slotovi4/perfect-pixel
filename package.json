@@ -14,8 +14,7 @@
 		"build:mac": "yarn compile && electron-builder --mac",
 		"build:win": "yarn compile && electron-builder --win --x64 --ia32",
 		"build:lin": "yarn compile && electron-builder --linux",
-		"test": "react-scripts-ts test --env=jsdom",
-		"eject": "react-scripts-ts eject"
+		"test": "react-scripts-ts test --env=jsdom"
 	},
 	"dependencies": {
 		"electron-is-dev": "^1.2.0",
