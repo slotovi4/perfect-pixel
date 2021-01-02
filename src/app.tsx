@@ -4,6 +4,8 @@ import { ImageHistory, Home } from './components';
 import './components/theme/scss/index.scss';
 
 const App = () => {
+
+	// получим параметр локации
 	const params = window.location.search.substr(1);
 
 	return params === 'imageHistory'
