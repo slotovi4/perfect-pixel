@@ -4,8 +4,8 @@ import Home from './Home';
 
 describe('Test Home component', () => {
 	it('Renders without crashing', () => {
-		const div = document.createElement ( 'div' ) ; 
-
+		const app = document.createElement('div');
+		
 		const saveImage = () => {
 			return;
 		};
@@ -14,6 +14,6 @@ describe('Test Home component', () => {
 			return [];
 		};
 
-		ReactDOM.render(<Home saveImage={saveImage} getImagesList={getImagesList} />, div);
+		ReactDOM.render(<Home saveImage={saveImage} getImagesList={getImagesList} />, app);
 	});
 });
