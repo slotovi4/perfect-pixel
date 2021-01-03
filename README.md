@@ -6,7 +6,7 @@ This application intended for checks desktop applications for compliance "pixel 
 ### Selecting image
 
 > Select image from app
-![](https://i.imgur.com/yRS29VZ.gif)
+![](https://i.imgur.com/xaHXLxY.gif)
 
 > Copy image (or `Ctrl/Command + C`) then paste (`Ctrl/Command + V`)
 ![]()
