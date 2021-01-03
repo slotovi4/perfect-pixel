@@ -6,10 +6,10 @@ This application intended for checks desktop applications for compliance "pixel 
 ### Selecting image
 
 > Select image from app
-![](https://i.imgur.com/2O9IpZ2.gif)
+![](https://i.imgur.com/yRS29VZ.gif)
 
 > Copy image (or `Ctrl/Command + C`) then paste (`Ctrl/Command + V`)
-![](https://i.imgur.com/bTLy2Gv.gifv)
+![](https://i.imgur.com/bTLy2Gv.gif)
 
 > Copy image from browser then paste (`Ctrl/Command + V`)
 ![](https://i.imgur.com/DbFgPq2.gif)
@@ -23,20 +23,20 @@ Controls list:
 - Image scale
 - Image position on app
 
-![](https://i.imgur.com/POBfJvQ.gifv)
+![](https://i.imgur.com/POBfJvQ.gif)
 
 ### Image history
 
 When you select image it is saved to "Image history". You can again select saved image 
 from history even if it has been deleted earlier. Also you can delete all saved images.
 
-![](https://i.imgur.com/kQThTtQ.gifv)
+![](https://i.imgur.com/kQThTtQ.gif)
 
 ### Move window
 
 You can move window by using mouse(choose image or header section and drag). On the keyboard use `WASD` or `arrows` for tab on 1px or use `shift + WASD/arrows` for tab on 10px.
 
-![](https://i.imgur.com/VdbOJVU.gifv)
+![](https://i.imgur.com/VdbOJVU.gif)
 
 ### Licence
 MIT
